@@ -1,0 +1,90 @@
+# nueve2siete 3d studio
+
+The nueve2siete website, with a built-in CMS and the microphone configurator prototype.
+
+- **Phase 1:** site + CMS + microphone prototype (size, shape, colors, sample text).
+- **Phase 2 (in progress):** microphone creator at `/disena-el-tuyo` ("design your own"). Uploading the logo,
+  checking whether it can be printed (Python engine) and previewing it in 3D on the microphone, raised or flat,
+  already work. Saving designs is still missing.
+
+## Stack
+
+| Piece | Technology |
+|---|---|
+| Site and CMS | Next.js 16 (App Router) + Payload 3, in the same app |
+| 3D viewer | three.js + React Three Fiber + drei (creator only, loaded separately) |
+| Styles | Tailwind CSS v4 (brand tokens in `apps/web/src/app/(frontend)/styles.css`) |
+| Database | Postgres 17 |
+| Business rules | `packages/configurator` (plain TypeScript, no UI) |
+| Logo engine | Python 3.12 + FastAPI + OpenCV in `services/engine` (see its README) |
+| Monorepo | pnpm workspaces + Turborepo |
+
+## First run
+
+Requirements: Node 22+, pnpm (`npm install -g pnpm`) and [uv](https://docs.astral.sh/uv/) for the logo engine
+(`curl -LsSf https://astral.sh/uv/install.sh | sh`).
+
+```bash
+pnpm install
+cp apps/web/.env.example apps/web/.env   # and change PAYLOAD_SECRET (openssl rand -base64 24)
+(cd services/engine && uv sync)           # the engine's Python environment
+pnpm dev                                  # starts local Postgres + Next.js + logo engine
+pnpm seed                                 # in another terminal: filaments, product and FAQs
+```
+
+- Site: http://localhost:3000
+- Admin: http://localhost:3000/admin (the first time it asks you to create the admin user)
+
+## Commands
+
+| Command | What it does |
+|---|---|
+| `pnpm dev` | Local Postgres + dev server + logo engine (port 8000) |
+| `pnpm db` | Local Postgres only |
+| `pnpm engine` | Logo engine only |
+| `pnpm engine:report` / `pnpm engine:samples` | Engine visual report (fixtures / sample logos) |
+| `pnpm seed` | Loads initial data (idempotent) |
+| `pnpm build` | Production build |
+| `pnpm lint` / `pnpm typecheck` / `pnpm test` | Quality |
+| `pnpm --filter @nueve2siete/web test:int` | Tests that use the database (requires `pnpm db`) |
+| `pnpm --filter @nueve2siete/web test:e2e` | Browser tests with Playwright (the creator ones need the engine) |
+| `pnpm --filter @nueve2siete/web generate:types` | Regenerates `payload-types.ts` after changing collections |
+
+## Structure
+
+```
+apps/web/                  Next.js + Payload
+  src/app/(frontend)/      site pages
+  src/app/(payload)/       Payload admin and API (generated)
+  src/collections/         Filaments, Products, Projects, Faqs, Leads, Media, Users
+  src/globals/             Site settings (WhatsApp, email, legal info)
+  src/components/mic/      microphone illustration and configurator
+  src/components/creator/  creator: logo upload, verdict, sizes, colors and finish
+  src/components/mic3d/    3D viewer: code-generated microphone (until we have the CAD) and the extruded logo
+  src/lib/engine/          engine client: response contract, options and Spanish copy
+  src/seed/                initial data
+packages/configurator/     product types, sizes, colors, nozzles and manufacturing modes (with tests)
+services/engine/           Python logo engine: printability, colors, detail per size, SVG layers
+tools/dev-db/              local Postgres without Docker or sudo (development only)
+```
+
+The route folders under `src/app/(frontend)/` (`contacto`, `disena-el-tuyo`, `microfonos`, `nosotros`,
+`preguntas-frecuentes`, `trabajos`, `legal/tratamiento-de-datos`) stay in Spanish on purpose: they are public URLs.
+
+## Notes
+
+- **Local database:** lives in `.data/postgres`. To start from scratch: stop `pnpm dev` and delete that folder.
+  If you prefer Docker, `docker compose up -d` starts the same database; in that case run only the web app with
+  `pnpm --filter @nueve2siete/web dev`.
+- **Schema:** in development Payload syncs the tables on its own. Before production we'll generate migrations
+  (`pnpm --filter @nueve2siete/web payload migrate:create`).
+- **Content editable from the admin:** size measurements, available filaments, FAQs, project photos, WhatsApp
+  number and legal info. While there is no WhatsApp number, the buttons go to the contact form.
+- **Contact form:** saves each message in *Leads* (*Solicitudes* in the admin). The public API can neither read
+  nor create them.
+- **Seed with tsx:** `pnpm seed` uses `tsx` instead of `payload run`, because in Payload 3.90 `payload run`
+  sometimes exits before the script finishes.
+- **Creator and engine:** the browser uploads the logo to a Server Action (`disena-el-tuyo/actions.ts`, up to
+  10 MB), which calls the engine at `ENGINE_URL` with the sizes, filaments and nozzle from the CMS. The engine is
+  not exposed to the internet and the image is not stored.
+- `apps/web/AGENTS.md` and `CLAUDE.md` are generated by `next dev` (Next.js rules for coding assistants).

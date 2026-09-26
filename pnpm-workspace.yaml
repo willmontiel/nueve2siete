@@ -1,0 +1,12 @@
+packages:
+  - apps/*
+  - packages/*
+  - services/*
+  - tools/*
+
+# Packages allowed to run install scripts.
+allowBuilds:
+  '@embedded-postgres/linux-x64': true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true

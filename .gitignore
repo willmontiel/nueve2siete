@@ -1,0 +1,33 @@
+node_modules/
+.turbo/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+*.pem
+
+# Local environment
+.env
+.env*.local
+
+# Local database (tools/dev-db) and files uploaded to the CMS
+.data/
+apps/web/media/
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Sample logos for calibrating the engine: third-party brands and, later on, real customer logos
+logos-example/
+
+# Logo engine (Python)
+services/engine/.venv/
+services/engine/report/
+__pycache__/
+.pytest_cache/
+.ruff_cache/

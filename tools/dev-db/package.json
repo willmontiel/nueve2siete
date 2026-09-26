@@ -1,0 +1,13 @@
+{
+  "name": "@nueve2siete/dev-db",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local Postgres without Docker or sudo (official binaries via npm). Development only.",
+  "type": "module",
+  "scripts": {
+    "dev": "node index.mjs"
+  },
+  "dependencies": {
+    "embedded-postgres": "17.10.0-beta.17"
+  }
+}

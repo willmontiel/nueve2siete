@@ -1,0 +1,28 @@
+{
+  "name": "nueve2siete",
+  "private": true,
+  "description": "nueve2siete 3d studio: website, CMS and (phase 2) custom microphone creator",
+  "type": "module",
+  "packageManager": "pnpm@12.6.0",
+  "scripts": {
+    "dev": "turbo run dev",
+    "db": "pnpm --filter @nueve2siete/dev-db dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "seed": "pnpm --filter @nueve2siete/web seed",
+    "engine": "pnpm --filter @nueve2siete/engine dev",
+    "engine:test": "pnpm --filter @nueve2siete/engine test",
+    "engine:report": "cd services/engine && uv run engine-report tests/fixtures/*.png tests/fixtures/*.jpg --out report",
+    "engine:samples": "cd services/engine && uv run engine-report --samples calibration/expected.json --out report/samples"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "turbo": "^2.11.4",
+    "typescript": "5.7.3"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
