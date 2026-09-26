@@ -34,6 +34,7 @@ export async function SiteFooter() {
             <p className={heading}>Explora</p>
             <ul className="mt-3 text-[15px]">
               <li><Link className={link} href={routes.microphones}>Micrófonos</Link></li>
+              <li><Link className={link} href={routes.keychains}>Llaveros</Link></li>
               <li><Link className={link} href="/#como-funciona">Cómo funciona</Link></li>
               <li><Link className={link} href={routes.projects}>Trabajos</Link></li>
               <li><Link className={link} href={routes.about}>Nosotros</Link></li>

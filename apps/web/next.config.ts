@@ -10,7 +10,12 @@ const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
   // Shared code in libs/* is consumed as TypeScript source.
-  transpilePackages: ['@nueve2siete/cms', '@nueve2siete/configurator'],
+  transpilePackages: [
+    '@nueve2siete/cms',
+    '@nueve2siete/configurator',
+    '@nueve2siete/products',
+    '@nueve2siete/text-shapes',
+  ],
   experimental: {
     // The creator uploads logos up to 10 MB to a Server Action (1 MB by default), plus the multipart overhead.
     serverActions: { bodySizeLimit: '11mb' },

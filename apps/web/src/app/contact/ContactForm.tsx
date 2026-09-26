@@ -14,7 +14,13 @@ const initialState: ContactState = { status: 'idle' }
 const input =
   'mt-2 block w-full rounded-2xl bg-snow px-4 text-base ring-1 ring-ink/15 outline-none placeholder:text-muted focus:ring-2 focus:ring-lilac-deep aria-[invalid=true]:ring-2 aria-[invalid=true]:ring-orange-deep'
 
-export function ContactForm({ initialMessage = '' }: { initialMessage?: string }) {
+export function ContactForm({
+  initialMessage = '',
+  initialInterest = 'microphone',
+}: {
+  initialMessage?: string
+  initialInterest?: string
+}) {
   const [state, formAction, pending] = useActionState(submitContact, initialState)
   const errors = state.fieldErrors ?? {}
   const values = state.values ?? {}
@@ -105,11 +111,12 @@ export function ContactForm({ initialMessage = '' }: { initialMessage?: string }
         <select
           id="interest"
           name="interest"
-          defaultValue={values.interest ?? 'microphone'}
+          defaultValue={values.interest ?? initialInterest}
           className={cn(input, 'min-h-12 appearance-none')}
           {...field('interest')}
         >
           <option value="microphone">Micrófono personalizado</option>
+          <option value="keychain">Llavero con nombre</option>
           <option value="other">Otro proyecto</option>
         </select>
         <FieldError name="interest" errors={errors} />

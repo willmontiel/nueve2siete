@@ -18,7 +18,7 @@ import React, { useEffect, useRef, useState, useTransition } from 'react'
 import type { LogoFinish } from '@/components/mic3d/LogoRelief'
 import type { MicView } from '@/components/mic3d/MicViewer'
 import { MicSvg, Pedestal } from '@/components/mic/MicSvg'
-import { SwatchPicker } from '@/components/mic/SwatchPicker'
+import { ColorSelect } from '@/components/ui/ColorSelect'
 import { ChatIcon, MailIcon } from '@/components/ui/icons'
 import { cn } from '@/lib/cn'
 import { STATUS_COPY, STATUS_LABEL, issueMessage, logoSummaryLines } from '@/lib/engine/messages'
@@ -179,10 +179,7 @@ export function LogoCreator({
   const needsHelp = plan?.status === 'not_viable'
 
   return (
-    <div
-      className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,540px)] lg:gap-12"
-      style={{ '--swatch-bg': 'var(--color-cream)' } as React.CSSProperties}
-    >
+    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,540px)] lg:gap-12">
       {/* Preview: 3D, with the 2D illustration while it loads (or if the browser has no WebGL) */}
       <div className="relative h-[460px] overflow-hidden rounded-[40px] bg-sand sm:h-[560px] lg:sticky lg:top-6 lg:h-[680px] lg:self-start lg:rounded-[48px]">
         <div
@@ -354,10 +351,10 @@ export function LogoCreator({
           )}
         </fieldset>
 
-        <div className="flex flex-col gap-5">
-          <h2 className="-mb-2 text-[15px] font-semibold">3. Colores del micrófono</h2>
+        <div className="flex flex-col gap-2">
+          <h2 className="text-[15px] font-semibold">3. Colores del micrófono</h2>
           {product.parts.map((part) => (
-            <SwatchPicker
+            <ColorSelect
               key={part.key}
               label={part.label}
               filaments={filaments}
@@ -545,6 +542,7 @@ function LogoColors({
 }) {
   const multicolor = analysis.colors.length > 1
   const sameAsBox = filamentIds.some((id) => id === boxFilamentId)
+  const boxHex = filaments.find((f) => f.id === boxFilamentId)?.hex
   const note =
     fabrication?.mode === 'integrated'
       ? `Sale en una sola impresión con la caja (${fabrication.filamentsInPrint} filamentos).`
@@ -581,7 +579,13 @@ function LogoColors({
 
       {mode === 'single' ? (
         <>
-          <SwatchPicker label="Color del logo" filaments={filaments} value={singleId} onChange={onSingleChange} />
+          <ColorSelect
+            label="Color del logo"
+            filaments={filaments}
+            value={singleId}
+            onChange={onSingleChange}
+            contrastWith={boxHex ? { label: 'La caja', hex: boxHex } : undefined}
+          />
           {multicolor &&
             (analysis.monoLosesDetail ? (
               <p className="rounded-2xl bg-tint-orange px-4 py-3 text-[15px]">

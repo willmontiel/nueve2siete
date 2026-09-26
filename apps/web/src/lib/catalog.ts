@@ -6,6 +6,7 @@ import {
   type Filament,
   type ProductDefinition,
 } from '@nueve2siete/configurator'
+import { KEYCHAIN, type KeychainDefinition } from '@nueve2siete/products'
 import { cache } from 'react'
 
 export interface MicCatalog {
@@ -49,38 +50,84 @@ function toProductDefinition(doc: Product): ProductDefinition {
  * the site keeps working with the configurator package's defaults.
  */
 export const getMicCatalog = cache(async (): Promise<MicCatalog> => {
+  const filaments = getFilaments()
   try {
     const payload = await getPayloadClient()
-    const [products, filaments] = await Promise.all([
-      payload.find({
-        collection: 'products',
-        where: { slug: { equals: MICROPHONE.slug } },
-        limit: 1,
-      }),
-      payload.find({
-        collection: 'filaments',
-        where: { available: { equals: true } },
-        sort: 'sortOrder',
-        limit: 100,
-        pagination: false,
-      }),
-    ])
+    const products = await payload.find({
+      collection: 'products',
+      where: { slug: { equals: MICROPHONE.slug } },
+      limit: 1,
+    })
     const doc = products.docs[0]
-
-    return {
-      product: doc ? toProductDefinition(doc) : MICROPHONE,
-      filaments: filaments.docs.length
-        ? filaments.docs.map((f) => ({
-            id: String(f.id),
-            name: f.name,
-            hex: f.hex,
-            material: f.material ?? undefined,
-          }))
-        : EXAMPLE_FILAMENTS,
-    }
+    return { product: doc ? toProductDefinition(doc) : MICROPHONE, filaments: await filaments }
   } catch (error) {
     console.error('[catalog] CMS unavailable, using defaults:', error)
-    return { product: MICROPHONE, filaments: EXAMPLE_FILAMENTS }
+    return { product: MICROPHONE, filaments: await filaments }
+  }
+})
+
+/** Filaments marked as available in the admin, or the example palette if there are none or the CMS is down. */
+export const getFilaments = cache(async (): Promise<Filament[]> => {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.find({
+      collection: 'filaments',
+      where: { available: { equals: true } },
+      sort: 'sortOrder',
+      limit: 100,
+      pagination: false,
+    })
+    return result.docs.length
+      ? result.docs.map((f) => ({ id: String(f.id), name: f.name, hex: f.hex, material: f.material ?? undefined }))
+      : EXAMPLE_FILAMENTS
+  } catch (error) {
+    console.error('[catalog] Could not load filaments, using the example palette:', error)
+    return EXAMPLE_FILAMENTS
+  }
+})
+
+export interface KeychainCatalog {
+  product: KeychainDefinition
+  filaments: Filament[]
+}
+
+function toKeychainDefinition(doc: Product): KeychainDefinition {
+  const rules = doc.keychain
+  const sizes = (rules?.sizes ?? []).map((size) => ({
+    key: size.key,
+    label: size.label,
+    letterHeightMm: size.letterHeightMm,
+    borderMm: size.borderMm,
+    baseMm: size.baseMm,
+    reliefMm: size.reliefMm,
+    ring: { outerMm: size.ringOuterMm, holeMm: size.ringHoleMm },
+    maxLengthMm: size.maxLengthMm,
+  }))
+  return {
+    ...KEYCHAIN,
+    slug: doc.slug,
+    name: doc.name,
+    sizes: sizes.length ? sizes : KEYCHAIN.sizes,
+    maxChars: rules?.maxChars ?? KEYCHAIN.maxChars,
+    maxEmojis: rules?.maxEmojis ?? KEYCHAIN.maxEmojis,
+  }
+}
+
+/** The name keychain (from the admin, or the package defaults) and the available filaments. */
+export const getKeychainCatalog = cache(async (): Promise<KeychainCatalog> => {
+  const filaments = getFilaments()
+  try {
+    const payload = await getPayloadClient()
+    const products = await payload.find({
+      collection: 'products',
+      where: { slug: { equals: KEYCHAIN.slug }, kind: { equals: 'keychain' } },
+      limit: 1,
+    })
+    const doc = products.docs[0]
+    return { product: doc ? toKeychainDefinition(doc) : KEYCHAIN, filaments: await filaments }
+  } catch (error) {
+    console.error('[catalog] CMS unavailable, using the keychain defaults:', error)
+    return { product: KEYCHAIN, filaments: await filaments }
   }
 })
 

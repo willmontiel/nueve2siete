@@ -5,6 +5,7 @@ import { CreatorPromo } from '@/components/home/CreatorPromo'
 import { FinalCta } from '@/components/home/FinalCta'
 import { Hero } from '@/components/home/Hero'
 import { HowItWorks } from '@/components/home/HowItWorks'
+import { KeychainPromo } from '@/components/home/KeychainPromo'
 import { ProjectGrid } from '@/components/home/ProjectGrid'
 import { SizesShowcase } from '@/components/home/SizesShowcase'
 import { ButtonLink } from '@/components/ui/ButtonLink'
@@ -52,6 +53,7 @@ export default async function HomePage() {
       )}
 
       <CreatorPromo />
+      <KeychainPromo />
       <FinalCta contact={contact} />
     </>
   )

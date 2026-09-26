@@ -13,7 +13,7 @@ test.describe('Microphone creator', () => {
   })
 
   test('checks a logo, shows the verdict per size and puts it on the box', async ({ page }) => {
-    await page.goto('http://localhost:3000/disena-el-tuyo')
+    await page.goto('http://localhost:3000/disena-el-tuyo/microfono')
     await page.locator('input[type=file]').setInputFiles(path.join(FIXTURES, 'nueve2siete_transparent.png'))
 
     await expect(page.getByRole('heading', { name: 'Se puede imprimir con algunos ajustes' })).toBeVisible({
@@ -21,14 +21,15 @@ test.describe('Microphone creator', () => {
     })
     await expect(page.getByText('Revisado')).toBeVisible()
     await expect(page.getByRole('img', { name: 'Tu logo como se imprime en Medium' })).toBeVisible()
-    await expect(page.getByText('Naranja', { exact: true })).toBeVisible()
+    // One of the logo's colors (the box's color picker also says Naranja).
+    await expect(page.getByRole('listitem').filter({ hasText: /^Naranja$/ })).toBeVisible()
 
     await page.getByRole('button', { name: /Extra Large/ }).click()
     await expect(page.getByRole('img', { name: 'Tu logo como se imprime en Extra Large' })).toBeVisible()
   })
 
   test('shows the 3D microphone with the logo and switches view and finish', async ({ page }) => {
-    await page.goto('http://localhost:3000/disena-el-tuyo')
+    await page.goto('http://localhost:3000/disena-el-tuyo/microfono')
     await expect(page.getByText('Vista previa 3D')).toBeVisible({ timeout: 30_000 })
     await expect(page.getByRole('img', { name: 'Vista 3D del micrófono Medium' })).toBeVisible()
 
@@ -48,7 +49,7 @@ test.describe('Microphone creator', () => {
   })
 
   test('offers single-color printing when there are too many colors', async ({ page }) => {
-    await page.goto('http://localhost:3000/disena-el-tuyo')
+    await page.goto('http://localhost:3000/disena-el-tuyo/microfono')
     await page.locator('input[type=file]').setInputFiles(path.join(FIXTURES, 'six_colors.png'))
 
     await expect(page.getByRole('heading', { name: 'Se puede imprimir con algunos ajustes' })).toBeVisible({
@@ -58,7 +59,9 @@ test.describe('Microphone creator', () => {
     await page.getByRole('button', { name: 'Probar en un solo color' }).click()
 
     await expect(page.getByRole('heading', { name: '¡Tu logo se puede imprimir!' })).toBeVisible()
-    await page.getByRole('button', { name: 'Color del logo: Blanco', exact: true }).click()
+    await page.getByRole('button', { name: /^Color del logo:/ }).click()
+    await page.getByRole('radio', { name: 'Blanco', exact: true }).click()
+    await expect(page.getByRole('button', { name: 'Color del logo: Blanco' })).toBeVisible()
     await expect(page.getByRole('link', { name: /formulario/ })).toHaveAttribute(
       'href',
       /Color%20del%20logo%3A%20Blanco%20\(un%20solo%20color\)/,
@@ -66,7 +69,7 @@ test.describe('Microphone creator', () => {
   })
 
   test('warns when single color loses the design', async ({ page }) => {
-    await page.goto('http://localhost:3000/disena-el-tuyo')
+    await page.goto('http://localhost:3000/disena-el-tuyo/microfono')
     await page.locator('input[type=file]').setInputFiles(path.join(FIXTURES, 'flat_four_colors_transparent.png'))
     await expect(page.getByText('Revisado')).toBeVisible({ timeout: 30_000 })
 
@@ -76,7 +79,7 @@ test.describe('Microphone creator', () => {
   })
 
   test('explains why a photo cannot be printed', async ({ page }) => {
-    await page.goto('http://localhost:3000/disena-el-tuyo')
+    await page.goto('http://localhost:3000/disena-el-tuyo/microfono')
     await page.locator('input[type=file]').setInputFiles(path.join(FIXTURES, 'photo.jpg'))
 
     await expect(page.getByRole('heading', { name: 'Así no se puede imprimir' })).toBeVisible({ timeout: 30_000 })
@@ -85,7 +88,7 @@ test.describe('Microphone creator', () => {
   })
 
   test('rejects non-image files before uploading', async ({ page }) => {
-    await page.goto('http://localhost:3000/disena-el-tuyo')
+    await page.goto('http://localhost:3000/disena-el-tuyo/microfono')
     await page.locator('input[type=file]').setInputFiles({
       name: 'logo.pdf',
       mimeType: 'application/pdf',

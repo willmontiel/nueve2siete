@@ -15,7 +15,7 @@ export const contactSchema = z
       .trim()
       .max(20, 'Máximo 20 caracteres')
       .regex(/^[+\d\s()-]*$/, 'Solo números'),
-    interest: z.enum(['microphone', 'other'], { error: 'Elige una opción' }),
+    interest: z.enum(['microphone', 'keychain', 'other'], { error: 'Elige una opción' }),
     message: z
       .string()
       .trim()
@@ -31,6 +31,16 @@ export const contactSchema = z
   })
 
 export type ContactInput = z.infer<typeof contactSchema>
+
+/** The `producto` query param (Spanish, like the URLs) that preselects the interest: /contacto?producto=llavero */
+const INTEREST_BY_PRODUCT: Record<string, ContactInput['interest']> = {
+  microfono: 'microphone',
+  llavero: 'keychain',
+}
+
+export function interestFromProduct(product: unknown): ContactInput['interest'] | undefined {
+  return typeof product === 'string' ? INTEREST_BY_PRODUCT[product] : undefined
+}
 
 export function contactInputFromFormData(formData: FormData) {
   // Browsers send a <textarea>'s line breaks as \r\n.

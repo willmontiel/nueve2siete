@@ -143,14 +143,14 @@ export interface Lead {
   status: 'new' | 'contacted' | 'in_production' | 'closed';
   email?: string | null;
   whatsapp?: string | null;
-  interest: 'microphone' | 'other';
+  interest: 'microphone' | 'keychain' | 'other';
   message: string;
   consent: boolean;
   updatedAt: string;
   createdAt: string;
 }
 /**
- * Cada producto define sus partes, tamaños y reglas del logo. El sitio los lee de aquí.
+ * Cada producto define sus tamaños y reglas. El sitio los lee de aquí.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
@@ -159,9 +159,13 @@ export interface Product {
   id: number;
   name: string;
   /**
-   * Identificador en la URL. El micrófono usa "microfono".
+   * Identificador. El micrófono usa "microfono" y el llavero "llavero".
    */
   slug: string;
+  /**
+   * Define qué campos tiene y qué creador lo usa.
+   */
+  kind: 'microphone' | 'keychain';
   status: 'active' | 'soon';
   parts?:
     | {
@@ -209,6 +213,30 @@ export interface Product {
     nozzleMm?: ('0.4' | '0.6' | '0.8') | null;
     reliefHeightMm?: number | null;
     allowFlat?: boolean | null;
+  };
+  keychain?: {
+    /**
+     * Letras, espacios y emojis: cada uno cuenta como uno.
+     */
+    maxChars?: number | null;
+    maxEmojis?: number | null;
+    /**
+     * Medidas en milímetros. Grosores en múltiplos de la capa (0,2 mm). Si bajas la altura de letra de 10 mm, hay que volver a revisar los emojis.
+     */
+    sizes?:
+      | {
+          key: string;
+          label: string;
+          letterHeightMm: number;
+          maxLengthMm: number;
+          borderMm: number;
+          baseMm: number;
+          reliefMm: number;
+          ringOuterMm: number;
+          ringHoleMm: number;
+          id?: string | null;
+        }[]
+      | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -429,6 +457,7 @@ export interface LeadsSelect<T extends boolean = true> {
 export interface ProductsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  kind?: T;
   status?: T;
   parts?:
     | T
@@ -466,6 +495,26 @@ export interface ProductsSelect<T extends boolean = true> {
         nozzleMm?: T;
         reliefHeightMm?: T;
         allowFlat?: T;
+      };
+  keychain?:
+    | T
+    | {
+        maxChars?: T;
+        maxEmojis?: T;
+        sizes?:
+          | T
+          | {
+              key?: T;
+              label?: T;
+              letterHeightMm?: T;
+              maxLengthMm?: T;
+              borderMm?: T;
+              baseMm?: T;
+              reliefMm?: T;
+              ringOuterMm?: T;
+              ringHoleMm?: T;
+              id?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

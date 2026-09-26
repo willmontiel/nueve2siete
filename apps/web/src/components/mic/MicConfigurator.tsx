@@ -12,6 +12,7 @@ import {
 import Link from 'next/link'
 import React, { useId, useState } from 'react'
 
+import { ColorSelect } from '@/components/ui/ColorSelect'
 import { ChatIcon, MailIcon } from '@/components/ui/icons'
 import { cn } from '@/lib/cn'
 import { cm, decimal } from '@/lib/format'
@@ -19,7 +20,6 @@ import { routes } from '@/lib/routes'
 import { whatsappHref } from '@/lib/whatsapp'
 
 import { MicSvg, Pedestal } from './MicSvg'
-import { SwatchPicker } from './SwatchPicker'
 
 const MAX_TEXT = 14
 
@@ -59,10 +59,7 @@ export function MicConfigurator({
   const update = (patch: Partial<Selection>) => setSelection((s) => ({ ...s, ...patch }))
 
   return (
-    <div
-      className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,540px)] lg:gap-12"
-      style={{ '--swatch-bg': 'var(--color-cream)' } as React.CSSProperties}
-    >
+    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,540px)] lg:gap-12">
       {/* Preview */}
       <div className="relative flex min-h-[460px] flex-col items-center justify-end rounded-[40px] bg-sand px-6 pt-10 pb-8 sm:min-h-[560px] lg:sticky lg:top-6 lg:min-h-[680px] lg:self-start lg:rounded-[48px]">
         <span className="absolute top-6 left-6 rounded-full bg-snow px-3 py-1.5 text-[13px] font-semibold">
@@ -133,9 +130,10 @@ export function MicConfigurator({
           </fieldset>
         )}
 
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-2">
+          <h3 className="text-[15px] font-semibold">Colores</h3>
           {product.parts.map((part) => (
-            <SwatchPicker
+            <ColorSelect
               key={part.key}
               label={part.label}
               filaments={filaments}
@@ -161,7 +159,7 @@ export function MicConfigurator({
           />
           <p className="mt-2 text-sm text-muted">
             ¿Ya tienes tu logo?{' '}
-            <Link href={routes.designYourOwn} className="font-semibold text-ink underline underline-offset-4">
+            <Link href={routes.designMicrophone} className="font-semibold text-ink underline underline-offset-4">
               Súbelo y míralo en tu micrófono
             </Link>
             .

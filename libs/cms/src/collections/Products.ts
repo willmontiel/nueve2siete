@@ -2,13 +2,19 @@ import type { CollectionConfig, Field } from 'payload'
 
 import { anyone } from '../access'
 
-const mm = (name: string, label: string): Field => ({
+const mm = (name: string, label: string, min = 1): Field => ({
   name,
   label,
   type: 'number',
   required: true,
-  min: 1,
+  min,
   admin: { width: '25%' },
+})
+
+type ProductKind = 'microphone' | 'keychain'
+/** Shows a tab only for one kind of product (hidden fields aren't validated either). */
+const onlyFor = (kind: ProductKind) => ({
+  condition: (data: Partial<{ kind: ProductKind }>) => (data?.kind ?? 'microphone') === kind,
 })
 
 export const Products: CollectionConfig = {
@@ -16,9 +22,9 @@ export const Products: CollectionConfig = {
   labels: { singular: 'Producto', plural: 'Productos' },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'slug', 'status'],
+    defaultColumns: ['name', 'kind', 'slug', 'status'],
     group: 'Catálogo',
-    description: 'Cada producto define sus partes, tamaños y reglas del logo. El sitio los lee de aquí.',
+    description: 'Cada producto define sus tamaños y reglas. El sitio los lee de aquí.',
   },
   access: {
     read: anyone,
@@ -35,7 +41,19 @@ export const Products: CollectionConfig = {
           required: true,
           unique: true,
           index: true,
-          admin: { description: 'Identificador en la URL. El micrófono usa "microfono".' },
+          admin: { description: 'Identificador. El micrófono usa "microfono" y el llavero "llavero".' },
+        },
+        {
+          name: 'kind',
+          label: 'Tipo',
+          type: 'select',
+          required: true,
+          defaultValue: 'microphone',
+          options: [
+            { label: 'Micrófono con logo', value: 'microphone' },
+            { label: 'Llavero con nombre', value: 'keychain' },
+          ],
+          admin: { description: 'Define qué campos tiene y qué creador lo usa.' },
         },
         {
           name: 'status',
@@ -55,6 +73,7 @@ export const Products: CollectionConfig = {
       tabs: [
         {
           label: 'Partes y formas',
+          admin: onlyFor('microphone'),
           fields: [
             {
               name: 'parts',
@@ -89,6 +108,7 @@ export const Products: CollectionConfig = {
         },
         {
           label: 'Tamaños',
+          admin: onlyFor('microphone'),
           fields: [
             {
               name: 'sizes',
@@ -124,6 +144,7 @@ export const Products: CollectionConfig = {
         },
         {
           label: 'Reglas del logo',
+          admin: onlyFor('microphone'),
           fields: [
             {
               name: 'logoRules',
@@ -175,6 +196,71 @@ export const Products: CollectionConfig = {
                       label: 'Permitir logo plano',
                       type: 'checkbox',
                       defaultValue: true,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Llavero',
+          admin: onlyFor('keychain'),
+          fields: [
+            {
+              name: 'keychain',
+              label: false,
+              type: 'group',
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'maxChars',
+                      label: 'Máximo de caracteres',
+                      type: 'number',
+                      defaultValue: 12,
+                      min: 1,
+                      admin: { description: 'Letras, espacios y emojis: cada uno cuenta como uno.' },
+                    },
+                    {
+                      name: 'maxEmojis',
+                      label: 'Máximo de emojis',
+                      type: 'number',
+                      defaultValue: 2,
+                      min: 0,
+                    },
+                  ],
+                },
+                {
+                  name: 'sizes',
+                  label: 'Tamaños',
+                  type: 'array',
+                  admin: {
+                    description:
+                      'Medidas en milímetros. Grosores en múltiplos de la capa (0,2 mm). Si bajas la altura de letra de 10 mm, hay que volver a revisar los emojis.',
+                  },
+                  fields: [
+                    {
+                      type: 'row',
+                      fields: [
+                        { name: 'key', label: 'Clave', type: 'text', required: true, admin: { width: '25%' } },
+                        { name: 'label', label: 'Nombre', type: 'text', required: true, admin: { width: '25%' } },
+                        mm('letterHeightMm', 'Alto de letra'),
+                        mm('maxLengthMm', 'Largo máximo'),
+                      ],
+                    },
+                    {
+                      type: 'row',
+                      fields: [
+                        mm('borderMm', 'Borde de la base', 0.5),
+                        mm('baseMm', 'Grosor base', 0.4),
+                        mm('reliefMm', 'Alto letras', 0.2),
+                      ],
+                    },
+                    {
+                      type: 'row',
+                      fields: [mm('ringOuterMm', 'Argolla: diámetro'), mm('ringHoleMm', 'Argolla: hueco')],
                     },
                   ],
                 },

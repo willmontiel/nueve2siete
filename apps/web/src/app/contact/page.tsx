@@ -5,6 +5,7 @@ import { Container } from '@/components/ui/Container'
 import { ChatIcon, MailIcon } from '@/components/ui/icons'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Accent } from '@/components/ui/Typography'
+import { interestFromProduct } from '@/lib/contact-schema'
 import { getSiteSettings } from '@/lib/site'
 import { whatsappHref } from '@/lib/whatsapp'
 
@@ -20,10 +21,11 @@ const tips = ['Tu logo (PNG, JPG o SVG)', 'El tamaño y los colores', 'Cuántos 
 export default async function ContactPage({
   searchParams,
 }: {
-  searchParams: Promise<{ mensaje?: string | string[] }>
+  searchParams: Promise<{ mensaje?: string | string[]; producto?: string | string[] }>
 }) {
   const [settings, params] = await Promise.all([getSiteSettings(), searchParams])
   const initialMessage = typeof params.mensaje === 'string' ? params.mensaje.slice(0, 2000) : ''
+  const initialInterest = interestFromProduct(params.producto)
   const wa = whatsappHref(settings.whatsappNumber, settings.whatsappMessage)
 
   return (
@@ -39,7 +41,7 @@ export default async function ContactPage({
       />
 
       <Container className="grid gap-12 pb-16 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-16">
-        <ContactForm initialMessage={initialMessage} />
+        <ContactForm initialMessage={initialMessage} initialInterest={initialInterest} />
 
         <aside className="flex flex-col gap-4">
           {wa && (

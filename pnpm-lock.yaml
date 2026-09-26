@@ -184,6 +184,9 @@ importers:
       '@nueve2siete/configurator':
         specifier: workspace:*
         version: link:../../libs/configurator
+      '@nueve2siete/products':
+        specifier: workspace:*
+        version: link:../../libs/products
       '@payloadcms/db-postgres':
         specifier: 3.90.2
         version: 3.90.2(payload@3.90.2(graphql@16.14.2)(supports-color@7.2.0)(typescript@5.7.3))(supports-color@7.2.0)
@@ -250,12 +253,21 @@ importers:
 
   apps/web:
     dependencies:
+      '@base-ui/react':
+        specifier: 1.8.0
+        version: 1.8.0(@date-fns/tz@1.2.0)(@types/react@19.2.14)(date-fns@4.1.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@nueve2siete/cms':
         specifier: workspace:*
         version: link:../../libs/cms
       '@nueve2siete/configurator':
         specifier: workspace:*
         version: link:../../libs/configurator
+      '@nueve2siete/products':
+        specifier: workspace:*
+        version: link:../../libs/products
+      '@nueve2siete/text-shapes':
+        specifier: workspace:*
+        version: link:../../libs/text-shapes
       '@payloadcms/db-postgres':
         specifier: 3.90.2
         version: 3.90.2(payload@3.90.2(graphql@16.14.2)(supports-color@7.2.0)(typescript@5.7.3))(supports-color@7.2.0)
@@ -394,6 +406,62 @@ importers:
         specifier: 4.0.18
         version: 4.0.18(@types/node@22.19.9)(happy-dom@20.14.5)(jiti@2.7.0)(jsdom@28.0.0(supports-color@7.2.0))(lightningcss@1.32.0)(sass@1.77.4)(tsx@4.22.4)
 
+  libs/products:
+    dependencies:
+      '@nueve2siete/configurator':
+        specifier: workspace:*
+        version: link:../configurator
+      '@nueve2siete/text-shapes':
+        specifier: workspace:*
+        version: link:../text-shapes
+    devDependencies:
+      '@types/node':
+        specifier: 22.19.9
+        version: 22.19.9
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
+      vitest:
+        specifier: 4.0.18
+        version: 4.0.18(@types/node@22.19.9)(happy-dom@20.14.5)(jiti@2.7.0)(jsdom@28.0.0(supports-color@7.2.0))(lightningcss@1.32.0)(sass@1.77.4)(tsx@4.22.4)
+
+  libs/text-shapes:
+    dependencies:
+      clipper2-ts:
+        specifier: 2.0.1-18
+        version: 2.0.1-18
+      opentype.js:
+        specifier: 2.0.0
+        version: 2.0.0
+    devDependencies:
+      '@fontsource/fredoka':
+        specifier: 5.3.0
+        version: 5.3.0
+      '@fontsource/noto-emoji':
+        specifier: 5.3.2
+        version: 5.3.2
+      '@fontsource/pacifico':
+        specifier: 5.3.0
+        version: 5.3.0
+      '@fontsource/titan-one':
+        specifier: 5.3.0
+        version: 5.3.0
+      '@nueve2siete/configurator':
+        specifier: workspace:*
+        version: link:../configurator
+      '@types/node':
+        specifier: 22.19.9
+        version: 22.19.9
+      tsx:
+        specifier: 4.22.4
+        version: 4.22.4
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
+      vitest:
+        specifier: 4.0.18
+        version: 4.0.18(@types/node@22.19.9)(happy-dom@20.14.5)(jiti@2.7.0)(jsdom@28.0.0(supports-color@7.2.0))(lightningcss@1.32.0)(sass@1.77.4)(tsx@4.22.4)
+
 packages:
 
   '@acemir/cssom@0.9.31':
@@ -502,6 +570,33 @@ packages:
   '@babel/types@7.29.8':
     resolution: {integrity: sha512-Vj1jF3cPfxg7OAfoI7QnVKLoILlm2JF9pnVHrX8qx7AHMiYWT+NDAA7jChlNgRS4WTLc/fD1lXLmPixluj+3Gg==}
     engines: {node: '>=6.9.0'}
+
+  '@base-ui/react@1.8.0':
+    resolution: {integrity: sha512-P0/1sxo6SBVZOklKMIedvTWqw2s2IQzi9x5bIVsXu980cuSOD4NeuRSs+/L7LZQfDkZP/uRZyGPyfFl/B1oH+Q==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      '@date-fns/tz': ^1.2.0
+      '@types/react': ^17 || ^18 || ^19
+      date-fns: ^4.0.0
+      react: ^17 || ^18 || ^19
+      react-dom: ^17 || ^18 || ^19
+    peerDependenciesMeta:
+      '@date-fns/tz':
+        optional: true
+      '@types/react':
+        optional: true
+      date-fns:
+        optional: true
+
+  '@base-ui/utils@0.4.0':
+    resolution: {integrity: sha512-bO9fz25kKtPf+aZVyfQrC0PDmJdmVni31W2hCS5/Owb+inwdIL3XU26pCPRPlt4LSxZrBgLwubXQXQlKaFEZzw==}
+    peerDependencies:
+      '@types/react': ^17 || ^18 || ^19
+      react: ^17 || ^18 || ^19
+      react-dom: ^17 || ^18 || ^19
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
 
   '@borewit/text-codec@0.2.2':
     resolution: {integrity: sha512-DDaRehssg1aNrH4+2hnj1B7vnUGEjU6OIlyRdkMd0aUdIUvKXrJfXsy8LVtXAy7DRvYVluWbMspsRhz2lcW0mQ==}
@@ -1223,6 +1318,18 @@ packages:
 
   '@floating-ui/utils@0.2.12':
     resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
+
+  '@fontsource/fredoka@5.3.0':
+    resolution: {integrity: sha512-s2IhjQ50wDnKkkaKmjhtL0rxQg6ITsVusiipM3m7zUwVZZbbCKsscNDkngwp28xVzfIt7neWrkgU1qKqyTycQg==}
+
+  '@fontsource/noto-emoji@5.3.2':
+    resolution: {integrity: sha512-N9CSzXJB04AVWYvFbuBgL2Dq964Zo91th/uOu/QLSuWBYuL9FWXGcEo6ZNwc/IJ7vmpm8KHaIKD7jF8pYm4taw==}
+
+  '@fontsource/pacifico@5.3.0':
+    resolution: {integrity: sha512-bWv0fHR1n36p7scRn+maaEaVeQCOq9yvfVfjyAeUzKrK4Y/3qiRAEj4hJgfxj/sjgZZGkeHyKPrbWdDaZtpCVw==}
+
+  '@fontsource/titan-one@5.3.0':
+    resolution: {integrity: sha512-PpYfmhzzC3OVK+tQ2T5n5gx/+L6u+B0u//hu0/wqs0XBx45o8nPhFySl1/+NGYt92WE0MUuUVl0P2mF0/8xykw==}
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
@@ -2448,6 +2555,10 @@ packages:
 
   client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
+
+  clipper2-ts@2.0.1-18:
+    resolution: {integrity: sha512-WuRO1ZHzyYTVHY78r4wVWVydvQ+1lx9qZ+DeZa/8zhvrxIgCVzElJ6lwSMGtUUKFPefhvfJsHZ5C9RNkgisCOQ==}
+    engines: {node: '>=14.0.0'}
 
   clsx@2.1.1:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
@@ -3680,6 +3791,10 @@ packages:
   once@1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
 
+  opentype.js@2.0.0:
+    resolution: {integrity: sha512-kCyjv6xdDY1W/jLWZ/L3QhhTlKUqDZMQ5+Jdlw12b3dXkKNpYBqqlMMj0YDQPShWFTMwgZI1hG14kN3XUDSg/A==}
+    hasBin: true
+
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
@@ -3965,6 +4080,9 @@ packages:
   require-from-string@2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
+
+  reselect@5.3.0:
+    resolution: {integrity: sha512-XGoLeRAVzUTcJ1qkxPQhDJyIZ5d6zzZD9nT7AEZOaaU9UbWclhycElmhO+VD5bFeLuzhPBaOV2oXC8uG35ZSpg==}
 
   resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
@@ -4819,6 +4937,31 @@ snapshots:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
+  '@base-ui/react@1.8.0(@date-fns/tz@1.2.0)(@types/react@19.2.14)(date-fns@4.1.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
+    dependencies:
+      '@babel/runtime': 7.29.7
+      '@base-ui/utils': 0.4.0(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@floating-ui/react-dom': 2.1.9(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      '@floating-ui/utils': 0.2.12
+      react: 19.2.6
+      react-dom: 19.2.6(react@19.2.6)
+      use-sync-external-store: 1.7.0(react@19.2.6)
+    optionalDependencies:
+      '@date-fns/tz': 1.2.0
+      '@types/react': 19.2.14
+      date-fns: 4.1.0
+
+  '@base-ui/utils@0.4.0(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)':
+    dependencies:
+      '@babel/runtime': 7.29.7
+      '@floating-ui/utils': 0.2.12
+      react: 19.2.6
+      react-dom: 19.2.6(react@19.2.6)
+      reselect: 5.3.0
+      use-sync-external-store: 1.7.0(react@19.2.6)
+    optionalDependencies:
+      '@types/react': 19.2.14
+
   '@borewit/text-codec@0.2.2': {}
 
   '@csstools/color-helpers@6.1.2': {}
@@ -5319,6 +5462,14 @@ snapshots:
       tabbable: 6.5.0
 
   '@floating-ui/utils@0.2.12': {}
+
+  '@fontsource/fredoka@5.3.0': {}
+
+  '@fontsource/noto-emoji@5.3.2': {}
+
+  '@fontsource/pacifico@5.3.0': {}
+
+  '@fontsource/titan-one@5.3.0': {}
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -6528,6 +6679,8 @@ snapshots:
   ci-info@4.4.0: {}
 
   client-only@0.0.1: {}
+
+  clipper2-ts@2.0.1-18: {}
 
   clsx@2.1.1: {}
 
@@ -7889,6 +8042,8 @@ snapshots:
     dependencies:
       wrappy: 1.0.2
 
+  opentype.js@2.0.0: {}
+
   optionator@0.9.4:
     dependencies:
       deep-is: 0.1.4
@@ -8235,6 +8390,8 @@ snapshots:
       set-function-name: 2.0.2
 
   require-from-string@2.0.2: {}
+
+  reselect@5.3.0: {}
 
   resolve-from@4.0.0: {}
 

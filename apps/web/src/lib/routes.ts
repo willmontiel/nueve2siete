@@ -8,7 +8,10 @@
 export const PAGES = {
   home: { url: '/', folder: '/' },
   microphones: { url: '/microfonos', folder: '/microphones' },
+  keychains: { url: '/llaveros', folder: '/keychains' },
   designYourOwn: { url: '/disena-el-tuyo', folder: '/design-your-own' },
+  designMicrophone: { url: '/disena-el-tuyo/microfono', folder: '/design-your-own/microphone' },
+  designKeychain: { url: '/disena-el-tuyo/llavero', folder: '/design-your-own/keychain' },
   projects: { url: '/trabajos', folder: '/projects' },
   about: { url: '/nosotros', folder: '/about' },
   contact: { url: '/contacto', folder: '/contact' },

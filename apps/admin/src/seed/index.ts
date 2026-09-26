@@ -1,5 +1,5 @@
 /**
- * Initial CMS data: example filaments, the microphone product and the FAQs.
+ * Initial CMS data: example filaments, the microphone and keychain products, and the FAQs.
  * It's idempotent: it doesn't duplicate or overwrite anything that already exists.
  *
  *   pnpm seed
@@ -9,6 +9,7 @@
  */
 import { DEFAULT_FAQS } from '@nueve2siete/cms/defaults'
 import { EXAMPLE_FILAMENTS, MICROPHONE } from '@nueve2siete/configurator'
+import { KEYCHAIN } from '@nueve2siete/products'
 import { getPayload } from 'payload'
 
 import config from '../payload.config'
@@ -47,6 +48,7 @@ if (!existingProduct.docs.length) {
     data: {
       name: MICROPHONE.name,
       slug: MICROPHONE.slug,
+      kind: 'microphone',
       status: 'active',
       parts: MICROPHONE.parts,
       boxShapes: MICROPHONE.boxShapes,
@@ -68,6 +70,33 @@ if (!existingProduct.docs.length) {
     },
   })
   payload.logger.info('Product created: Micrófono personalizado')
+}
+
+const existingKeychain = await payload.find({
+  collection: 'products',
+  where: { slug: { equals: KEYCHAIN.slug } },
+  limit: 1,
+})
+if (!existingKeychain.docs.length) {
+  await payload.create({
+    collection: 'products',
+    data: {
+      name: KEYCHAIN.name,
+      slug: KEYCHAIN.slug,
+      kind: 'keychain',
+      status: 'active',
+      keychain: {
+        maxChars: KEYCHAIN.maxChars,
+        maxEmojis: KEYCHAIN.maxEmojis,
+        sizes: KEYCHAIN.sizes.map(({ ring, ...size }) => ({
+          ...size,
+          ringOuterMm: ring.outerMm,
+          ringHoleMm: ring.holeMm,
+        })),
+      },
+    },
+  })
+  payload.logger.info(`Product created: ${KEYCHAIN.name}`)
 }
 
 const faqs = await payload.count({ collection: 'faqs' })

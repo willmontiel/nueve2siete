@@ -1,0 +1,23 @@
+{
+  "name": "@nueve2siete/products",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Product modules: each product's definition, rules and validation (pure TypeScript, no UI).",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nueve2siete/configurator": "workspace:*",
+    "@nueve2siete/text-shapes": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.9",
+    "typescript": "5.7.3",
+    "vitest": "4.0.18"
+  }
+}

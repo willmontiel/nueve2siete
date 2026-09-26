@@ -39,4 +39,17 @@ test.describe('Admin Panel', () => {
     const editViewArtifact = page.locator('input[name="email"]')
     await expect(editViewArtifact).toBeVisible()
   })
+
+  test('each product kind shows its own tabs', async () => {
+    // Payload draws the tabs as buttons.
+    await page.goto('http://localhost:3001/admin/collections/products')
+    await page.getByRole('link', { name: 'Llavero con tu nombre' }).first().click()
+    await expect(page.getByRole('button', { name: 'Llavero', exact: true })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Reglas del logo', exact: true })).toBeHidden()
+
+    await page.goto('http://localhost:3001/admin/collections/products')
+    await page.getByRole('link', { name: 'Micrófono personalizado' }).first().click()
+    await expect(page.getByRole('button', { name: 'Reglas del logo', exact: true })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Llavero', exact: true })).toBeHidden()
+  })
 })

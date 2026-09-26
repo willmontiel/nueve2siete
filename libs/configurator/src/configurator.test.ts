@@ -10,6 +10,8 @@ import {
   SNOW,
   chooseFabricationMode,
   contrastRatio,
+  deltaE,
+  LOW_CONTRAST_DELTA_E,
   defaultSelection,
   describeSelection,
   previewLogoColor,
@@ -102,5 +104,20 @@ describe('selection', () => {
     expect(text).toContain('Tamaño: Medium (19 cm de alto)')
     expect(text).toContain('Caja: Naranja')
     expect(text).toContain('Texto o marca: Mi Podcast')
+  })
+})
+
+describe('deltaE', () => {
+  it('is zero for the same color and large for black vs white', () => {
+    expect(deltaE('#E95C21', '#E95C21')).toBe(0)
+    expect(deltaE('#000000', '#FFFFFF')).toBeCloseTo(100, 0)
+  })
+
+  it('flags near-identical filaments as low contrast, and not distinct ones', () => {
+    const hex = (id: string) => EXAMPLE_FILAMENTS.find((f) => f.id === id)!.hex
+    expect(deltaE(hex('white'), hex('beige'))).toBeLessThan(LOW_CONTRAST_DELTA_E)
+    expect(deltaE(hex('blue'), hex('white'))).toBeGreaterThan(LOW_CONTRAST_DELTA_E)
+    // Similar luminance but different hue: still distinct (WCAG contrast alone would miss this).
+    expect(deltaE(hex('red'), hex('green'))).toBeGreaterThan(LOW_CONTRAST_DELTA_E)
   })
 })

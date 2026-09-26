@@ -20,7 +20,7 @@ export function CreatorPromo() {
               Subes tu logo, te decimos al instante si se puede imprimir y lo ves en 3D en tu micrófono, con tus
               colores.
             </p>
-            <ButtonLink href={routes.designYourOwn} icon={<ArrowRightIcon />} className="self-start">
+            <ButtonLink href={routes.designMicrophone} icon={<ArrowRightIcon />} className="self-start">
               Sube tu logo
             </ButtonLink>
           </div>

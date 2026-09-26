@@ -7,16 +7,42 @@ function channel(value: number): number {
   return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
 }
 
-/** WCAG relative luminance of a #RRGGBB color (0 = black, 1 = white). */
-export function relativeLuminance(hex: string): number {
+/** Linear RGB channels (0–1) of a #RRGGBB color. */
+function linearRgb(hex: string): [number, number, number] {
   const match = /^#?([0-9a-f]{6})$/i.exec(hex.trim())
   if (!match) throw new Error(`Invalid color: ${hex}`)
   const n = parseInt(match[1]!, 16)
-  const r = channel((n >> 16) & 0xff)
-  const g = channel((n >> 8) & 0xff)
-  const b = channel(n & 0xff)
+  return [channel((n >> 16) & 0xff), channel((n >> 8) & 0xff), channel(n & 0xff)]
+}
+
+/** WCAG relative luminance of a #RRGGBB color (0 = black, 1 = white). */
+export function relativeLuminance(hex: string): number {
+  const [r, g, b] = linearRgb(hex)
   return 0.2126 * r + 0.7152 * g + 0.0722 * b
 }
+
+/** CIELAB (D65) of a #RRGGBB color. */
+function toLab(hex: string): [number, number, number] {
+  const [r, g, b] = linearRgb(hex)
+  const f = (t: number) => (t > 216 / 24389 ? Math.cbrt(t) : (24389 / 27 * t + 16) / 116)
+  const x = f((0.4124 * r + 0.3576 * g + 0.1805 * b) / 0.95047)
+  const y = f(0.2126 * r + 0.7152 * g + 0.0722 * b)
+  const z = f((0.0193 * r + 0.1192 * g + 0.9505 * b) / 1.08883)
+  return [116 * y - 16, 500 * (x - y), 200 * (y - z)]
+}
+
+/**
+ * Perceptual distance between two colors (CIE76 ΔE, the same measure the logo engine uses).
+ * Around 2 is barely noticeable; below LOW_CONTRAST_DELTA_E two touching parts blend in a print.
+ */
+export function deltaE(a: string, b: string): number {
+  const [l1, a1, b1] = toLab(a)
+  const [l2, a2, b2] = toLab(b)
+  return Math.hypot(l1 - l2, a1 - a2, b1 - b2)
+}
+
+/** Below this ΔE, two parts that touch (base and letters, box and logo) are hard to tell apart. */
+export const LOW_CONTRAST_DELTA_E = 20
 
 export function contrastRatio(a: string, b: string): number {
   const la = relativeLuminance(a)

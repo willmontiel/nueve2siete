@@ -74,3 +74,16 @@ export const MailIcon = (p: IconProps) => (
     <path d="m4 7 8 6 8-6" />
   </Icon>
 )
+
+export const ChevronDownIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="m6 9 6 6 6-6" />
+  </Icon>
+)
+
+export const SmileIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M8.5 14.5a4.5 4.5 0 0 0 7 0M9 9.5h.01M15 9.5h.01" />
+  </Icon>
+)

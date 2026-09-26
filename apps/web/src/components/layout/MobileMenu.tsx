@@ -34,6 +34,7 @@ export function MobileMenu({ items, contact }: { items: NavItem[]; contact: Cont
         <nav aria-label="Principal (móvil)">
           <NavLinks
             items={items}
+            groups="inline"
             onNavigate={() => setOpen(false)}
             className="flex flex-col"
             linkClassName="flex min-h-12 items-center text-xl font-medium"

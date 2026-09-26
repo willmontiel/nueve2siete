@@ -54,6 +54,7 @@ export const Leads: CollectionConfig = {
       defaultValue: 'microphone',
       options: [
         { label: 'Micrófono personalizado', value: 'microphone' },
+        { label: 'Llavero con nombre', value: 'keychain' },
         { label: 'Otro proyecto', value: 'other' },
       ],
     },
