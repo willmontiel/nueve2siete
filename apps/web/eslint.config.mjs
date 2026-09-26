@@ -24,10 +24,5 @@ export default defineConfig([
       ],
     },
   },
-  globalIgnores([
-    '.next/**',
-    'src/payload-types.ts',
-    'src/payload-generated-schema.ts',
-    'src/app/(payload)/admin/importMap.js',
-  ]),
+  globalIgnores(['.next/**']),
 ])

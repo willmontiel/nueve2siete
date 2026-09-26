@@ -8,6 +8,7 @@ import { ArrowRightIcon } from '@/components/ui/icons'
 import { Accent, Overline, SectionTitle } from '@/components/ui/Typography'
 import { pickHex } from '@/lib/catalog'
 import { cm } from '@/lib/format'
+import { routes } from '@/lib/routes'
 
 // Sample combinations so each size looks different.
 const looks = [
@@ -29,7 +30,7 @@ export function SizesShowcase({ product, filaments }: { product: ProductDefiniti
             Cuatro <Accent>tamaños</Accent>
           </SectionTitle>
           <p className="text-lg leading-relaxed text-ink-soft">Elige el que mejor se vea en tu cámara.</p>
-          <ButtonLink href="/microfonos" variant="text" icon={<ArrowRightIcon />} className="self-start">
+          <ButtonLink href={routes.microphones} variant="text" icon={<ArrowRightIcon />} className="self-start">
             Ver medidas y personalizar
           </ButtonLink>
         </div>

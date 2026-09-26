@@ -2,7 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
+import logo from '@/assets/brand/nueve2siete-logo.png'
 import { Container } from '@/components/ui/Container'
+import { routes } from '@/lib/routes'
 import { getSiteSettings } from '@/lib/site'
 import { whatsappHref } from '@/lib/whatsapp'
 
@@ -19,10 +21,8 @@ export async function SiteFooter() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
           <div className="flex flex-col gap-4">
             <Image
-              src="/brand/nueve2siete-logo.png"
+              src={logo}
               alt="nueve2siete 3d studio"
-              width={1489}
-              height={472}
               className="h-14 w-auto self-start"
             />
             <p className="max-w-xs text-[15px] leading-relaxed text-ink-soft">
@@ -33,11 +33,11 @@ export async function SiteFooter() {
           <nav aria-label="Explora">
             <p className={heading}>Explora</p>
             <ul className="mt-3 text-[15px]">
-              <li><Link className={link} href="/microfonos">Micrófonos</Link></li>
+              <li><Link className={link} href={routes.microphones}>Micrófonos</Link></li>
               <li><Link className={link} href="/#como-funciona">Cómo funciona</Link></li>
-              <li><Link className={link} href="/trabajos">Trabajos</Link></li>
-              <li><Link className={link} href="/nosotros">Nosotros</Link></li>
-              <li><Link className={link} href="/preguntas-frecuentes">Preguntas frecuentes</Link></li>
+              <li><Link className={link} href={routes.projects}>Trabajos</Link></li>
+              <li><Link className={link} href={routes.about}>Nosotros</Link></li>
+              <li><Link className={link} href={routes.faq}>Preguntas frecuentes</Link></li>
             </ul>
           </nav>
 
@@ -58,14 +58,14 @@ export async function SiteFooter() {
                   </a>
                 </li>
               )}
-              <li><Link className={link} href="/contacto">Formulario de contacto</Link></li>
+              <li><Link className={link} href={routes.contact}>Formulario de contacto</Link></li>
             </ul>
           </div>
 
           <div>
             <p className={heading}>Legal</p>
             <ul className="mt-3 text-[15px]">
-              <li><Link className={link} href="/legal/tratamiento-de-datos">Tratamiento de datos</Link></li>
+              <li><Link className={link} href={routes.privacyPolicy}>Tratamiento de datos</Link></li>
             </ul>
           </div>
         </div>

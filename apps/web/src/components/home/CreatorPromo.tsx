@@ -4,6 +4,7 @@ import { ButtonLink } from '@/components/ui/ButtonLink'
 import { Container } from '@/components/ui/Container'
 import { ArrowRightIcon } from '@/components/ui/icons'
 import { Accent } from '@/components/ui/Typography'
+import { routes } from '@/lib/routes'
 
 export function CreatorPromo() {
   return (
@@ -19,7 +20,7 @@ export function CreatorPromo() {
               Subes tu logo, te decimos al instante si se puede imprimir y lo ves en 3D en tu micrófono, con tus
               colores.
             </p>
-            <ButtonLink href="/disena-el-tuyo" icon={<ArrowRightIcon />} className="self-start">
+            <ButtonLink href={routes.designYourOwn} icon={<ArrowRightIcon />} className="self-start">
               Sube tu logo
             </ButtonLink>
           </div>

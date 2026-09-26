@@ -34,6 +34,7 @@ import {
 import type { LogoAnalysis, LogoAnalysisResult, LogoIssue, LogoStatus } from '@/lib/engine/schema'
 import { checkLogoFile } from '@/lib/engine/upload'
 import { cm, decimal } from '@/lib/format'
+import { routes } from '@/lib/routes'
 import { whatsappHref } from '@/lib/whatsapp'
 
 import { LogoArtwork } from './LogoArtwork'
@@ -174,7 +175,7 @@ export function LogoCreator({
       : []),
   ].join('\n')
   const wa = whatsappHref(whatsappNumber, summary)
-  const formHref = `/contacto?mensaje=${encodeURIComponent(summary)}`
+  const formHref = `${routes.contact}?mensaje=${encodeURIComponent(summary)}`
   const needsHelp = plan?.status === 'not_viable'
 
   return (

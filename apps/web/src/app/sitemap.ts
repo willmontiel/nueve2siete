@@ -1,22 +1,12 @@
 import type { MetadataRoute } from 'next'
 
+import { PAGES } from '@/lib/routes'
 import { SITE_URL } from '@/lib/site'
 
-const routes = [
-  '',
-  '/microfonos',
-  '/trabajos',
-  '/nosotros',
-  '/contacto',
-  '/preguntas-frecuentes',
-  '/disena-el-tuyo',
-  '/legal/tratamiento-de-datos',
-]
-
 export default function sitemap(): MetadataRoute.Sitemap {
-  return routes.map((route) => ({
-    url: `${SITE_URL}${route}`,
+  return Object.values(PAGES).map(({ url }) => ({
+    url: url === '/' ? SITE_URL : `${SITE_URL}${url}`,
     changeFrequency: 'monthly',
-    priority: route === '' ? 1 : 0.7,
+    priority: url === '/' ? 1 : 0.7,
   }))
 }

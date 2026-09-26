@@ -1,6 +1,5 @@
+import { getPayloadClient } from '@nueve2siete/cms'
 import { cache } from 'react'
-
-import { getPayloadClient } from './payload'
 
 export interface SiteInfo {
   whatsappNumber: string | null

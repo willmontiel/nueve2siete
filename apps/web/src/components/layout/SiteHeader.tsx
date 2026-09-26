@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
+import logo from '@/assets/brand/nueve2siete-logo.png'
 import { ButtonLink } from '@/components/ui/ButtonLink'
 import { Container } from '@/components/ui/Container'
 import { ChatIcon } from '@/components/ui/icons'
@@ -21,10 +22,8 @@ export async function SiteHeader() {
       <Container className="flex h-20 items-center justify-between lg:h-[100px]">
         <Link href="/" aria-label="nueve2siete, ir al inicio" className="flex items-center">
           <Image
-            src="/brand/nueve2siete-logo.png"
+            src={logo}
             alt="nueve2siete 3d studio"
-            width={1489}
-            height={472}
             priority
             className="h-10 w-auto lg:h-[52px]"
           />

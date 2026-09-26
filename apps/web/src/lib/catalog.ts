@@ -1,3 +1,4 @@
+import { getPayloadClient, type Product, type Project } from '@nueve2siete/cms'
 import {
   EXAMPLE_FILAMENTS,
   MICROPHONE,
@@ -6,10 +7,6 @@ import {
   type ProductDefinition,
 } from '@nueve2siete/configurator'
 import { cache } from 'react'
-
-import type { Product, Project } from '@/payload-types'
-
-import { getPayloadClient } from './payload'
 
 export interface MicCatalog {
   product: ProductDefinition

@@ -15,6 +15,7 @@ import React, { useId, useState } from 'react'
 import { ChatIcon, MailIcon } from '@/components/ui/icons'
 import { cn } from '@/lib/cn'
 import { cm, decimal } from '@/lib/format'
+import { routes } from '@/lib/routes'
 import { whatsappHref } from '@/lib/whatsapp'
 
 import { MicSvg, Pedestal } from './MicSvg'
@@ -52,7 +53,7 @@ export function MicConfigurator({
 
   const summary = describeSelection(product, selection, filaments)
   const wa = whatsappHref(whatsappNumber, summary)
-  const formHref = `/contacto?mensaje=${encodeURIComponent(summary)}`
+  const formHref = `${routes.contact}?mensaje=${encodeURIComponent(summary)}`
   const rules = product.logoRules
 
   const update = (patch: Partial<Selection>) => setSelection((s) => ({ ...s, ...patch }))
@@ -160,7 +161,7 @@ export function MicConfigurator({
           />
           <p className="mt-2 text-sm text-muted">
             ¿Ya tienes tu logo?{' '}
-            <Link href="/disena-el-tuyo" className="font-semibold text-ink underline underline-offset-4">
+            <Link href={routes.designYourOwn} className="font-semibold text-ink underline underline-offset-4">
               Súbelo y míralo en tu micrófono
             </Link>
             .

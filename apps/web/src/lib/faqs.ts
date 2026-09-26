@@ -1,5 +1,5 @@
-import { DEFAULT_FAQS } from './faqs-data'
-import { getPayloadClient } from './payload'
+import { getPayloadClient } from '@nueve2siete/cms'
+import { DEFAULT_FAQS } from '@nueve2siete/cms/defaults'
 
 export async function getFaqs(): Promise<{ question: string; answer: string }[]> {
   try {

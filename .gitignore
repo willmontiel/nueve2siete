@@ -12,9 +12,8 @@ next-env.d.ts
 .env
 .env*.local
 
-# Local database (tools/dev-db) and files uploaded to the CMS
+# Local database (dev/db) and files uploaded in the admin (.data/media)
 .data/
-apps/web/media/
 
 # Playwright
 test-results/
@@ -26,8 +25,8 @@ playwright/.cache/
 logos-example/
 
 # Logo engine (Python)
-services/engine/.venv/
-services/engine/report/
+apps/engine/.venv/
+apps/engine/report/
 __pycache__/
 .pytest_cache/
 .ruff_cache/

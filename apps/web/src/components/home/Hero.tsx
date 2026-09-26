@@ -7,6 +7,7 @@ import { ButtonLink } from '@/components/ui/ButtonLink'
 import { Container } from '@/components/ui/Container'
 import { ChatIcon } from '@/components/ui/icons'
 import { Accent, Highlight, Overline } from '@/components/ui/Typography'
+import { routes } from '@/lib/routes'
 import type { ContactLink } from '@/lib/whatsapp'
 
 const facts = [
@@ -48,7 +49,7 @@ export function Hero({
             <ButtonLink href={contact.href} external={contact.external} icon={<ChatIcon />}>
               Cotiza tu micrófono
             </ButtonLink>
-            <ButtonLink href="/microfonos" variant="text">
+            <ButtonLink href={routes.microphones} variant="text">
               Ver tamaños y colores
             </ButtonLink>
           </div>

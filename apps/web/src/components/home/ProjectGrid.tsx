@@ -1,7 +1,8 @@
+import type { Media, Project } from '@nueve2siete/cms'
 import Image from 'next/image'
 import React from 'react'
 
-import type { Media, Project } from '@/payload-types'
+import { mediaUrl } from '@/lib/media'
 
 export function ProjectGrid({ projects }: { projects: Project[] }) {
   return (
@@ -11,9 +12,9 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
         return (
           <li key={project.id} className="flex flex-col gap-3">
             <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] bg-sand">
-              {image?.url && (
+              {image?.filename && (
                 <Image
-                  src={image.url}
+                  src={mediaUrl(image.filename)}
                   alt={image.alt}
                   fill
                   sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"

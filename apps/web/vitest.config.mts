@@ -7,7 +7,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
-    // tests/unit: no database. tests/int: need Postgres running (pnpm db).
-    include: ['tests/unit/**/*.spec.ts', 'tests/int/**/*.int.spec.ts'],
+    // No database: the tests that need Postgres live in apps/admin.
+    include: ['tests/unit/**/*.spec.ts'],
   },
 })

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 /**
- * Contract for the logo engine's response (services/engine, POST /v1/analyze), validated on receipt
+ * Contract for the logo engine's response (apps/engine, POST /v1/analyze), validated on receipt
  * and converted to camelCase. It only includes what the website uses.
  */
 

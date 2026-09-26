@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 
 import { expect, test } from '@playwright/test'
 
-const FIXTURES = fileURLToPath(new URL('../../../../services/engine/tests/fixtures', import.meta.url))
+const FIXTURES = fileURLToPath(new URL('../../../engine/tests/fixtures', import.meta.url))
 const ENGINE_URL = process.env.ENGINE_URL || 'http://127.0.0.1:8000'
 
 test.describe('Microphone creator', () => {
