@@ -11,7 +11,10 @@ import {
   ChevronDown, 
   Palette,
   Sliders,
-  Flame
+  Building2,
+  PartyPopper,
+  Gift,
+  CheckCircle2
 } from 'lucide-react'
 import { PRODUCTS, FILAMENT_COLORS } from '../data/products'
 
@@ -98,17 +101,17 @@ export function Home() {
       {/* ============================================================== */}
       <section ref={heroRef} className="relative h-[220vh] w-full">
         {/* Contenedor Sticky fijo a pantalla completa mientras se scrollea */}
-        <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-[#F6F3EF]">
+        <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-[#F6F3EF] dark:bg-[#121117] transition-colors duration-300">
           
           {/* Líneas de rejilla suiza de fondo (Inspiración 1-1 a 1-3) */}
           <div className="absolute inset-0 pointer-events-none grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 w-full h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="border-r border-black/[0.04] h-full" />
-            <div className="border-r border-black/[0.04] h-full" />
-            <div className="border-r border-black/[0.04] h-full" />
-            <div className="border-r border-black/[0.04] h-full hidden sm:block" />
-            <div className="border-r border-black/[0.04] h-full hidden sm:block" />
-            <div className="border-r border-black/[0.04] h-full hidden lg:block" />
-            <div className="border-r border-black/[0.04] h-full hidden lg:block" />
+            <div className="border-r border-black/[0.04] dark:border-white/[0.04] h-full" />
+            <div className="border-r border-black/[0.04] dark:border-white/[0.04] h-full" />
+            <div className="border-r border-black/[0.04] dark:border-white/[0.04] h-full" />
+            <div className="border-r border-black/[0.04] dark:border-white/[0.04] h-full hidden sm:block" />
+            <div className="border-r border-black/[0.04] dark:border-white/[0.04] h-full hidden sm:block" />
+            <div className="border-r border-black/[0.04] dark:border-white/[0.04] h-full hidden lg:block" />
+            <div className="border-r border-black/[0.04] dark:border-white/[0.04] h-full hidden lg:block" />
           </div>
 
           {/* Glow ambiental suave en GPU */}
@@ -128,15 +131,15 @@ export function Home() {
                 className="lg:col-span-7 flex flex-col justify-center will-change-transform"
               >
                 {/* Badge Superior */}
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-[#DE5B2B]/20 text-[11px] font-bold text-[#DE5B2B] shadow-2xs mb-3 sm:mb-4 w-fit">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-white/10 border border-[#DE5B2B]/20 text-[11px] font-bold text-[#DE5B2B] shadow-2xs mb-3 sm:mb-4 w-fit">
                   <span className="w-2 h-2 rounded-full bg-[#DE5B2B] animate-pulse" />
-                  <span>3D Studio & Personalización • Bambu Lab A1</span>
+                  <span>Diseño de Autor & Personalización</span>
                 </div>
 
                 {/* Título en Cal Sans Semibold */}
-                <h1 className="font-['Cal_Sans',sans-serif] text-4xl sm:text-7xl lg:text-8xl tracking-tight text-[#1F1E24] leading-[0.94] uppercase">
-                  Impresión 3D <br />
-                  <span className="text-[#DE5B2B]">que cobra</span> <br />
+                <h1 className="font-['Cal_Sans',sans-serif] text-4xl sm:text-7xl lg:text-8xl tracking-tight text-[#1F1E24] dark:text-[#F6F3EF] leading-[0.94] uppercase">
+                  Piezas únicas <br />
+                  <span className="text-[#DE5B2B]">que cobran</span> <br />
                   vida.
                 </h1>
               </motion.div>
@@ -150,16 +153,16 @@ export function Home() {
                 }}
                 className="lg:col-span-5 flex flex-col gap-5 sm:gap-6"
               >
-                <div className="p-5 sm:p-8 rounded-3xl bg-white/95 backdrop-blur-md border border-[#1F1E24]/10 shadow-lg shadow-black/5">
+                <div className="p-5 sm:p-8 rounded-3xl bg-white/95 dark:bg-[#1A1922]/95 backdrop-blur-md border border-[#1F1E24]/10 dark:border-white/10 shadow-lg shadow-black/5 dark:shadow-black/30">
                   <div className="flex items-center gap-2 text-xs font-bold text-[#8576EA] uppercase tracking-wider mb-2">
                     <Sparkles className="w-4 h-4 text-[#EEBA29]" />
                     <span>Diseñado & Fabricado en Colombia</span>
                   </div>
 
-                  <p className="text-sm sm:text-base lg:text-lg text-[#64606E] font-normal leading-relaxed">
+                  <p className="text-sm sm:text-base lg:text-lg text-[#64606E] dark:text-[#A3A2AE] font-normal leading-relaxed">
                     Transformamos ideas en piezas tangibles con precisión micrométrica. 
                     Portamicrófonos para podcasts, accesorios para streamers y objetos de autor 
-                    con acabado multicapa en <strong className="text-[#1F1E24]">hasta 4 colores simultáneos</strong>.
+                    con acabado multicapa en <strong className="text-[#1F1E24] dark:text-white">hasta 4 colores simultáneos</strong>.
                   </p>
 
                   {/* Botones de Acción */}
@@ -174,16 +177,16 @@ export function Home() {
 
                     <Link
                       to="/catalogo/portamicrofono"
-                      className="px-5 py-3.5 rounded-full bg-white hover:bg-[#EFEDE8] text-[#1F1E24] font-bold text-sm border border-black/10 shadow-2xs transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+                      className="px-5 py-3.5 rounded-full bg-white dark:bg-[#252432] hover:bg-[#EFEDE8] dark:hover:bg-[#2E2D3B] text-[#1F1E24] dark:text-white font-bold text-sm border border-black/10 dark:border-white/10 shadow-2xs transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
                     >
                       <Palette className="w-4 h-4 text-[#DE5B2B]" />
-                      <span>Personalizar en 3D</span>
+                      <span>Personalizar en Vivo</span>
                     </Link>
                   </div>
 
-                  {/* Fila de Filamentos de la Marca */}
-                  <div className="mt-5 pt-4 sm:pt-5 border-t border-black/5 flex items-center justify-between">
-                    <span className="text-xs font-semibold text-[#64606E]">Paleta Oficial nueve2siete:</span>
+                  {/* Muestra de Colores Oficiales */}
+                  <div className="mt-5 pt-4 sm:pt-5 border-t border-black/5 dark:border-white/10 flex items-center justify-between">
+                    <span className="text-xs font-semibold text-[#64606E] dark:text-[#A3A2AE]">Paleta Oficial nueve2siete:</span>
                     <div className="flex items-center gap-1.5">
                       {brandColors.map(c => (
                         <span 
@@ -202,7 +205,7 @@ export function Home() {
             {/* Indicador de Scroll en la parte inferior */}
             <motion.div 
               style={{ opacity: scrollIndicatorOpacity }}
-              className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[11px] font-bold tracking-wider text-[#64606E] uppercase pointer-events-none"
+              className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[11px] font-bold tracking-wider text-[#64606E] dark:text-[#A3A2AE] uppercase pointer-events-none"
             >
               <span>Desliza para explorar</span>
               <motion.div
@@ -217,23 +220,23 @@ export function Home() {
       </section>
 
       {/* ============================================================== */}
-      {/* 2. SHOWCASE INMERSIVO EN EXPANSIÓN (Inspiración 2-2)          */}
+      {/* 2. PEDIDOS CORPORATIVOS & EVENTOS A MEDIDA                   */}
       {/* ============================================================== */}
       <section ref={showcaseRef} className="relative py-14 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#DE5B2B]/10 text-xs font-bold text-[#DE5B2B] mb-3 uppercase tracking-wider">
-            <Flame className="w-3.5 h-3.5" />
-            <span>Showcase Insignia</span>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#DE5B2B]/10 dark:bg-[#DE5B2B]/20 text-xs font-bold text-[#DE5B2B] mb-3 uppercase tracking-wider">
+            <Building2 className="w-3.5 h-3.5" />
+            <span>Empresas • Fiestas • Recordatorios</span>
           </span>
-          <h2 className="font-['Cal_Sans',sans-serif] text-3xl sm:text-5xl text-[#1F1E24] tracking-tight uppercase">
-            Cubo Portamicrófono Pro
+          <h2 className="font-['Cal_Sans',sans-serif] text-3xl sm:text-5xl text-[#1F1E24] dark:text-[#F6F3EF] tracking-tight uppercase">
+            ¿Tienes un diseño especial o un pedido corporativo?
           </h2>
-          <p className="text-sm sm:text-base text-[#64606E] mt-2">
-            La pieza favorita de podcasters y canales de streaming. Un solo cuerpo integrado con hasta 4 tonos simultáneos sin pegantes ni stickers frágiles.
+          <p className="text-sm sm:text-base text-[#64606E] dark:text-[#A3A2AE] mt-2">
+            Creamos piezas a medida para empresas, fiestas, celebraciones de marca y recordatorios memorables que nadie olvidará.
           </p>
         </div>
 
-        {/* Tarjeta que se expande hacia pantalla completa al scrollear */}
+        {/* Tarjeta interactiva con scroll cinético */}
         <motion.div
           style={{
             scale: showcaseScale,
@@ -247,84 +250,105 @@ export function Home() {
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            {/* Columna de Detalles y Especificaciones */}
+            {/* Columna de Enfoque y Beneficios */}
             <div className="lg:col-span-7 flex flex-col gap-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-bold text-white/90 border border-white/15 w-fit">
-                <span>Diámetro Universal: 42 mm</span>
+                <Gift className="w-3.5 h-3.5 text-[#EEBA29]" />
+                <span>Fabricación a Medida desde 10 unidades</span>
               </div>
 
               <h3 className="font-['Cal_Sans',sans-serif] text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-tight uppercase">
-                Ajuste perfecto para Shure SM58, Samson, Rode & Behringer
+                Haz que tu marca o tu evento tengan piezas que impacten de verdad
               </h3>
 
               <p className="text-sm sm:text-base text-white/80 leading-relaxed font-light">
-                Fabricado con paredes reforzadas y relleno giroidal para una absorción acústica óptima. 
-                Cada cara lateral puede personalizarse con colores independientes o relieve tipográfico para tu logo.
+                Diseñamos y fabricamos objetos personalizados con tu logotipo en relieve, nombres o fechas especiales. Sin moldes costosos, con acabados impecables y combinaciones de hasta 4 colores integrados.
               </p>
 
-              {/* Grid de 3 pilares */}
+              {/* Grid de 3 Pilares del Enfoque */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-white/10">
                 <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10">
-                  <div className="text-xs font-bold text-[#EEBA29] uppercase">0 Pegamento</div>
-                  <div className="text-[11px] text-white/70 mt-1">Fusión térmica entre capas continuas</div>
+                  <div className="text-xs font-bold text-[#DE5B2B] uppercase flex items-center gap-1.5">
+                    <Building2 className="w-3.5 h-3.5" />
+                    Empresas
+                  </div>
+                  <div className="text-[11px] text-white/70 mt-1">
+                    Merchandising exclusivo, trofeos y accesorios con tu logo oficial
+                  </div>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10">
-                  <div className="text-xs font-bold text-[#9FAEE9] uppercase">Bambu Lab A1</div>
-                  <div className="text-[11px] text-white/70 mt-1">AMS Lite 4 canales activos</div>
+                  <div className="text-xs font-bold text-[#EEBA29] uppercase flex items-center gap-1.5">
+                    <PartyPopper className="w-3.5 h-3.5" />
+                    Fiestas & Eventos
+                  </div>
+                  <div className="text-[11px] text-white/70 mt-1">
+                    Recordatorios para bodas, aniversarios y fiestas temáticas
+                  </div>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10">
-                  <div className="text-xs font-bold text-emerald-400 uppercase">Listo en 48h</div>
-                  <div className="text-[11px] text-white/70 mt-1">Producción y despacho ágil</div>
+                  <div className="text-xs font-bold text-emerald-400 uppercase flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    Precios por Volumen
+                  </div>
+                  <div className="text-[11px] text-white/70 mt-1">
+                    Descuentos escalonados y muestra previa antes de producción
+                  </div>
                 </div>
               </div>
 
-              {/* Botón directo de personalización */}
-              <div className="pt-2">
-                <Link
-                  to="/catalogo/portamicrofono"
-                  className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#DE5B2B] hover:bg-[#c44e23] text-white font-bold text-sm shadow-lg shadow-[#DE5B2B]/40 transition-all hover:scale-105"
+              {/* Botón directo de cotización por WhatsApp */}
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <a
+                  href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('¡Hola nueve2siete! Quisiera cotizar un pedido a medida para una empresa / evento / fiesta.')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold text-sm shadow-lg shadow-[#25D366]/30 transition-all hover:scale-105"
                 >
-                  <Palette className="w-4 h-4" />
-                  <span>Personalizar este modelo en 3D</span>
+                  <MessageCircle className="w-4 h-4 fill-white" />
+                  <span>Cotizar Pedido por WhatsApp</span>
+                </a>
+
+                <Link
+                  to="/catalogo"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/20 transition-all"
+                >
+                  <span>Ver Modelos de Referencia</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             </div>
 
-            {/* Columna Visual: Render Isométrico y Paleta Interactiva */}
-            <div className="lg:col-span-5 flex flex-col items-center justify-center">
-              <div className="relative w-full max-w-sm aspect-square rounded-3xl bg-white/5 border border-white/10 p-6 flex flex-col items-center justify-between shadow-inner">
-                
-                {/* Header del preview */}
-                <div className="w-full flex items-center justify-between text-[11px] text-white/60 font-mono">
-                  <span>MODEL_ID: CUBE_PRO_01</span>
-                  <span className="text-emerald-400 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                    LISTO PARA 3D
-                  </span>
+            {/* Columna Visual: Tarjetas de Aplicaciones Reales */}
+            <div className="lg:col-span-5 flex flex-col gap-3">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 flex items-center gap-4 transition-transform hover:scale-[1.02]">
+                <div className="w-12 h-12 rounded-xl bg-[#DE5B2B]/20 flex items-center justify-center text-[#DE5B2B] shrink-0 font-bold text-xl">
+                  🏢
                 </div>
-
-                {/* Gráfico 3D Isométrico Estilizado */}
-                <div className="relative my-auto flex items-center justify-center">
-                  <div className="w-36 h-36 rounded-2xl bg-gradient-to-tr from-[#DE5B2B] via-[#EEBA29] to-[#8576EA] p-1 shadow-2xl rotate-6 hover:rotate-0 transition-transform duration-500">
-                    <div className="w-full h-full bg-[#1F1E24] rounded-xl flex flex-col items-center justify-center p-3 text-center">
-                      <div className="w-12 h-12 rounded-full border-2 border-dashed border-[#DE5B2B] flex items-center justify-center mb-2">
-                        <span className="text-[10px] font-bold text-[#DE5B2B]">42mm</span>
-                      </div>
-                      <span className="font-['Cal_Sans',sans-serif] text-sm text-white uppercase tracking-wider">
-                        nueve2siete
-                      </span>
-                      <span className="text-[9px] text-white/50 uppercase">Studio Grade</span>
-                    </div>
-                  </div>
+                <div>
+                  <div className="text-xs font-bold text-white uppercase tracking-wider">Kits Corporativos</div>
+                  <div className="text-[11px] text-white/70 mt-0.5">Porta-micrófonos de estudio, llaveros reforzados y stands de escritorio con tu marca.</div>
                 </div>
+              </div>
 
-                {/* Selector visual de muestra */}
-                <div className="w-full pt-3 border-t border-white/10 flex items-center justify-between text-xs">
-                  <span className="text-white/70">Zonas de Color:</span>
-                  <span className="font-bold text-[#DE5B2B]">Cuerpo • Caras • Anillo</span>
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 flex items-center gap-4 transition-transform hover:scale-[1.02]">
+                <div className="w-12 h-12 rounded-xl bg-[#EEBA29]/20 flex items-center justify-center text-[#EEBA29] shrink-0 font-bold text-xl">
+                  💍
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-white uppercase tracking-wider">Recordatorios de Bodas & Fiestas</div>
+                  <div className="text-[11px] text-white/70 mt-0.5">Detalles grabados con nombres de los novios, fecha y colores de la celebración.</div>
+                </div>
+              </div>
+
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 flex items-center gap-4 transition-transform hover:scale-[1.02]">
+                <div className="w-12 h-12 rounded-xl bg-[#8576EA]/20 flex items-center justify-center text-[#8576EA] shrink-0 font-bold text-xl">
+                  🎨
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-white uppercase tracking-wider">Personalización Total</div>
+                  <div className="text-[11px] text-white/70 mt-0.5">Si tienes un boceto o archivo, lo ajustamos y fabricamos en hasta 4 tonos continuos.</div>
                 </div>
               </div>
             </div>
@@ -334,20 +358,20 @@ export function Home() {
       </section>
 
       {/* ============================================================== */}
-      {/* 3. HIGHLIGHTS DEL TALLER & BAMBU LAB (Inspiración 3)          */}
+      {/* 3. HIGHLIGHTS DEL TALLER & CALIDAD DE ACABADOS                */}
       {/* ============================================================== */}
-      <section className="py-16 sm:py-24 bg-white/70 border-y border-black/5 px-4 sm:px-6 lg:px-8">
+      <section className="py-16 sm:py-24 bg-white/70 dark:bg-[#16151D]/70 border-y border-black/5 dark:border-white/8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           
           <div className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-bold text-[#8576EA] uppercase tracking-wider block mb-2">
-              Ingeniería & Materiales
+              Diseño & Calidad de Acabados
             </span>
-            <h2 className="font-['Cal_Sans',sans-serif] text-3xl sm:text-5xl text-[#1F1E24] tracking-tight uppercase">
-              Por qué nuestras impresiones se sienten diferentes
+            <h2 className="font-['Cal_Sans',sans-serif] text-3xl sm:text-5xl text-[#1F1E24] dark:text-[#F6F3EF] tracking-tight uppercase">
+              Por qué nuestras piezas se sienten diferentes
             </h2>
-            <p className="text-sm sm:text-base text-[#64606E] mt-3">
-              Combinamos calibración milimétrica en hardware Bambu Lab con acabados pensados para durar años.
+            <p className="text-sm sm:text-base text-[#64606E] dark:text-[#A3A2AE] mt-3">
+              Combinamos tolerancias de precisión con materiales y acabados pensados para durar años.
             </p>
           </div>
 
@@ -355,77 +379,77 @@ export function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             
             {/* Card 1 */}
-            <div className="p-6 sm:p-7 rounded-3xl bg-[#F6F3EF] border border-black/5 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div className="p-6 sm:p-7 rounded-3xl bg-[#F6F3EF] dark:bg-[#1C1B26] border border-black/5 dark:border-white/8 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
               <div>
-                <span className="inline-block px-3 py-1 rounded-full bg-white border border-[#DE5B2B]/20 text-[10px] font-bold text-[#DE5B2B] uppercase tracking-wider mb-4">
+                <span className="inline-block px-3 py-1 rounded-full bg-white dark:bg-white/10 border border-[#DE5B2B]/20 text-[10px] font-bold text-[#DE5B2B] uppercase tracking-wider mb-4">
                   TECNOLOGÍA
                 </span>
-                <h3 className="font-['Cal_Sans',sans-serif] text-xl text-[#1F1E24] mb-2 uppercase">
-                  AMS Lite 4 Colores
+                <h3 className="font-['Cal_Sans',sans-serif] text-xl text-[#1F1E24] dark:text-[#F6F3EF] mb-2 uppercase">
+                  Fusión Multicolor
                 </h3>
-                <p className="text-xs sm:text-sm text-[#64606E] leading-relaxed">
-                  Cambio automático de filamento en capas continuas. Los colores nacen integrados en la estructura sin debilidad en las uniones.
+                <p className="text-xs sm:text-sm text-[#64606E] dark:text-[#A3A2AE] leading-relaxed">
+                  Integración directa de hasta 4 colores en una sola pieza continua, sin pintura que se desgaste ni uniones frágiles.
                 </p>
               </div>
-              <div className="mt-6 pt-4 border-t border-black/5 flex items-center gap-2 text-xs font-semibold text-[#1F1E24]">
+              <div className="mt-6 pt-4 border-t border-black/5 dark:border-white/8 flex items-center gap-2 text-xs font-semibold text-[#1F1E24] dark:text-[#F6F3EF]">
                 <Layers className="w-4 h-4 text-[#DE5B2B]" />
-                <span>Multicolor real</span>
+                <span>Multicolor permanente</span>
               </div>
             </div>
 
             {/* Card 2 */}
-            <div className="p-6 sm:p-7 rounded-3xl bg-[#F6F3EF] border border-black/5 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div className="p-6 sm:p-7 rounded-3xl bg-[#F6F3EF] dark:bg-[#1C1B26] border border-black/5 dark:border-white/8 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
               <div>
-                <span className="inline-block px-3 py-1 rounded-full bg-white border border-[#8576EA]/20 text-[10px] font-bold text-[#8576EA] uppercase tracking-wider mb-4">
-                  PRECISIÓN
+                <span className="inline-block px-3 py-1 rounded-full bg-white dark:bg-white/10 border border-[#8576EA]/20 text-[10px] font-bold text-[#8576EA] uppercase tracking-wider mb-4">
+                  DEFINICIÓN
                 </span>
-                <h3 className="font-['Cal_Sans',sans-serif] text-xl text-[#1F1E24] mb-2 uppercase">
-                  Boquillas 0.2 a 0.8 mm
+                <h3 className="font-['Cal_Sans',sans-serif] text-xl text-[#1F1E24] dark:text-[#F6F3EF] mb-2 uppercase">
+                  Detalle Tipográfico
                 </h3>
-                <p className="text-xs sm:text-sm text-[#64606E] leading-relaxed">
-                  0.2mm para textos y detalles tipográficos imposibles de notar como líneas; 0.4mm a 0.8mm para rigidez estructural indestructible.
+                <p className="text-xs sm:text-sm text-[#64606E] dark:text-[#A3A2AE] leading-relaxed">
+                  Relieves ultra limpios y letras nítidas diseñadas para verse impecables en cámara, streaming y primeros planos.
                 </p>
               </div>
-              <div className="mt-6 pt-4 border-t border-black/5 flex items-center gap-2 text-xs font-semibold text-[#1F1E24]">
+              <div className="mt-6 pt-4 border-t border-black/5 dark:border-white/8 flex items-center gap-2 text-xs font-semibold text-[#1F1E24] dark:text-[#F6F3EF]">
                 <Cpu className="w-4 h-4 text-[#8576EA]" />
-                <span>Tolerancias micrométricas</span>
+                <span>Relieves nítidos</span>
               </div>
             </div>
 
             {/* Card 3 */}
-            <div className="p-6 sm:p-7 rounded-3xl bg-[#F6F3EF] border border-black/5 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div className="p-6 sm:p-7 rounded-3xl bg-[#F6F3EF] dark:bg-[#1C1B26] border border-black/5 dark:border-white/8 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
               <div>
-                <span className="inline-block px-3 py-1 rounded-full bg-white border border-[#EEBA29]/30 text-[10px] font-bold text-[#B8870A] uppercase tracking-wider mb-4">
-                  SOSTENIBLE
+                <span className="inline-block px-3 py-1 rounded-full bg-white dark:bg-white/10 border border-[#EEBA29]/30 text-[10px] font-bold text-[#B8870A] dark:text-[#EEBA29] uppercase tracking-wider mb-4">
+                  ESTÉTICA
                 </span>
-                <h3 className="font-['Cal_Sans',sans-serif] text-xl text-[#1F1E24] mb-2 uppercase">
-                  Filamento PLA Pro
+                <h3 className="font-['Cal_Sans',sans-serif] text-xl text-[#1F1E24] dark:text-[#F6F3EF] mb-2 uppercase">
+                  Acabado Satinado Mate
                 </h3>
-                <p className="text-xs sm:text-sm text-[#64606E] leading-relaxed">
-                  Termoplástico biodegradable derivado de recursos renovables (almidón vegetal). Seguro para el hogar y suave al tacto con acabado mate.
+                <p className="text-xs sm:text-sm text-[#64606E] dark:text-[#A3A2AE] leading-relaxed">
+                  Textura suave no reflectiva que elimina brillos indeseados bajo las luces de estudio y sets de grabación.
                 </p>
               </div>
-              <div className="mt-6 pt-4 border-t border-black/5 flex items-center gap-2 text-xs font-semibold text-[#1F1E24]">
+              <div className="mt-6 pt-4 border-t border-black/5 dark:border-white/8 flex items-center gap-2 text-xs font-semibold text-[#1F1E24] dark:text-[#F6F3EF]">
                 <Sparkles className="w-4 h-4 text-[#EEBA29]" />
-                <span>Acabado premium</span>
+                <span>Tacto profesional</span>
               </div>
             </div>
 
             {/* Card 4 */}
-            <div className="p-6 sm:p-7 rounded-3xl bg-[#F6F3EF] border border-black/5 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div className="p-6 sm:p-7 rounded-3xl bg-[#F6F3EF] dark:bg-[#1C1B26] border border-black/5 dark:border-white/8 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
               <div>
-                <span className="inline-block px-3 py-1 rounded-full bg-white border border-emerald-500/20 text-[10px] font-bold text-emerald-600 uppercase tracking-wider mb-4">
+                <span className="inline-block px-3 py-1 rounded-full bg-white dark:bg-white/10 border border-emerald-500/20 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-4">
                   COBERTURA
                 </span>
-                <h3 className="font-['Cal_Sans',sans-serif] text-xl text-[#1F1E24] mb-2 uppercase">
+                <h3 className="font-['Cal_Sans',sans-serif] text-xl text-[#1F1E24] dark:text-[#F6F3EF] mb-2 uppercase">
                   Envíos a Colombia
                 </h3>
-                <p className="text-xs sm:text-sm text-[#64606E] leading-relaxed">
-                  Cada pieza se inspecciona a mano, se limpia de rebabas y se despacha en empaque amortiguado para entrega segura a cualquier ciudad.
+                <p className="text-xs sm:text-sm text-[#64606E] dark:text-[#A3A2AE] leading-relaxed">
+                  Cada pieza se inspecciona a mano, se pule minuciosamente y se despacha en empaque protector a cualquier ciudad del país.
                 </p>
               </div>
-              <div className="mt-6 pt-4 border-t border-black/5 flex items-center gap-2 text-xs font-semibold text-[#1F1E24]">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <div className="mt-6 pt-4 border-t border-black/5 dark:border-white/8 flex items-center gap-2 text-xs font-semibold text-[#1F1E24] dark:text-[#F6F3EF]">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>Garantía de calidad</span>
               </div>
             </div>
@@ -443,7 +467,7 @@ export function Home() {
             <span className="text-xs font-bold text-[#DE5B2B] uppercase tracking-wider block mb-2">
               Colección Oficial
             </span>
-            <h2 className="font-['Cal_Sans',sans-serif] text-3xl sm:text-5xl text-[#1F1E24] tracking-tight uppercase">
+            <h2 className="font-['Cal_Sans',sans-serif] text-3xl sm:text-5xl text-[#1F1E24] dark:text-[#F6F3EF] tracking-tight uppercase">
               Elige tu pieza y dale color
             </h2>
           </div>
@@ -460,7 +484,7 @@ export function Home() {
           {PRODUCTS.map((prod) => (
             <div
               key={prod.id}
-              className="p-6 rounded-3xl bg-white border border-black/8 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group interactive-card"
+              className="p-6 rounded-3xl bg-white dark:bg-[#1C1B26] border border-black/8 dark:border-white/8 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group interactive-card"
             >
               <div>
                 <div className="flex items-center justify-between mb-3">
@@ -474,27 +498,27 @@ export function Home() {
                   )}
                 </div>
 
-                <h3 className="font-['Cal_Sans',sans-serif] text-xl text-[#1F1E24] group-hover:text-[#DE5B2B] transition-colors uppercase leading-snug">
+                <h3 className="font-['Cal_Sans',sans-serif] text-xl text-[#1F1E24] dark:text-[#F6F3EF] group-hover:text-[#DE5B2B] transition-colors uppercase leading-snug">
                   {prod.name}
                 </h3>
                 
-                <p className="text-xs text-[#64606E] mt-2 line-clamp-2">
+                <p className="text-xs text-[#64606E] dark:text-[#A3A2AE] mt-2 line-clamp-2">
                   {prod.description}
                 </p>
 
                 {/* Indicador de partes personalizables */}
-                <div className="mt-4 flex items-center gap-1.5 text-[11px] font-medium text-[#64606E]">
+                <div className="mt-4 flex items-center gap-1.5 text-[11px] font-medium text-[#64606E] dark:text-[#A3A2AE]">
                   <Sliders className="w-3.5 h-3.5 text-[#DE5B2B]" />
                   <span>{prod.parts.length} zonas de color editables</span>
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-black/5 flex items-center justify-between">
+              <div className="mt-6 pt-4 border-t border-black/5 dark:border-white/8 flex items-center justify-between">
                 <div>
-                  <span className="text-[10px] text-[#64606E] uppercase font-bold block">
+                  <span className="text-[10px] text-[#64606E] dark:text-[#A3A2AE] uppercase font-bold block">
                     Desde:
                   </span>
-                  <span className="font-['Cal_Sans',sans-serif] text-xl text-[#1F1E24]">
+                  <span className="font-['Cal_Sans',sans-serif] text-xl text-[#1F1E24] dark:text-[#F6F3EF]">
                     {formatCOP(prod.basePrice)}
                   </span>
                 </div>
@@ -504,7 +528,7 @@ export function Home() {
                   className="px-3.5 py-2 rounded-full bg-[#DE5B2B] hover:bg-[#c44e23] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-transform group-hover:scale-105"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Personalizar 3D</span>
+                  <span>Personalizar</span>
                 </Link>
               </div>
             </div>
@@ -515,40 +539,40 @@ export function Home() {
       {/* ============================================================== */}
       {/* 5. PASO A PASO RÁPIDO                                         */}
       {/* ============================================================== */}
-      <section className="py-14 bg-white/60 border-t border-black/5 px-4 sm:px-6 lg:px-8">
+      <section className="py-14 bg-white/60 dark:bg-[#16151D]/60 border-t border-black/5 dark:border-white/8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-          <div className="p-6 rounded-2xl bg-[#F6F3EF]">
+          <div className="p-6 rounded-2xl bg-[#F6F3EF] dark:bg-[#1C1B26]">
             <div className="w-10 h-10 rounded-full bg-[#DE5B2B]/10 text-[#DE5B2B] font-['Cal_Sans',sans-serif] text-lg font-bold flex items-center justify-center mx-auto mb-3">
               01
             </div>
-            <h4 className="font-['Cal_Sans',sans-serif] text-base text-[#1F1E24] uppercase mb-1">
+            <h4 className="font-['Cal_Sans',sans-serif] text-base text-[#1F1E24] dark:text-[#F6F3EF] uppercase mb-1">
               Escoge el Modelo
             </h4>
-            <p className="text-xs text-[#64606E]">
+            <p className="text-xs text-[#64606E] dark:text-[#A3A2AE]">
               Explora portamicrófonos, portafotos y gadgets en nuestro catálogo.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#F6F3EF]">
+          <div className="p-6 rounded-2xl bg-[#F6F3EF] dark:bg-[#1C1B26]">
             <div className="w-10 h-10 rounded-full bg-[#8576EA]/15 text-[#8576EA] font-['Cal_Sans',sans-serif] text-lg font-bold flex items-center justify-center mx-auto mb-3">
               02
             </div>
-            <h4 className="font-['Cal_Sans',sans-serif] text-base text-[#1F1E24] uppercase mb-1">
-              Prueba Colores en 3D
+            <h4 className="font-['Cal_Sans',sans-serif] text-base text-[#1F1E24] dark:text-[#F6F3EF] uppercase mb-1">
+              Prueba Colores en Vivo
             </h4>
-            <p className="text-xs text-[#64606E]">
-              Asigna filamentos en tiempo real y rota el modelo en 360 grados.
+            <p className="text-xs text-[#64606E] dark:text-[#A3A2AE]">
+              Asigna combinaciones en tiempo real y explora la pieza en 360 grados.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#F6F3EF]">
+          <div className="p-6 rounded-2xl bg-[#F6F3EF] dark:bg-[#1C1B26]">
             <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 font-['Cal_Sans',sans-serif] text-lg font-bold flex items-center justify-center mx-auto mb-3">
               03
             </div>
-            <h4 className="font-['Cal_Sans',sans-serif] text-base text-[#1F1E24] uppercase mb-1">
+            <h4 className="font-['Cal_Sans',sans-serif] text-base text-[#1F1E24] dark:text-[#F6F3EF] uppercase mb-1">
               Pide por WhatsApp
             </h4>
-            <p className="text-xs text-[#64606E]">
+            <p className="text-xs text-[#64606E] dark:text-[#A3A2AE]">
               El resumen de tu diseño se envía en 1 clic para coordinar pago y entrega.
             </p>
           </div>
@@ -562,27 +586,27 @@ export function Home() {
         <div className="rounded-3xl bg-gradient-to-r from-[#DE5B2B] via-[#c44e23] to-[#8576EA] p-8 sm:p-14 text-white text-center shadow-xl relative overflow-hidden">
           <div className="relative z-10 max-w-2xl mx-auto">
             <h2 className="font-['Cal_Sans',sans-serif] text-3xl sm:text-5xl uppercase leading-tight tracking-tight">
-              ¿Tienes un archivo STL propio o un pedido corporativo?
+              ¿Listo para materializar tu proyecto?
             </h2>
             <p className="mt-3 text-sm sm:text-base text-white/90 font-light">
-              Además de nuestro catálogo, imprimimos modelos 3D personalizados, prototipos mecánicos y tiradas con descuentos por volumen.
+              Cuéntanos sobre tu empresa, tu evento o el modelo especial que necesitas. Te asesoramos directamente para lograr acabados y combinaciones de color impecables.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a
+                href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('¡Hola nueve2siete! Quiero consultar sobre un proyecto o pedido personalizado.')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white text-[#DE5B2B] hover:bg-gray-100 font-bold text-sm shadow-sm transition-all hover:scale-105 flex items-center justify-center gap-2"
+              >
+                <MessageCircle className="w-4 h-4 fill-[#DE5B2B]" />
+                <span>Hablar por WhatsApp</span>
+              </a>
               <Link
                 to="/catalogo"
-                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white text-[#DE5B2B] hover:bg-gray-100 font-bold text-sm shadow-sm transition-all hover:scale-105"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-black/20 hover:bg-black/30 text-white font-bold text-sm border border-white/20 shadow-sm transition-all hover:scale-105"
               >
                 Explorar Catálogo
               </Link>
-              <a
-                href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('¡Hola nueve2siete! Tengo una consulta o archivo 3D para cotizar.')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold text-sm shadow-sm transition-all hover:scale-105 flex items-center justify-center gap-2"
-              >
-                <MessageCircle className="w-4 h-4 fill-white" />
-                <span>Cotizar por WhatsApp</span>
-              </a>
             </div>
           </div>
         </div>

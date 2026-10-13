@@ -206,7 +206,7 @@ export function ProductViewer3D({ product, partColors, autoRotate = true }: View
         camera={{ position: [0, 1.8, 4.2], fov: 45 }}
         gl={{ antialias: true, alpha: true }}
       >
-        {/* Iluminación de estudio para apreciar los acabados de filamento */}
+        {/* Iluminación de estudio para apreciar los acabados de color y textura */}
         <ambientLight intensity={1.2} />
         <directionalLight
           position={[4, 7, 5]}
@@ -244,7 +244,7 @@ export function ProductViewer3D({ product, partColors, autoRotate = true }: View
       {/* Indicador sutil de interacción */}
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/40 backdrop-blur-md rounded-full text-[11px] text-white/90 font-medium pointer-events-none flex items-center gap-1.5 shadow-sm">
         <span className="w-1.5 h-1.5 rounded-full bg-[#DE5B2B] animate-pulse"></span>
-        Arrastra para rotar en 3D
+        Arrastra para rotar 360°
       </div>
     </div>
   )

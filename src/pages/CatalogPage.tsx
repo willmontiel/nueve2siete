@@ -39,24 +39,24 @@ export function CatalogPage() {
   }
 
   return (
-    <div className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-[75vh]">
+    <div className="pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-[75vh]">
       {/* Header del Catálogo */}
       <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EFEDE8] border border-[#DE5B2B]/20 text-xs font-bold text-[#DE5B2B] mb-3">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EFEDE8] dark:bg-white/10 border border-[#DE5B2B]/20 text-xs font-bold text-[#DE5B2B] mb-3">
           <Box className="w-3.5 h-3.5" />
           Catálogo Oficial nueve2siete
         </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1F1E24] font-display">
-          Colección de Piezas 3D
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1F1E24] dark:text-[#F6F3EF] font-display">
+          Colección Oficial
         </h1>
-        <p className="mt-3 text-base sm:text-lg text-[#64606E]">
-          Explora todos nuestros modelos diseñados para impresión en Bambu Lab A1. 
-          Selecciona cualquiera para personalizar sus colores en 3D y pedirlo por WhatsApp.
+        <p className="mt-3 text-base sm:text-lg text-[#64606E] dark:text-[#A3A2AE]">
+          Explora nuestros diseños y modelos exclusivos. 
+          Selecciona cualquiera para personalizar su paleta de colores y pedirlo directamente por WhatsApp.
         </p>
       </div>
 
       {/* Barra de Filtros y Búsqueda */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-black/5">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-black/5 dark:border-white/8">
         {/* Chips de Categorías */}
         <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 no-scrollbar">
           <Filter className="w-4 h-4 text-[#DE5B2B] hidden sm:block shrink-0 mr-1" />
@@ -69,7 +69,7 @@ export function CatalogPage() {
                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer ${
                   isActive
                     ? 'bg-[#DE5B2B] text-white shadow-sm shadow-[#DE5B2B]/25 scale-[1.02]'
-                    : 'bg-white text-[#64606E] hover:text-[#1F1E24] hover:bg-[#EFEDE8] border border-black/5'
+                    : 'bg-white dark:bg-[#1E1D28] text-[#64606E] dark:text-[#A3A2AE] hover:text-[#1F1E24] dark:hover:text-[#F6F3EF] hover:bg-[#EFEDE8] dark:hover:bg-[#282636] border border-black/5 dark:border-white/8'
                 }`}
               >
                 {cat.label}
@@ -86,17 +86,17 @@ export function CatalogPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Buscar producto..."
-            className="w-full pl-10 pr-4 py-2 text-xs sm:text-sm rounded-xl bg-white border border-black/10 focus:border-[#DE5B2B] focus:ring-2 focus:ring-[#DE5B2B]/20 outline-none transition-all placeholder:text-gray-400"
+            className="w-full pl-10 pr-4 py-2 text-xs sm:text-sm rounded-xl bg-white dark:bg-[#1E1D28] text-[#1F1E24] dark:text-[#F6F3EF] border border-black/10 dark:border-white/10 focus:border-[#DE5B2B] focus:ring-2 focus:ring-[#DE5B2B]/20 outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
           />
         </div>
       </div>
 
       {/* Grid de Productos */}
       {filteredProducts.length === 0 ? (
-        <div className="text-center py-16 bg-white/50 rounded-3xl border border-dashed border-gray-300">
-          <Box className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-          <h3 className="text-base font-bold text-[#1F1E24]">No se encontraron productos</h3>
-          <p className="text-xs text-[#64606E] mt-1">
+        <div className="text-center py-16 bg-white/50 dark:bg-white/5 rounded-3xl border border-dashed border-gray-300 dark:border-white/10">
+          <Box className="w-10 h-10 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+          <h3 className="text-base font-bold text-[#1F1E24] dark:text-[#F6F3EF]">No se encontraron productos</h3>
+          <p className="text-xs text-[#64606E] dark:text-[#A3A2AE] mt-1">
             Intenta con otro término de búsqueda o cambia la categoría seleccionada.
           </p>
         </div>
@@ -124,15 +124,15 @@ export function CatalogPage() {
                 </div>
 
                 {/* Título y Tagline */}
-                <h2 className="text-lg font-bold text-[#1F1E24] group-hover:text-[#DE5B2B] transition-colors font-display">
+                <h2 className="text-lg font-bold text-[#1F1E24] dark:text-[#F6F3EF] group-hover:text-[#DE5B2B] transition-colors font-display">
                   {prod.name}
                 </h2>
-                <p className="text-xs text-[#64606E] mt-1.5 line-clamp-2">
+                <p className="text-xs text-[#64606E] dark:text-[#A3A2AE] mt-1.5 line-clamp-2">
                   {prod.description}
                 </p>
 
                 {/* Especificaciones */}
-                <div className="mt-4 pt-3 border-t border-black/5 space-y-1.5 text-[11px] text-[#64606E]">
+                <div className="mt-4 pt-3 border-t border-black/5 dark:border-white/8 space-y-1.5 text-[11px] text-[#64606E] dark:text-[#A3A2AE]">
                   <div className="flex items-center gap-1.5">
                     <Maximize2 className="w-3.5 h-3.5 text-gray-400" />
                     <span>{prod.dimensions}</span>
@@ -145,12 +145,12 @@ export function CatalogPage() {
               </div>
 
               {/* Precio y Enlace al Personalizador */}
-              <div className="mt-6 pt-3 border-t border-black/5 flex items-center justify-between">
+              <div className="mt-6 pt-3 border-t border-black/5 dark:border-white/8 flex items-center justify-between">
                 <div>
-                  <span className="text-[10px] text-[#64606E] uppercase font-bold block">
+                  <span className="text-[10px] text-[#64606E] dark:text-[#A3A2AE] uppercase font-bold block">
                     Desde:
                   </span>
-                  <span className="text-lg font-extrabold text-[#1F1E24] font-display">
+                  <span className="text-lg font-extrabold text-[#1F1E24] dark:text-[#F6F3EF] font-display">
                     {formatCOP(prod.basePrice)}
                   </span>
                 </div>
@@ -160,7 +160,7 @@ export function CatalogPage() {
                   className="px-3.5 py-2 rounded-xl bg-[#DE5B2B] hover:bg-[#c44e23] text-white transition-all group-hover:scale-105 cursor-pointer flex items-center gap-1.5 text-xs font-bold shadow-sm"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Personalizar 3D</span>
+                  <span>Personalizar</span>
                 </Link>
               </div>
             </motion.div>

@@ -20,7 +20,7 @@ export function Hero({ onExplore }: HeroProps) {
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#DE5B2B]/20 shadow-xs text-xs font-bold text-[#DE5B2B] mb-6"
         >
           <Sparkles className="w-4 h-4 text-[#EEBA29]" />
-          <span>Impresión 3D de Precisión • Bambu Lab A1 con AMS Lite</span>
+          <span>Diseño de Autor & Personalización</span>
         </motion.div>
 
         {/* Título Principal */}
@@ -82,8 +82,8 @@ export function Hero({ onExplore }: HeroProps) {
               <Layers className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-xs font-bold text-[#1F1E24]">AMS Lite 4 Colores</div>
-              <div className="text-[10px] text-[#64606E]">Multicolor continuo</div>
+              <div className="text-xs font-bold text-[#1F1E24]">Multitono Integrado</div>
+              <div className="text-[10px] text-[#64606E]">Hasta 4 colores</div>
             </div>
           </div>
 
@@ -92,8 +92,8 @@ export function Hero({ onExplore }: HeroProps) {
               <Cpu className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-xs font-bold text-[#1F1E24]">Boquillas 0.2 a 0.8</div>
-              <div className="text-[10px] text-[#64606E]">Alta resolución</div>
+              <div className="text-xs font-bold text-[#1F1E24]">Relieve & Detalle</div>
+              <div className="text-[10px] text-[#64606E]">Alta definición</div>
             </div>
           </div>
 
@@ -102,8 +102,8 @@ export function Hero({ onExplore }: HeroProps) {
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-xs font-bold text-[#1F1E24]">Filamento Premium</div>
-              <div className="text-[10px] text-[#64606E]">PLA biodegradable</div>
+              <div className="text-xs font-bold text-[#1F1E24]">Acabado Satinado</div>
+              <div className="text-[10px] text-[#64606E]">Tacto suave mate</div>
             </div>
           </div>
 

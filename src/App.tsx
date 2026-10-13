@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { ThemeProvider } from './context/ThemeContext'
 import { Navbar } from './components/Navbar'
 import { Footer } from './components/Footer'
 import { ScrollToTop } from './components/ScrollToTop'
@@ -18,18 +19,19 @@ function PageLoader() {
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center gap-3">
       <div className="w-8 h-8 rounded-full border-2 border-[#DE5B2B] border-t-transparent animate-spin" />
-      <span className="text-xs font-semibold text-[#64606E]">Cargando experiencia 3D...</span>
+      <span className="text-xs font-semibold text-[#64606E] dark:text-[#9FA0AB]">Cargando experiencia...</span>
     </div>
   )
 }
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <CustomCursor />
-      <div className="min-h-screen flex flex-col bg-[#F6F3EF] text-[#1F1E24]">
-        <Navbar />
+    <ThemeProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <CustomCursor />
+        <div className="min-h-screen flex flex-col bg-[#F6F3EF] dark:bg-[#121117] text-[#1F1E24] dark:text-[#F6F3EF] transition-colors duration-300">
+          <Navbar />
 
         <main className="flex-1">
           <Suspense fallback={<PageLoader />}>
@@ -49,5 +51,6 @@ export default function App() {
         <Footer />
       </div>
     </BrowserRouter>
-  )
+  </ThemeProvider>
+)
 }

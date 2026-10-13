@@ -85,7 +85,7 @@ export function Configurator() {
 
 📦 *Producto:* ${selectedProduct.name}
 📐 *Dimensiones:* ${selectedProduct.dimensions}
-🎨 *Configuración de Colores (AMS Lite):*
+🎨 *Colores Seleccionados:*
 ${colorBreakdown}
 
 💰 *Valor estimado:* ${formatCOP(selectedProduct.basePrice)}
@@ -109,7 +109,7 @@ ${colorBreakdown}
           Diseña tu pieza, elige tus colores
         </h2>
         <p className="mt-3 text-base sm:text-lg text-[#64606E]">
-          Rotación en 360°, previsualización de filamento PLA y combinación de hasta 4 colores con nuestra Bambu Lab A1 AMS Lite.
+          Rotación en 360°, previsualización de colores y combinación de tonos en tiempo real.
         </p>
       </div>
 
@@ -236,7 +236,7 @@ ${colorBreakdown}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2.5">
                 <label className="text-xs font-bold uppercase tracking-wider text-[#64606E]">
-                  2. Elige el color del filamento:
+                  2. Elige el color:
                 </label>
                 <span className="text-xs font-semibold text-[#DE5B2B]">
                   {FILAMENT_COLORS.find(c => c.hex.toLowerCase() === partColors[selectedPartId]?.toLowerCase())?.name || 'Seleccionado'}
@@ -278,10 +278,10 @@ ${colorBreakdown}
                 </div>
               </div>
 
-              {/* Otros Colores PLA */}
+              {/* Otros Colores de Paleta */}
               <div>
                 <span className="text-[11px] font-bold text-[#64606E] uppercase tracking-wide block mb-2">
-                  Colores Clásicos PLA
+                  Colores Esenciales
                 </span>
                 <div className="grid grid-cols-7 gap-1.5">
                   {FILAMENT_COLORS.filter(c => !c.isBrandColor).map(color => {
@@ -317,7 +317,7 @@ ${colorBreakdown}
               <div className="flex items-center justify-between text-xs mb-2">
                 <span className="font-bold text-[#1F1E24] flex items-center gap-1.5">
                   <Layers className="w-3.5 h-3.5 text-[#DE5B2B]" />
-                  Ranuras AMS Lite Bambu Lab ({activeColorSet.length} de 4 usadas):
+                  Zonas de color ({activeColorSet.length} seleccionadas):
                 </span>
               </div>
               <div className="grid grid-cols-4 gap-2">

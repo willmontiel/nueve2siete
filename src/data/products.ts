@@ -5,7 +5,7 @@ export interface FilamentColor {
   isBrandColor?: boolean
 }
 
-// Paleta disponible para la Bambu Lab A1 con AMS Lite
+// Paleta oficial de colores disponibles
 export const FILAMENT_COLORS: FilamentColor[] = [
   // Colores Oficiales de la marca (Página 3)
   { id: 'brand-orange', name: 'Naranja Nueve2Siete', hex: '#DE5B2B', isBrandColor: true },
@@ -86,7 +86,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'prod-frame',
     slug: 'portarretratos-minimal',
-    name: 'Portarretratos Escandinavo 3D',
+    name: 'Portarretratos Escandinavo',
     tagline: 'Diseño geométrico de mesa en 2 tonos',
     category: 'decor',
     basePrice: 32000,
@@ -103,7 +103,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'prod-keychain',
     slug: 'llavero-personalizado',
-    name: 'Llavero Tipográfico 3D',
+    name: 'Llavero Tipográfico',
     tagline: 'Relieve de doble capa con tus colores favoritos',
     category: 'accessories',
     basePrice: 15000,
