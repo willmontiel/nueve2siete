@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@fontsource/cal-sans";
 
 @theme {
   --color-brand-orange: #DE5B2B;
@@ -11,7 +12,8 @@
   --color-brand-muted: #64606E;
   
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-display: 'Cal Sans', 'Outfit', sans-serif;
+  --font-cal: 'Cal Sans', sans-serif;
 }
 
 :root {
