@@ -8,8 +8,7 @@ const CATEGORIES = [
   { id: 'all', label: 'Todos los Productos' },
   { id: 'audio', label: 'Portamicrófonos' },
   { id: 'gadgets', label: 'Clickers & Fidgets' },
-  { id: 'decor', label: 'Portarretratos & Hogar' },
-  { id: 'accessories', label: 'Llaveros' },
+  { id: 'decor', label: 'Portafotos' },
 ]
 
 export function CatalogPage() {
@@ -18,6 +17,8 @@ export function CatalogPage() {
 
   const filteredProducts = useMemo(() => {
     return PRODUCTS.filter((product) => {
+      if (product.hidden) return false
+
       const matchesCategory =
         activeCategory === 'all' || product.category === activeCategory
 

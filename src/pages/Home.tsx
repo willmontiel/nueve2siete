@@ -475,13 +475,13 @@ export function Home() {
             to="/catalogo"
             className="mt-3 sm:mt-0 text-sm font-bold text-[#DE5B2B] hover:underline flex items-center gap-1.5"
           >
-            <span>Ver catálogo completo ({PRODUCTS.length} modelos)</span>
+            <span>Ver catálogo completo ({PRODUCTS.filter(p => !p.hidden).length} modelos)</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {PRODUCTS.map((prod) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {PRODUCTS.filter(p => !p.hidden).map((prod) => (
             <div
               key={prod.id}
               className="p-6 rounded-3xl bg-white dark:bg-[#1C1B26] border border-black/8 dark:border-white/8 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group interactive-card"

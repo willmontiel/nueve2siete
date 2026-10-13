@@ -1,8 +1,9 @@
-import { useRef } from 'react'
+import { useRef, useMemo, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Float, ContactShadows, RoundedBox, Text } from '@react-three/drei'
+import { OrbitControls, Float, ContactShadows, RoundedBox, Text, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import type { Product } from '../../data/products'
+import { playMechanicalClick } from '../../utils/sound'
 
 interface ViewerProps {
   product: Product
@@ -32,7 +33,7 @@ function MicCubeModel({ colors, customText }: { colors: Record<string, string>; 
   const textColor = getContrastColor(boxColor)
 
   return (
-    <group position={[0, 0.88, 0]} scale={0.30}>
+    <group position={[0, 0.85, 0]} scale={0.24}>
       {/* 1. Mango ergonómico inferior (Alto 5.6 cm, Diámetro 1.4 cm -> Radio 0.7 cm) */}
       <group position={[0, -4.3, 0]}>
         {/* Tubo cilíndrico del mango */}
@@ -148,73 +149,140 @@ function MicCubeModel({ colors, customText }: { colors: Record<string, string>; 
   )
 }
 
-// 2. Clicker Fidget 3D
+// 2. Clicker Flor 3D (Cargado directamente desde el modelo 3MF)
 function ClickerModel({ colors }: { colors: Record<string, string> }) {
-  const housingColor = colors['housing'] || '#9FAEE9'
-  const buttonColor = colors['button'] || '#DE5B2B'
-  const keyringColor = colors['keyring'] || '#1C1C1E'
+  const { scene } = useGLTF('/models/clicker-sakura.glb')
+  const clonedScene = useMemo(() => scene.clone(), [scene])
+  const [isPressed, setIsPressed] = useState(false)
+
+  const baseColor = colors['base'] || '#F8BBD0'
+  const centerColor = colors['center'] || '#EEBA29'
+
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh
+        if (mesh.name === 'base') {
+          mesh.material = new THREE.MeshStandardMaterial({
+            color: baseColor,
+            roughness: 0.38,
+            metalness: 0.04,
+            transparent: false,
+            opacity: 1.0,
+            depthWrite: true,
+            side: THREE.FrontSide,
+          })
+          mesh.castShadow = true
+          mesh.receiveShadow = true
+        } else if (mesh.name === 'center') {
+          mesh.material = new THREE.MeshStandardMaterial({
+            color: centerColor,
+            roughness: 0.32,
+            metalness: 0.06,
+            transparent: false,
+            opacity: 1.0,
+            depthWrite: true,
+            side: THREE.FrontSide,
+          })
+          mesh.castShadow = true
+          mesh.receiveShadow = true
+        }
+      }
+    })
+  }, [clonedScene, baseColor, centerColor])
+
+  // Presión táctil interactiva sobre el centro al hacer clic (simula switch mecánico)
+  useEffect(() => {
+    const centerMesh = clonedScene.getObjectByName('center')
+    if (centerMesh) {
+      centerMesh.position.y = isPressed ? -0.18 : 0
+    }
+  }, [clonedScene, isPressed])
+
+  const handleClick = (e: any) => {
+    e.stopPropagation()
+    setIsPressed(true)
+    playMechanicalClick()
+    setTimeout(() => setIsPressed(false), 140)
+  }
+
+  const handlePointerDown = (e: any) => {
+    e.stopPropagation()
+    setIsPressed(true)
+    playMechanicalClick()
+  }
+
+  const handlePointerUp = (e: any) => {
+    e.stopPropagation()
+    setIsPressed(false)
+  }
 
   return (
-    <group position={[0, -0.2, 0]}>
-      {/* Carcasa exterior ergonómica */}
-      <RoundedBox args={[1.8, 1.4, 1.8]} radius={0.25} smoothness={4} castShadow receiveShadow>
-        <meshStandardMaterial color={housingColor} roughness={0.4} metalness={0.05} />
-      </RoundedBox>
-
-      {/* Botón táctil superior con bisel */}
-      <group position={[0, 0.85, 0]}>
-        <mesh castShadow receiveShadow>
-          <cylinderGeometry args={[0.65, 0.75, 0.45, 32]} />
-          <meshStandardMaterial color={buttonColor} roughness={0.25} metalness={0.1} />
-        </mesh>
-        <mesh position={[0, 0.23, 0]}>
-          <cylinderGeometry args={[0.5, 0.5, 0.05, 32]} />
-          <meshStandardMaterial color={buttonColor} roughness={0.15} />
-        </mesh>
-      </group>
-
-      {/* Ojal lateral para llavero */}
-      <mesh position={[1.05, -0.2, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
-        <torusGeometry args={[0.25, 0.07, 16, 24]} />
-        <meshStandardMaterial color={keyringColor} roughness={0.3} metalness={0.2} />
-      </mesh>
+    <group 
+      position={[0, 0.45, 0]} 
+      scale={0.46} 
+      rotation={[0.75, 0, 0]}
+      onClick={handleClick}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+    >
+      <primitive object={clonedScene} />
     </group>
   )
 }
 
-// 3. Portarretratos Minimalista 3D
+// Pre-cargar modelo GLB
+useGLTF.preload('/models/clicker-sakura.glb')
+
+// 3. Portafotos Margarita 3D (Cargado directamente desde el modelo 3MF)
 function FrameModel({ colors }: { colors: Record<string, string> }) {
-  const outerFrameColor = colors['outerFrame'] || '#F6F3EF'
-  const innerBorderColor = colors['innerBorder'] || '#DE5B2B'
-  const standColor = colors['stand'] || '#1C1C1E'
+  const { scene } = useGLTF('/models/portafotos-margarita.glb')
+  const clonedScene = useMemo(() => scene.clone(), [scene])
+
+  const baseColor = colors['base'] || '#FFFFFF'
+  const centerColor = colors['center'] || '#EEBA29'
+
+  useEffect(() => {
+    clonedScene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh
+        if (mesh.name === 'base') {
+          mesh.material = new THREE.MeshStandardMaterial({
+            color: baseColor,
+            roughness: 0.38,
+            metalness: 0.04,
+            transparent: false,
+            opacity: 1.0,
+            depthWrite: true,
+            side: THREE.FrontSide,
+          })
+          mesh.castShadow = true
+          mesh.receiveShadow = true
+        } else if (mesh.name === 'center') {
+          mesh.material = new THREE.MeshStandardMaterial({
+            color: centerColor,
+            roughness: 0.32,
+            metalness: 0.06,
+            transparent: false,
+            opacity: 1.0,
+            depthWrite: true,
+            side: THREE.FrontSide,
+          })
+          mesh.castShadow = true
+          mesh.receiveShadow = true
+        }
+      }
+    })
+  }, [clonedScene, baseColor, centerColor])
 
   return (
-    <group position={[0, 0.1, 0]} rotation={[0.15, 0, 0]}>
-      {/* Marco exterior */}
-      <RoundedBox args={[2.2, 2.7, 0.25]} radius={0.08} smoothness={4} castShadow receiveShadow>
-        <meshStandardMaterial color={outerFrameColor} roughness={0.35} metalness={0.05} />
-      </RoundedBox>
-
-      {/* Borde interior decorativo de contraste */}
-      <mesh position={[0, 0, 0.14]} castShadow>
-        <boxGeometry args={[1.7, 2.2, 0.05]} />
-        <meshStandardMaterial color={innerBorderColor} roughness={0.3} />
-      </mesh>
-
-      {/* Área de la foto */}
-      <mesh position={[0, 0, 0.17]}>
-        <planeGeometry args={[1.5, 2.0]} />
-        <meshStandardMaterial color="#FFFFFF" roughness={0.1} />
-      </mesh>
-
-      {/* Pata de soporte posterior */}
-      <mesh position={[0, -0.6, -0.55]} rotation={[0.5, 0, 0]} castShadow>
-        <boxGeometry args={[0.4, 1.6, 0.1]} />
-        <meshStandardMaterial color={standColor} roughness={0.5} />
-      </mesh>
+    <group position={[0, 0.45, 0]} scale={0.52} rotation={[0.2, 0, 0]}>
+      <primitive object={clonedScene} />
     </group>
   )
 }
+
+useGLTF.preload('/models/portafotos-margarita.glb')
 
 // 4. Llavero Tipográfico 3D
 function KeychainModel({ colors }: { colors: Record<string, string> }) {
@@ -223,7 +291,7 @@ function KeychainModel({ colors }: { colors: Record<string, string> }) {
   const loopColor = colors['ringLoop'] || '#DE5B2B'
 
   return (
-    <group position={[0, 0, 0]}>
+    <group position={[0, 0.45, 0]}>
       {/* Base alargada con bordes curvos */}
       <RoundedBox args={[3.0, 1.1, 0.25]} radius={0.2} smoothness={4} castShadow receiveShadow>
         <meshStandardMaterial color={baseColor} roughness={0.4} metalness={0.05} />
@@ -280,7 +348,9 @@ function FloatingModel({
     <group ref={groupRef}>
       <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.2}>
         {product.modelType === 'mic-cube' && <MicCubeModel colors={partColors} customText={customText} />}
-        {product.modelType === 'clicker' && <ClickerModel colors={partColors} />}
+        {(product.modelType === 'clicker' || product.modelType === 'clicker-sakura') && (
+          <ClickerModel colors={partColors} />
+        )}
         {product.modelType === 'frame' && <FrameModel colors={partColors} />}
         {product.modelType === 'keychain' && <KeychainModel colors={partColors} />}
       </Float>
@@ -293,7 +363,7 @@ export function ProductViewer3D({ product, partColors, customText, autoRotate = 
     <div className="w-full h-full relative select-none">
       <Canvas
         shadows
-        camera={{ position: [0, 1.1, 4.3], fov: 45 }}
+        camera={{ position: [0, 0.82, 4.3], fov: 42 }}
         gl={{ antialias: true, alpha: true }}
       >
         {/* Iluminación de estudio para apreciar los acabados de color y textura */}
@@ -319,12 +389,12 @@ export function ProductViewer3D({ product, partColors, customText, autoRotate = 
           far={3}
         />
 
-        {/* Controles de cámara táctiles y de ratón */}
+        {/* Controles de cámara táctiles y de ratón centrados en el modelo */}
         <OrbitControls
           enablePan={false}
           autoRotate={autoRotate}
           autoRotateSpeed={1.8}
-          target={[0, 0.7, 0]}
+          target={[0, 0.45, 0]}
           minDistance={2.5}
           maxDistance={6.5}
           maxPolarAngle={Math.PI / 1.7}
@@ -333,7 +403,7 @@ export function ProductViewer3D({ product, partColors, customText, autoRotate = 
       </Canvas>
 
       {/* Indicador sutil de interacción */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/40 backdrop-blur-md rounded-full text-[11px] text-white/90 font-medium pointer-events-none flex items-center gap-1.5 shadow-sm">
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 px-2.5 py-0.5 bg-black/40 backdrop-blur-md rounded-full text-[10px] text-white/90 font-medium pointer-events-none flex items-center gap-1.5 shadow-sm">
         <span className="w-1.5 h-1.5 rounded-full bg-[#DE5B2B] animate-pulse"></span>
         Arrastra para rotar 360°
       </div>

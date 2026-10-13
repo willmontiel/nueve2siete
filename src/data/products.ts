@@ -39,11 +39,12 @@ export interface Product {
   category: 'audio' | 'gadgets' | 'decor' | 'accessories'
   basePrice: number // en COP (pesos colombianos)
   description: string
-  leadTimeDays: number
   dimensions: string
-  modelType: 'mic-cube' | 'clicker' | 'frame' | 'keychain'
-  parts: ProductPart[]
+  leadTimeDays: number
+  modelType: 'mic-cube' | 'clicker' | 'clicker-sakura' | 'frame' | 'keychain'
   badge?: string
+  hidden?: boolean
+  parts: ProductPart[]
   customTextConfig?: {
     label: string
     placeholder: string
@@ -80,36 +81,35 @@ export const PRODUCTS: Product[] = [
   {
     id: 'prod-clicker',
     slug: 'clicker-fidget',
-    name: 'Clicker Mecánico Sensorial',
-    tagline: 'Fidget antiestrés con switch mecánico intercambiable',
+    name: 'Clicker Flor',
+    tagline: 'Fidget sensorial con switch mecánico y diseño de flor',
     category: 'gadgets',
-    basePrice: 18000,
-    description: 'El gadget sensorial definitivo para concentración y escritorio. Diseñado con tolerancias de 0.2mm para un clic táctil ultra satisfactorio.',
+    basePrice: 22000,
+    description: 'Clicker sensorial con switch mecánico de alta durabilidad. Diseño de flor con centro táctil y ojal integrado para llavero.',
     leadTimeDays: 1,
-    dimensions: '28 x 28 x 35 mm',
+    dimensions: 'Flor: 5.8 × 6.0 cm | Grosor: 1.8 cm | Botón: Ø 2.4 cm',
     modelType: 'clicker',
     badge: 'Sensorial',
     parts: [
-      { id: 'housing', name: 'Carcasa Exterior', defaultColorId: 'brand-lavender', description: 'Cuerpo del clicker' },
-      { id: 'button', name: 'Botón Pulsador', defaultColorId: 'brand-orange', description: 'Pulsador táctil superior' },
-      { id: 'keyring', name: 'Ojal / Argolla', defaultColorId: 'matte-black', description: 'Sujeción para llavero' },
+      { id: 'base', name: 'Base', defaultColorId: 'pastel-pink', description: 'Cuerpo de la flor con ojal' },
+      { id: 'center', name: 'Centro', defaultColorId: 'brand-yellow', description: 'Botón pulsador central' },
     ]
   },
   {
     id: 'prod-frame',
-    slug: 'portarretratos-minimal',
-    name: 'Portarretratos Escandinavo',
-    tagline: 'Diseño geométrico de mesa en 2 tonos',
+    slug: 'portafotos-margarita',
+    name: 'Portafotos Margarita',
+    tagline: 'Soporte floral para fotos Polaroid o recordatorios',
     category: 'decor',
-    basePrice: 32000,
-    description: 'Portafotos de escritorio minimalista con ángulo de visualización optimizado. Para fotos estándar de 10x15 cm o polaroids.',
+    basePrice: 28000,
+    description: 'Soporte de mesa con diseño floral de margarita. Cuenta con una ranura central integrada de 2 mm para sostener fotos estilo Polaroid, tarjetas especiales o recordatorios con centro táctil en ambas caras.',
     leadTimeDays: 2,
-    dimensions: '130 x 175 x 45 mm',
+    dimensions: 'Margarita: 4.9 × 2.5 cm | Grosor: 1.3 cm | Ranura: 2 mm',
     modelType: 'frame',
+    badge: 'Decorativo',
     parts: [
-      { id: 'outerFrame', name: 'Marco Exterior', defaultColorId: 'brand-cream', description: 'Bisel visible frontal' },
-      { id: 'innerBorder', name: 'Acento Interior', defaultColorId: 'brand-orange', description: 'Línea de contraste fotográfico' },
-      { id: 'stand', name: 'Soporte Posterior', defaultColorId: 'matte-black', description: 'Pata de apoyo de ángulo fijo' },
+      { id: 'base', name: 'Base', defaultColorId: 'pure-white', description: 'Cuerpo floral de pétalos con ranura para foto' },
+      { id: 'center', name: 'Centro', defaultColorId: 'brand-yellow', description: 'Centro semi-circular en ambas caras' },
     ]
   },
   {
@@ -123,6 +123,7 @@ export const PRODUCTS: Product[] = [
     leadTimeDays: 1,
     dimensions: '75 x 25 x 6 mm',
     modelType: 'keychain',
+    hidden: true,
     parts: [
       { id: 'basePlate', name: 'Base Sólida', defaultColorId: 'matte-black', description: 'Placa base de fondo' },
       { id: 'raisedLetters', name: 'Letras en Relieve', defaultColorId: 'brand-yellow', description: 'Relieve tipográfico superior' },

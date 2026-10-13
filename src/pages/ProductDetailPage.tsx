@@ -11,7 +11,7 @@ export function ProductDetailPage() {
 
   // Encontrar el producto correspondiente según el slug
   const product = useMemo(() => {
-    return PRODUCTS.find(p => p.slug === slug) || PRODUCTS[0]
+    return PRODUCTS.find(p => p.slug === slug || (slug === 'portarretratos-minimal' && p.slug === 'portafotos-margarita')) || PRODUCTS[0]
   }, [slug])
 
   const [selectedPartId, setSelectedPartId] = useState<string>(product.parts[0].id)
@@ -110,7 +110,7 @@ ${colorBreakdown}
           <span className="text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase hidden md:inline mr-1">
             Otros modelos:
           </span>
-          {PRODUCTS.filter(p => p.id !== product.id).map(other => (
+          {PRODUCTS.filter(p => !p.hidden && p.id !== product.id).map(other => (
             <button
               key={other.id}
               onClick={() => navigate(`/catalogo/${other.slug}`)}
@@ -249,83 +249,47 @@ ${colorBreakdown}
               </div>
             </div>
 
-            {/* Paso 2: Elegir Color de la paleta */}
+            {/* Paso 2: Elegir Color de la paleta (Segmento Único) */}
             <div className="mb-6">
-              <div className="flex items-center justify-between mb-2.5">
+              <div className="flex items-center justify-between mb-3">
                 <label className="text-xs font-bold uppercase tracking-wider text-[#64606E] dark:text-[#A3A2AE]">
                   2. Elige el color:
                 </label>
-                <span className="text-xs font-semibold text-[#DE5B2B]">
+                <span className="text-xs font-bold text-[#DE5B2B]">
                   {FILAMENT_COLORS.find(c => c.hex.toLowerCase() === partColors[selectedPartId]?.toLowerCase())?.name || 'Seleccionado'}
                 </span>
               </div>
 
-              {/* Colores Oficiales nueve2siete */}
-              <div className="mb-3.5">
-                <span className="text-[11px] font-bold text-[#DE5B2B] uppercase tracking-wide block mb-2 flex items-center gap-1">
-                  <Sparkles className="w-3 h-3" />
-                  Paleta Oficial nueve2siete
-                </span>
-                <div className="grid grid-cols-5 gap-2">
-                  {FILAMENT_COLORS.filter(c => c.isBrandColor).map(color => {
-                    const isCurrent = partColors[selectedPartId]?.toLowerCase() === color.hex.toLowerCase()
-                    return (
-                      <button
-                        key={color.id}
-                        onClick={() => handleColorChange(color.hex)}
-                        title={color.name}
-                        className={`group relative flex flex-col items-center justify-center p-2 rounded-xl border transition-all cursor-pointer ${
-                          isCurrent
-                            ? 'border-[#DE5B2B] ring-2 ring-[#DE5B2B]/30 bg-[#DE5B2B]/5 dark:bg-[#DE5B2B]/10'
-                            : 'border-black/5 dark:border-white/8 hover:border-black/20 dark:hover:border-white/20 bg-white dark:bg-[#252432]'
-                        }`}
+              {/* Grilla unificada de colores disponibles */}
+              <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                {FILAMENT_COLORS.map(color => {
+                  const isCurrent = partColors[selectedPartId]?.toLowerCase() === color.hex.toLowerCase()
+                  const isLight = color.hex === '#FFFFFF' || color.hex === '#F6F3EF' || color.hex === '#F8BBD0'
+                  return (
+                    <button
+                      key={color.id}
+                      onClick={() => handleColorChange(color.hex)}
+                      title={color.name}
+                      className={`group relative flex flex-col items-center justify-center p-2 rounded-xl border transition-all cursor-pointer ${
+                        isCurrent
+                          ? 'border-[#DE5B2B] ring-2 ring-[#DE5B2B]/30 bg-[#DE5B2B]/5 dark:bg-[#DE5B2B]/10 shadow-xs scale-[1.02]'
+                          : 'border-black/5 dark:border-white/8 hover:border-black/20 dark:hover:border-white/20 bg-white dark:bg-[#252432]'
+                      }`}
+                    >
+                      <span
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full shadow-inner border border-black/10 dark:border-white/20 flex items-center justify-center transition-transform group-hover:scale-110"
+                        style={{ backgroundColor: color.hex }}
                       >
-                        <span
-                          className="w-7 h-7 rounded-full shadow-inner border border-black/10 dark:border-white/20 flex items-center justify-center transition-transform group-hover:scale-110"
-                          style={{ backgroundColor: color.hex }}
-                        >
-                          {isCurrent && <Check className="w-4 h-4 text-white drop-shadow-md" />}
-                        </span>
-                        <span className="text-[10px] text-[#64606E] dark:text-[#A3A2AE] font-medium mt-1 truncate max-w-full">
-                          {color.name.split(' ')[0]}
-                        </span>
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-
-              {/* Otros Colores de Paleta */}
-              <div>
-                <span className="text-[11px] font-bold text-[#64606E] dark:text-[#A3A2AE] uppercase tracking-wide block mb-2">
-                  Colores Esenciales
-                </span>
-                <div className="grid grid-cols-7 gap-1.5">
-                  {FILAMENT_COLORS.filter(c => !c.isBrandColor).map(color => {
-                    const isCurrent = partColors[selectedPartId]?.toLowerCase() === color.hex.toLowerCase()
-                    return (
-                      <button
-                        key={color.id}
-                        onClick={() => handleColorChange(color.hex)}
-                        title={color.name}
-                        className={`p-1.5 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${
-                          isCurrent
-                            ? 'border-[#DE5B2B] ring-2 ring-[#DE5B2B]/20 bg-[#DE5B2B]/5 dark:bg-[#DE5B2B]/10'
-                            : 'border-black/5 dark:border-white/8 hover:border-black/20 dark:hover:border-white/20 bg-white dark:bg-[#252432]'
-                        }`}
-                      >
-                        <span
-                          className="w-5 h-5 rounded-full shadow-inner border border-black/10 dark:border-white/20 flex items-center justify-center"
-                          style={{ backgroundColor: color.hex }}
-                        >
-                          {isCurrent && (
-                            <Check className={`w-3 h-3 ${color.hex === '#FFFFFF' ? 'text-black' : 'text-white'}`} />
-                          )}
-                        </span>
-                      </button>
-                    )
-                  })}
-                </div>
+                        {isCurrent && (
+                          <Check className={`w-4 h-4 drop-shadow-md ${isLight ? 'text-[#1F1E24]' : 'text-white'}`} />
+                        )}
+                      </span>
+                      <span className="text-[10px] text-[#64606E] dark:text-[#A3A2AE] font-medium mt-1 truncate max-w-full">
+                        {color.name.split(' ')[0]}
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
             </div>
 
