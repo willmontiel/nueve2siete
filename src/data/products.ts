@@ -44,25 +44,37 @@ export interface Product {
   modelType: 'mic-cube' | 'clicker' | 'frame' | 'keychain'
   parts: ProductPart[]
   badge?: string
+  customTextConfig?: {
+    label: string
+    placeholder: string
+    defaultText: string
+    maxLength: number
+  }
 }
 
 export const PRODUCTS: Product[] = [
   {
     id: 'prod-mic',
     slug: 'portamicrofono',
-    name: 'Cubo Portamicrófono Pro',
-    tagline: 'Personalización de colores para creadores y podcasters',
+    name: 'Adaptador Portamicrófono Inalámbrico',
+    tagline: 'Convierte tu micrófono inalámbrico en un micrófono de mano para entrevistas',
     category: 'audio',
-    basePrice: 45000,
-    description: 'Cubo ergonómico con ajuste universal de espuma para micrófonos dinámicos estándar (Shure SM58, Behringer, etc). Impreso con alta densidad y acabado impecable.',
+    basePrice: 55000,
+    description: 'Adaptador ergonómico de mano para micrófonos inalámbricos (DJI Mic, Rode Wireless y similares). Diseñado con caja central de 4 × 3 × 4 cm para el nombre de tu marca, mango estilizado y cabeza vocal.',
     leadTimeDays: 2,
-    dimensions: '65 x 65 x 55 mm (Diámetro interno 42mm)',
+    dimensions: 'Caja: 4 × 3 × 4 cm | Mango: 5.6 cm (Ø 1.4 cm) | Cabeza: 2.7 × 2.5 cm',
     modelType: 'mic-cube',
-    badge: 'Más Vendido',
+    badge: 'Top Creadores',
+    customTextConfig: {
+      label: 'Nombre de tu Marca o Canal',
+      placeholder: 'Ej. Mucchi, Sierra, Mi Podcast',
+      defaultText: 'Tu Marca',
+      maxLength: 18,
+    },
     parts: [
-      { id: 'body', name: 'Cuerpo Principal', defaultColorId: 'matte-black', description: 'Estructura exterior del cubo' },
-      { id: 'faces', name: 'Caras Laterales', defaultColorId: 'brand-orange', description: 'Paneles de visualización' },
-      { id: 'topRing', name: 'Borde Superior', defaultColorId: 'brand-yellow', description: 'Acabado y anillo superior' },
+      { id: 'handle', name: 'Mango', defaultColorId: 'brand-cream', description: 'Mango cilíndrico de 5.6 cm (Ø 1.4 cm)' },
+      { id: 'box', name: 'Caja de Marca', defaultColorId: 'brand-purple', description: 'Caja central de 4 × 3 × 4 cm personalizada' },
+      { id: 'head', name: 'Cabeza', defaultColorId: 'brand-cream', description: 'Cápsula de 2.7 × 2.5 cm' },
     ]
   },
   {

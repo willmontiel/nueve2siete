@@ -15,6 +15,7 @@ export function ProductDetailPage() {
   }, [slug])
 
   const [selectedPartId, setSelectedPartId] = useState<string>(product.parts[0].id)
+  const [customText, setCustomText] = useState<string>(product.customTextConfig?.defaultText || '')
   
   // Estado de colores por parte
   const [partColors, setPartColors] = useState<Record<string, string>>(() => {
@@ -37,6 +38,7 @@ export function ProductDetailPage() {
       newColors[part.id] = color ? color.hex : '#1C1C1E'
     })
     setPartColors(newColors)
+    setCustomText(product.customTextConfig?.defaultText || '')
   }, [product])
 
   const handleColorChange = (hex: string) => {
@@ -70,11 +72,15 @@ export function ProductDetailPage() {
       return `• ${part.name}: ${colorObj?.name || 'Personalizado'} (${hex})`
     }).join('\n')
 
+    const customTextLine = customText.trim()
+      ? `\n✍️ *Texto / Marca en caja:* "${customText.trim()}"`
+      : ''
+
     const message = 
 `👋 ¡Hola nueve2siete! Quiero realizar un pedido personalizado:
 
 📦 *Producto:* ${product.name}
-📐 *Dimensiones:* ${product.dimensions}
+📐 *Dimensiones:* ${product.dimensions}${customTextLine}
 🎨 *Colores Seleccionados:*
 ${colorBreakdown}
 
@@ -153,6 +159,7 @@ ${colorBreakdown}
             <ProductViewer3D
               product={product}
               partColors={partColors}
+              customText={customText}
               autoRotate={autoRotate}
             />
           </div>
@@ -177,6 +184,35 @@ ${colorBreakdown}
             <p className="text-xs text-[#64606E] dark:text-[#A3A2AE] mb-5 pb-4 border-b border-black/5 dark:border-white/8 leading-relaxed">
               {product.description}
             </p>
+
+            {/* Texto de Marca en vivo (si el producto lo soporta) */}
+            {product.customTextConfig && (
+              <div className="mb-6 p-4 rounded-2xl bg-gradient-to-br from-[#DE5B2B]/5 to-transparent dark:from-[#DE5B2B]/10 dark:to-transparent border border-[#DE5B2B]/20">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-[#DE5B2B] flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    {product.customTextConfig.label}
+                  </label>
+                  <span className="text-[11px] font-semibold text-[#64606E] dark:text-[#A3A2AE]">
+                    {customText.length}/{product.customTextConfig.maxLength}
+                  </span>
+                </div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    maxLength={product.customTextConfig.maxLength}
+                    value={customText}
+                    onChange={(e) => setCustomText(e.target.value)}
+                    placeholder={product.customTextConfig.placeholder}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#1E1D28] text-sm font-bold text-[#1F1E24] dark:text-[#F6F3EF] border border-black/10 dark:border-white/10 focus:outline-none focus:border-[#DE5B2B] focus:ring-2 focus:ring-[#DE5B2B]/20 transition-all placeholder:font-normal placeholder:text-gray-400"
+                  />
+                </div>
+                <p className="text-[11px] text-[#64606E] dark:text-[#A3A2AE] mt-2 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#DE5B2B] shrink-0" />
+                  Se proyecta en tiempo real sobre las 4 caras de la caja en el visor 3D.
+                </p>
+              </div>
+            )}
 
             {/* Paso 1: Elegir la parte del producto */}
             <div className="mb-6">
@@ -300,9 +336,15 @@ ${colorBreakdown}
                   <Layers className="w-3.5 h-3.5 text-[#DE5B2B]" />
                   Combinación Seleccionada:
                 </span>
-                <span className="text-[11px] font-semibold text-[#64606E] dark:text-[#A3A2AE]">
-                  {product.parts.length} zonas
-                </span>
+                {customText.trim() ? (
+                  <span className="text-[11px] font-bold text-[#DE5B2B] bg-[#DE5B2B]/10 px-2 py-0.5 rounded-md truncate max-w-[130px]">
+                    "{customText.trim()}"
+                  </span>
+                ) : (
+                  <span className="text-[11px] font-semibold text-[#64606E] dark:text-[#A3A2AE]">
+                    {product.parts.length} zonas
+                  </span>
+                )}
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {product.parts.map(part => {
