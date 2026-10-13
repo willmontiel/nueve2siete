@@ -13,9 +13,9 @@
   --color-brand-dark: #1F1E24;
   --color-brand-muted: #64606E;
   
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-display: 'Cal Sans', 'Outfit', sans-serif;
-  --font-cal: 'Cal Sans', sans-serif;
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Outfit', sans-serif;
+  --font-cal: 'Outfit', sans-serif;
 }
 
 :root {
@@ -36,6 +36,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg-app);
   color: var(--text-main);
   transition: background-color 0.25s ease, color 0.25s ease;
