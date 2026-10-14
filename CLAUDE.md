@@ -51,8 +51,18 @@ framer-motion, Lenis. Deployed on Vercel (`vercel.json` rewrites every path to `
 - **Theme:** `ThemeContext` toggles a `dark` class on `<html>`. Only an explicit choice from the toggle is
   saved (`localStorage` key `n2s_theme`); until then the site follows the system theme, live. An inline
   script in `index.html` applies the same choice before the first paint; keep the two in sync.
-- **Home** (`src/pages/Home.tsx`) is being rebuilt section by section (see the roadmap). The first screen
-  is `src/components/home/Hero.tsx`, then the magazine; the sections below it are still Gemini's until phase 4.
+- **Home** (`src/pages/Home.tsx`) is being rebuilt section by section (see the roadmap). It opens with
+  `src/components/home/Opening.tsx` (hero, then magazine); the sections below are still Gemini's until phase 4.
+- **Opening choreography** (`Opening.tsx`): the hero is `sticky` inside a box that also holds a spacer and the
+  magazine. It plays in two steps, each tracked with `useScroll`:
+  - `hold`: the hero stays still for the spacer's height. The corner ribbons wind back into their corners,
+    the sentence and the action step aside, and the motto slides to the middle.
+  - `cover`: the magazine rises over the hero on a `bg-surface` sheet with a rounded top. The motto leaves
+    letter by letter (`letterWindow` in `src/lib/stagger.ts`), lower line first, before the sheet reaches it.
+  - Under reduced motion the hero is not sticky and the spacer collapses.
+  - Keep `overflow-x-clip` (not `overflow-hidden`) on the Home wrapper; a scroll container there breaks the
+    sticky hero.
+  - The motto is split into letter spans, so the `h1` carries the whole motto as its `aria-label`.
 - **Magazine** (`src/components/magazine/`, section `#proyectos`): the project portfolio as a book whose
   rigid leaves turn on the spine.
   - Data: `src/data/projects.ts`, made-up placeholders for now (`docs/deuda.md`).

@@ -134,7 +134,7 @@ mensaje correcto; el clicker suena una sola vez.
 
 ## Fase 2: Revista interactiva
 
-**Estado: implementada el 2026-10-14, pendiente de tu aprobación.**
+**Estado: aprobada el 2026-10-14.**
 - **Cómo es:**
   - La revista está siempre abierta al centro, como en pictoric.
   - La portada es una doble página naranja: el título "Lo que ya cobró vida" a la izquierda, el logo en crema a
@@ -204,6 +204,25 @@ apruebas la animación.
 ---
 
 ## Fase 3: Coreografía del scroll
+
+**Estado: implementada el 2026-10-14, pendiente de tu aprobación.**
+- **La secuencia:**
+  1. **Pausa:** el hero se queda fijo durante 70 % de una pantalla de scroll (50 % en el celular). Mientras
+     tanto, el 9 y el 2 se enrollan de vuelta hacia sus esquinas, la frase de apoyo y el botón suben y se
+     desvanecen, y el lema baja al centro.
+  2. **La revista sube** como una hoja de papel con el borde de arriba redondo, un tono más clara que el
+     fondo, por delante del hero.
+  3. **El lema sale letra por letra,** cayendo dentro de su línea, primero la línea de abajo. Termina antes de
+     que llegue el borde de la hoja, así ningún texto queda tapado.
+- **Con "reducir movimiento"** el hero no se queda fijo y la revista viene justo después.
+- **Diferencia con pictoric:** allá la frase termina impresa en la primera doble página del libro. Aquí la
+  portada de la revista ya tiene su propio título, así que el lema sale, como decía el plan.
+- **Verificado en Chrome:**
+  - Escritorio 1440 px y celular 390 px, en los dos temas.
+  - El enlace "Proyectos" de la barra lleva a la revista con el hero ya tapado.
+  - El h1 se anuncia una sola vez a los lectores de pantalla.
+  - El inspector del skill no marca nada nuevo: ni texto tapado ni secciones fijas demasiado largas.
+- **Falta:** probar en Safari y en un iPhone real.
 
 **Objetivo:** unir el hero y la revista como en pictoric.
 
