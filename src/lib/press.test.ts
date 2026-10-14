@@ -8,9 +8,14 @@ const fire = (handlers: Handlers, ...names: (keyof Handlers)[]) => names.forEach
 
 function track() {
   let presses = 0
+  let releases = 0
   const states: boolean[] = []
-  const handlers = pressHandlers({ onPress: () => presses++, onPressedChange: pressed => states.push(pressed) }) as Handlers
-  return { handlers, states, presses: () => presses }
+  const handlers = pressHandlers({
+    onPress: () => presses++,
+    onRelease: () => releases++,
+    onPressedChange: pressed => states.push(pressed),
+  }) as Handlers
+  return { handlers, states, presses: () => presses, releases: () => releases }
 }
 
 describe('pressHandlers', () => {
@@ -33,8 +38,17 @@ describe('pressHandlers', () => {
   })
 
   it('ignores a release that never had a press', () => {
-    const { handlers, states } = track()
+    const { handlers, states, releases } = track()
     fire(handlers, 'onPointerLeave', 'onPointerUp')
     expect(states).toEqual([])
+    expect(releases()).toBe(0)
+  })
+
+  it('lets the button go once per press, however the pointer leaves', () => {
+    const { handlers, releases } = track()
+    fire(handlers, 'onPointerDown', 'onPointerUp', 'onPointerLeave', 'onClick')
+    expect(releases()).toBe(1)
+    fire(handlers, 'onPointerDown', 'onPointerLeave', 'onPointerUp')
+    expect(releases()).toBe(2)
   })
 })

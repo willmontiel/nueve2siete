@@ -3,7 +3,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, Float, ContactShadows, RoundedBox, Text, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import { findColor, type PartColors, type Product } from '../../data/products'
-import { playMechanicalClick } from '../../utils/sound'
+import { playClick, playClickRelease } from '../../utils/sound'
 import { pressHandlers } from '../../lib/press'
 
 interface ViewerProps {
@@ -158,11 +158,11 @@ function GlbModel({ url, colors }: { url: string; colors: Hexes }) {
   return <primitive object={model} />
 }
 
-// 2. Clicker Flor 3D: pressing the centre sinks it and plays the switch sound once per press
+// 2. Clicker Flor 3D: pressing the centre sinks it; it clicks once going down and once coming back up
 function ClickerModel({ colors, interactive }: { colors: Hexes; interactive: boolean }) {
   const groupRef = useRef<THREE.Group>(null)
   const [pressed, setPressed] = useState(false)
-  const press = useMemo(() => pressHandlers({ onPress: playMechanicalClick, onPressedChange: setPressed }), [])
+  const press = useMemo(() => pressHandlers({ onPress: playClick, onRelease: playClickRelease, onPressedChange: setPressed }), [])
 
   useEffect(() => {
     const center = groupRef.current?.getObjectByName('center')

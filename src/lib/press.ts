@@ -1,7 +1,14 @@
 type Stoppable = { stopPropagation(): void }
 
+interface PressOptions {
+  onPress: () => void
+  /** Once per press, when the button comes back up (pointer lifted or slid off) */
+  onRelease?: () => void
+  onPressedChange: (pressed: boolean) => void
+}
+
 // One press per pointerdown. Browsers also fire click after pointerup, so click must not count again.
-export function pressHandlers({ onPress, onPressedChange }: { onPress: () => void; onPressedChange: (pressed: boolean) => void }) {
+export function pressHandlers({ onPress, onRelease, onPressedChange }: PressOptions) {
   let pressed = false
 
   const release = (e: Stoppable) => {
@@ -9,6 +16,7 @@ export function pressHandlers({ onPress, onPressedChange }: { onPress: () => voi
     if (!pressed) return
     pressed = false
     onPressedChange(false)
+    onRelease?.()
   }
 
   return {

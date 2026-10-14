@@ -1,10 +1,11 @@
-import { useState, type MouseEvent } from 'react'
+import { useMemo, useState, type MouseEvent } from 'react'
 import { flushSync } from 'react-dom'
 import { motion, useReducedMotion } from 'framer-motion'
 import { useMatch } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { FLOWER, FLOWER_MASK, bloomSize, petalCentres } from '../lib/bloom'
-import { playMechanicalClick } from '../utils/sound'
+import { pressHandlers } from '../lib/press'
+import { playClick, playClickRelease } from '../utils/sound'
 
 const PETALS = petalCentres()
 // Each press turns the petals one step on, with a little overshoot
@@ -23,9 +24,15 @@ export function ThemeSwitch() {
   // rides above that bar, and on a wide screen it moves to the left, over the corner of the piece's stage
   const productPage = useMatch('/catalogo/:slug') !== null
   const dark = theme === 'dark'
+  // It clicks going down and coming back up, like the clicker; the theme changes on click, so keys work too
+  const press = useMemo(() => pressHandlers({ onPress: playClick, onRelease: playClickRelease, onPressedChange: () => {} }), [])
 
   const flip = (event: MouseEvent<HTMLButtonElement>) => {
-    playMechanicalClick()
+    // A click from the keyboard comes with no pointer press to sound it
+    if (event.detail === 0) {
+      playClick()
+      window.setTimeout(playClickRelease, 90)
+    }
     setTurns(t => t + 1)
     if (reduceMotion || !('startViewTransition' in document)) {
       toggleTheme()
@@ -51,6 +58,7 @@ export function ThemeSwitch() {
       aria-checked={dark}
       aria-label="Modo oscuro"
       title={dark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+      {...press}
       onClick={flip}
       className={`group fixed z-[60] w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full transition-transform duration-150 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent ${
         productPage

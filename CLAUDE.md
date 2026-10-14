@@ -51,8 +51,10 @@ deploy and GoDaddy guide is `docs/despliegue.md`.
     `public/models/`, the files the site loads. Their meshes must be named after the part ids (`base`,
     `center`); the viewer gives each its own material and sets the chosen colours.
   - Compression moves each part's rest position into its node, so the clicker's press sinks the centre from
-    the height the file brings (kept in `userData.restY`), never from 0. Pressing it plays a synthesized
-    switch sound once per press (`src/lib/press.ts`: a browser fires click after pointerup).
+    the height the file brings (kept in `userData.restY`), never from 0. Pressing it clicks once going down
+    and, softer, once coming back up (`src/lib/press.ts`; a browser fires click after pointerup, so click never
+    counts). The click is synthesized in `src/utils/sound.ts` from short bursts of filtered noise, the sound of
+    plastic on plastic; the theme switch uses the same one.
   - `interactive={false}` (the catalog posters) drops the camera controls and lets touches through, so a
     finger on the piece still scrolls the page; the piece sways instead of turning, so a flat flower never
     shows its edge. `Framing` pulls the camera back on narrow stages.

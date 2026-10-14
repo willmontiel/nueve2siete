@@ -345,6 +345,8 @@ los colores por zona, el texto de marca y el pedido por WhatsApp.
   - **El moño:** al tocarlo suelta cintas de colores que entran por los bordes, hacen un lazo y se recogen.
   - **El interruptor de tema es el clicker flor,** abajo a la derecha. Hace clic, se duerme en el modo oscuro y
     el tema nuevo florece desde él.
+  - **El sonido del clic:** ahora suena como plástico de verdad, al hundirse y, más suave, al soltar. Lo elegiste
+    entre tres opciones (la B, la más aguda).
 - **Falta:**
   - La revisión en celulares reales (iPhone con Safari y Android).
   - Las fotos reales.
