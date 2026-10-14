@@ -7,7 +7,7 @@ import { whatsappUrl } from '../lib/contact'
 const linkClass =
   'text-[1.0625rem] font-semibold underline decoration-2 underline-offset-[0.3em] decoration-transparent transition-[text-decoration-color] duration-200 hover:decoration-current'
 
-// A plain bar on the page ground: wordmark, two links, the theme switch and one action
+// A plain bar on the page ground: wordmark, three links, the theme switch and one action
 export function Navbar() {
   const location = useLocation()
   const { theme, toggleTheme } = useTheme()
@@ -25,6 +25,7 @@ export function Navbar() {
 
         <nav aria-label="Principal" className="hidden md:flex items-center gap-8 text-fg">
           <Link to="/#proyectos" className={linkClass}>Proyectos</Link>
+          <Link to="/#como-pedir" className={linkClass}>Cómo pedir</Link>
           <NavLink to="/catalogo" className={({ isActive }) => `${linkClass} ${isActive ? 'text-accent' : ''}`}>
             Catálogo
           </NavLink>
@@ -66,6 +67,7 @@ export function Navbar() {
       {menuOpen && (
         <nav id="menu-movil" aria-label="Principal" className="md:hidden absolute inset-x-0 top-full bg-surface rounded-b-panel px-4 pt-2 pb-8 flex flex-col">
           <Link to="/#proyectos" className="font-display text-5xl leading-tight text-fg py-2">Proyectos</Link>
+          <Link to="/#como-pedir" className="font-display text-5xl leading-tight text-fg py-2">Cómo pedir</Link>
           <Link to="/catalogo" className="font-display text-5xl leading-tight text-fg py-2">Catálogo</Link>
         </nav>
       )}

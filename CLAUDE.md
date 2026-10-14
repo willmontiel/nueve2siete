@@ -51,10 +51,20 @@ framer-motion, Lenis. Deployed on Vercel (`vercel.json` rewrites every path to `
 - **Theme:** `ThemeContext` toggles a `dark` class on `<html>`. Only an explicit choice from the toggle is
   saved (`localStorage` key `n2s_theme`); until then the site follows the system theme, live. An inline
   script in `index.html` applies the same choice before the first paint; keep the two in sync.
-- **Home** (`src/pages/Home.tsx`) is being rebuilt section by section (see the roadmap): the hero
-  (`src/components/home/Hero.tsx`), then the project garland. The sections below are still Gemini's until
-  phase 4. Keep `overflow-x-clip` (not `overflow-hidden`) on the Home wrapper: a scroll container there stops
-  the garland from pinning.
+- **Home** (`src/pages/Home.tsx`) has three parts, then the site footer:
+  - The hero (`src/components/home/Hero.tsx`).
+  - The project garland.
+  - "Cómo se pide" (`HowToOrder.tsx`, `#como-pedir`).
+
+  Keep `overflow-x-clip` (not `overflow-hidden`) on the Home wrapper: a scroll container there stops the
+  garland from pinning.
+- **Cómo se pide:** four steps on fields of colour, zigzagging from 768px.
+  - One orange ribbon threads them, measured from the steps' centres (`threadPath` in `src/lib/thread.ts`),
+    and draws itself with the scroll. It ties a loop between each pair of steps.
+  - The last step gets wrapped like a present: two bands and a bow.
+  - The step texts promise no lead time, shipping or payment terms (`docs/deuda.md`).
+- **Footer** (`Footer.tsx`) is the close of every page: "Hablemos de tu idea", the three contacts, then the
+  logo across the full width with the faint ribbon behind it, as on page 3 of the brand guide.
 - **Garland** (`src/components/garland/`, section `#proyectos`): the projects as gift tags hanging from one
   long ribbon, like a party garland. It replaced a pictoric-style magazine (commits `aca7009` and `6617b77`),
   on purpose: the brand should not copy its references.
@@ -79,7 +89,9 @@ framer-motion, Lenis. Deployed on Vercel (`vercel.json` rewrites every path to `
   ribbon (`text-ribbon`) loops behind the motto, and the corner ribbons write the 9 (orange) and the 2
   (lavender) of the name. Below the first screen, pass `play` so a ribbon draws itself when it is seen.
 - **Navigation** (`Navbar.tsx`) is a plain bar in the page flow, not fixed, so pages need no top padding
-  for it. `/#proyectos` links are scrolled to by `ScrollToTop` once the section renders.
+  for it. Links to `/#proyectos` and `/#como-pedir` are scrolled to by `ScrollToTop` one frame after the page
+  renders: the garland sets its height in its first frame, and Lenis must re-measure a page that grew
+  (`lenis.resize()` in `scrollToElement`).
 - **Motion helpers** in `src/index.css`: `.reveal-line` (masked headline lines) and `.rise`, staggered with
   a `--i` custom property; both are off under reduced motion, as is every Ribbon animation.
 - **Tokens** live in `src/index.css` (Tailwind v4 `@theme`; there is no `tailwind.config`):

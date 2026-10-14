@@ -134,7 +134,7 @@ mensaje correcto; el clicker suena una sola vez.
 
 ## Fases 2 y 3: Guirnalda de proyectos (reemplaza la revista y su coreografía)
 
-**Estado: implementada el 2026-10-14, pendiente de tu aprobación.**
+**Estado: aprobada el 2026-10-14.**
 
 **Por qué cambió:** la revista y la transición del hero copiaban la puesta en escena de pictoric:
 - el libro abierto al centro;
@@ -175,6 +175,31 @@ algún día se quiere recuperar.
 ---
 
 ## Fase 4: Resto del Home
+
+**Estado: implementada el 2026-10-14, pendiente de tu aprobación.**
+- **Elegiste:** "Cómo se pide" y el cierre con el nombre gigante, como footer de todo el sitio. Ocasiones y
+  Pruébalo tú quedan fuera. Las preguntas frecuentes esperan a la deuda.
+- **Se fueron del Home** las tres secciones que quedaban de Gemini, con sus promesas sin confirmar:
+  especialidades, la cuadrícula de "valor de cada pieza" y el llamado final.
+- **Cómo se pide ("Del WhatsApp a tus manos"):**
+  - Cuatro pasos en bloques de color, en zigzag, con el primer paso trayendo el botón de WhatsApp:
+    1. Nos cuentas la idea.
+    2. Te proponemos el diseño.
+    3. La hacemos.
+    4. La recibes.
+  - Una cinta naranja los hila con el scroll y hace un bucle entre cada par, como las letras del logo.
+  - Al final, la cinta envuelve el último paso como un regalo, con su moño.
+  - Los textos no prometen tiempos, envíos ni pagos.
+- **El cierre de todas las páginas:** "Hablemos de tu idea", WhatsApp, correo e Instagram en grande, y el logo
+  a todo el ancho con la cinta tenue detrás, como en la página 3 del PDF.
+- **La barra** suma el enlace "Cómo pedir".
+- **Arreglado de paso:** los enlaces con ancla desde otra página (por ejemplo, "Cómo pedir" desde el catálogo)
+  ahora llegan exactos a su sección.
+- **El inspector del skill** pasa el Home con 0 fallas a 1440, 768 y 390 px (antes eran 12, todas de las
+  secciones de Gemini). Deja 4 avisos:
+  - Varios tamaños de letra, porque las etiquetas escalan con su ancho.
+  - No hay video: falta uno honesto de sus piezas.
+  - Dos avisos más, que son efectos del movimiento lateral de la guirnalda.
 
 **Objetivo:** completar la página para que responda lo que un cliente necesita saber antes de escribir.
 
