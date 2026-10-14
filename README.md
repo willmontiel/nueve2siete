@@ -9,7 +9,7 @@ Sitio de nueve2siete, un emprendimiento de Colombia: recordatorios para fiestas,
 - **3D & Animaciones:** Three.js, React Three Fiber, React Three Drei, Framer Motion
 - **Enrutamiento:** React Router DOM (SPA optimizada)
 - **Backend / DB:** Supabase (opcional con soporte fallback)
-- **Despliegue:** Cloudflare Pages (ver `docs/despliegue.md`)
+- **Despliegue:** Cloudflare, como Worker de archivos estáticos (ver `docs/despliegue.md`)
 
 ## Estructura del Proyecto
 

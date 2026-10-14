@@ -75,5 +75,5 @@ Los visitantes pueden agregar filas pero nunca leerlas. Solo se ven desde el pan
 - **Llaves:**
   - El sitio usa solo la llave pública (publishable o anon), en `VITE_SUPABASE_ANON_KEY`.
   - La `secret` o `service_role` nunca va en el `.env` ni en Cloudflare: salta todos los permisos.
-- **Cloudflare Pages** necesita las mismas dos variables, `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY`
+- **Cloudflare** necesita las mismas dos variables como variables de build: `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY`
   (ver `docs/despliegue.md`).

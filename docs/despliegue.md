@@ -1,42 +1,50 @@
-# Despliegue: Cloudflare Pages y el dominio de GoDaddy
+# Despliegue: Cloudflare y el dominio de GoDaddy
 
-El sitio va en Cloudflare Pages: es gratis y permite uso comercial. El plan gratuito de Vercel no lo permite: sus
+El sitio va en Cloudflare, que es gratis y permite uso comercial. El plan gratuito de Vercel no lo permite: sus
 condiciones cuentan como comercial *"advertising the sale of a product or service"*, aunque el pago no pase por
 el sitio.
+
+Cloudflare lo sirve como un **Worker** de archivos estáticos, el flujo que su panel ofrece hoy para proyectos
+nuevos. La configuración está en `wrangler.jsonc`: sirve la carpeta `dist` y abre la app en cualquier dirección.
 
 El dominio sigue comprado en GoDaddy, pero su DNS pasa a Cloudflare. Hace falta para usar `nueve2siete.com` sin
 `www`, y no cuesta nada.
 
 ## 0. Antes de empezar
 
-Cloudflare publica la rama `master` como el sitio oficial, y cada rama aparte (`v1`) como una versión de prueba
-con su propia dirección. Antes de desplegar:
+Cloudflare construye el sitio desde GitHub, así que el código tiene que estar allá, en `master`:
 
-1. Haz commit y push de lo pendiente en `v1`.
+1. Haz commit y push de todo lo pendiente en `v1`, incluidos `wrangler.jsonc` y `.nvmrc`.
 2. Lleva `v1` a `master`, con un merge o un pull request.
 
-## 1. Crear el proyecto en Cloudflare Pages
+## 1. Crear el Worker
 
-1. Crea una cuenta gratis en dash.cloudflare.com, o entra con la que tengas.
-2. Ve a **Workers & Pages → Create**. Elige la pestaña **Pages** (no Workers) y luego **Connect to Git**. Si la
-   pantalla te ofrece Workers, busca el enlace para Pages.
-3. Conecta GitHub, elige `willmontiel/nueve2siete` y dale **Begin setup**.
-4. Configura el build:
-   - Production branch: `master`.
-   - Framework preset: **React (Vite)**, o **None**.
+1. En dash.cloudflare.com, ve a **Workers & Pages → Create → Import a repository**. Conecta GitHub y elige
+   `willmontiel/nueve2siete`.
+2. En **Set up your application**:
+   - Project name: `nueve2siete`.
    - Build command: `npm run build`.
-   - Build output directory: `dist`.
-5. En **Environment variables (advanced)**, agrega estas cinco, con los mismos valores de tu `.env`:
-   - `VITE_WHATSAPP_PHONE`
-   - `VITE_CONTACT_EMAIL`
-   - `VITE_INSTAGRAM_URL`
-   - `VITE_SUPABASE_URL`
-   - `VITE_SUPABASE_ANON_KEY`
+   - Deploy command: `npx wrangler deploy`.
+   - Preview command: deja el que trae.
+   - **Enable Preview builds:** déjalo encendido. Así cada rama distinta de `master` tiene su versión de prueba.
+3. Abre **Advanced settings**:
+   - Si hay un campo de rama (Branch), pon `master`. Cloudflare asume `main`, y tu repo usa `master`.
+   - Si aparece **Build variables**, agrega las cinco de tu `.env`, con los mismos valores:
+     - `VITE_WHATSAPP_PHONE`
+     - `VITE_CONTACT_EMAIL`
+     - `VITE_INSTAGRAM_URL`
+     - `VITE_SUPABASE_URL`
+     - `VITE_SUPABASE_ANON_KEY`
+4. Dale **Deploy**.
+5. Si no pudiste poner las variables en el paso 3, el primer build falla a propósito, porque faltan las de
+   contacto. En ese caso:
+   1. Entra al Worker → **Settings → Build → Build variables and secrets**.
+   2. Agrega las cinco.
+   3. Ve a **Deployments** y vuelve a lanzar el build.
 
-   Sin las tres de contacto el build falla a propósito. Node 22 lo toma solo del archivo `.nvmrc`.
-6. Dale **Save and Deploy**. En unos minutos el sitio queda en `nueve2siete.pages.dev`. Ábrelo y pruébalo.
-7. Ve a **Settings → Variables and Secrets** y revisa que las cinco variables estén también en **Preview**. Si
-   no están, agrégalas; sin ellas fallan las versiones de prueba de `v1`.
+   Van como variables de **build**, no en "Variables and Secrets": el sitio las lee al construirse.
+6. **Prueba el sitio.** Queda en una dirección como `nueve2siete.<tu-cuenta>.workers.dev`. Node 22 lo toma solo del
+   archivo `.nvmrc`.
 
 ## 2. Pasar el DNS del dominio a Cloudflare
 
@@ -56,7 +64,8 @@ con su propia dirección. Antes de desplegar:
 
 ## 3. Conectar el dominio al sitio
 
-1. En **Workers & Pages**, abre el proyecto y entra a **Custom domains → Set up a custom domain**.
+1. En **Workers & Pages**, abre el Worker `nueve2siete` y entra a **Settings → Domains & Routes → Add → Custom
+   domain**.
 2. Escribe `nueve2siete.com` y confirma. Cloudflare crea el registro y el certificado HTTPS solo.
 3. Repite con `www.nueve2siete.com`.
 4. Para que `www` lleve a la dirección sin `www`, ve a **Rules → Redirect Rules**, crea una regla desde la
@@ -73,9 +82,9 @@ con su propia dirección. Antes de desplegar:
 ## 5. Después del lanzamiento
 
 - **Publicar cambios:** cada push a `master` publica el sitio. Cada push a otra rama crea una versión de prueba,
-  con su dirección en el panel del proyecto.
-- **Cambiar una variable:** si cambias una variable en Cloudflare, hay que desplegar de nuevo (**Deployments →
-  ⋯ → Retry deployment**).
+  con su dirección en el panel del Worker.
+- **Cambiar una variable:** si cambias una variable de build en Cloudflare, hay que construir de nuevo: haz un push
+  o relanza el último build desde **Deployments**.
 - **Supabase:** no hay que configurar nada para el dominio.
 - **El correo:** `nueve2siete@outlook.com` no usa el dominio, así que el cambio de DNS no lo toca.
 - **Google (opcional):** registra el sitio en Google Search Console y envía `https://nueve2siete.com/sitemap.xml`

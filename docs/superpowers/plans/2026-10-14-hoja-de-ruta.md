@@ -327,7 +327,7 @@ los colores por zona, el texto de marca y el pedido por WhatsApp.
   - **`robots.txt` y `sitemap.xml`.**
   - **Fotos de la guirnalda:** pasaron de ~3 MB a ~930 KB sin diferencia visible.
   - **Node 22** fijado para el build (`.nvmrc`).
-- **Despliegue en Cloudflare Pages:** la guía paso a paso, con GoDaddy, está en
+- **Despliegue en Cloudflare:** la guía paso a paso, con GoDaddy, está en
   [docs/despliegue.md](../../despliegue.md).
 - **Falta:**
   - Desplegar y apuntar el dominio.
@@ -337,13 +337,13 @@ los colores por zona, el texto de marca y el pedido por WhatsApp.
 **Incluye:**
 - **SEO:** título y descripción por página, y una imagen para cuando se comparte el enlace en WhatsApp o redes.
 - **Imágenes optimizadas** en formatos modernos y con tamaños según la pantalla.
-- **Despliegue (Cloudflare Pages):** dominio, versiones de prueba por cada cambio y variables de entorno. Las tres de
+- **Despliegue (Cloudflare):** dominio, versiones de prueba por cada cambio y variables de entorno. Las tres de
   contacto (`VITE_WHATSAPP_PHONE`, `VITE_CONTACT_EMAIL`, `VITE_INSTAGRAM_URL`) son obligatorias: sin ellas el
   build falla a propósito.
 - **Revisión final** con el inspector del skill y pruebas en celulares reales.
 - **Fotos reales** en lugar de las de IA, a medida que las tengas.
 
-**Resuelto:** Cloudflare Pages. Es gratis y permite uso comercial, que el plan gratuito de Vercel prohíbe.
+**Resuelto:** Cloudflare. Es gratis y permite uso comercial, que el plan gratuito de Vercel prohíbe.
 
 **Resuelto:** el dominio es nueve2siete.com, comprado en GoDaddy. Las cuentas de Vercel y Supabase ya existen
 (2026-10-14).

@@ -49,6 +49,6 @@ lo publica como un hecho: usa un texto neutro o lo omite. Cuando se valide, se m
 
 - [ ] **Títulos y descripciones** de cada página (`src/lib/meta.ts`) y el texto que sale al compartir el enlace
       (`index.html`): los escribí yo, provisionales. Revisarlos.
-- [x] **El plan de hosting:** Cloudflare Pages, gratis y con uso comercial permitido. El plan gratuito de Vercel
+- [x] **El plan de hosting:** Cloudflare (Workers), gratis y con uso comercial permitido. El plan gratuito de Vercel
       lo prohíbe (decidido el 2026-10-14).
 - [x] **Dominio:** nueve2siete.com, comprado en GoDaddy (confirmado el 2026-10-14).

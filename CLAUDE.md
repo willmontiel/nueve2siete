@@ -15,9 +15,10 @@ customer-facing copy must not say "3D" or "impresión 3D": that market is satura
 design, color and the occasion. Don't present it as a "studio" either.
 
 Single-page app: Vite 8, React 19, TypeScript 6, Tailwind CSS v4, React Router 7, React Three Fiber 9 + drei,
-framer-motion, Lenis. Deployed on Cloudflare Pages at nueve2siete.com (free plan; Vercel Hobby forbids commercial use). Pages serves
-`index.html` for every path that is not a file, as long as there is no top-level `404.html`; Node 22 comes from
-`.nvmrc`. The step-by-step deploy and GoDaddy guide is `docs/despliegue.md`.
+framer-motion, Lenis. Deployed on Cloudflare at nueve2siete.com, as an assets-only Worker built from GitHub (free plan; Vercel Hobby
+forbids commercial use). `wrangler.jsonc` serves `dist/` and answers every path that is not a file with
+`index.html` (`not_found_handling: single-page-application`). Node 22 comes from `.nvmrc`. The step-by-step
+deploy and GoDaddy guide is `docs/despliegue.md`.
 
 ## Commands
 
@@ -155,7 +156,7 @@ framer-motion, Lenis. Deployed on Cloudflare Pages at nueve2siete.com (free plan
 `.env` (gitignored; template in `.env.example`):
 - Required: `VITE_WHATSAPP_PHONE` (digits; spaces and `+` are stripped), `VITE_CONTACT_EMAIL`,
   `VITE_INSTAGRAM_URL`. `vite.config.ts` fails the build (and dev server and tests) when one is missing, and
-  Cloudflare Pages needs the same variables in its project settings, for Production and Preview.
+  Cloudflare needs the same variables as **build** variables (Settings → Build), since Vite inlines them.
 - Optional: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (the publishable or anon key, never the secret one).
   Without them the garland shows the local projects and orders are not logged.
 - Code reads the contact only through `src/lib/contact.ts`. Its tests stub the env with `vi.stubEnv`, so
