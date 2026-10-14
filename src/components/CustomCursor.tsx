@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
+// Only devices with a real mouse get the custom cursor
+const FINE_POINTER = '(hover: hover) and (pointer: fine)'
+
 export function CustomCursor() {
-  const [enabled, setEnabled] = useState(false)
+  const [enabled, setEnabled] = useState(() => window.matchMedia(FINE_POINTER).matches)
   const [isHovered, setIsHovered] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -15,10 +18,7 @@ export function CustomCursor() {
   const cursorY = useSpring(mouseY, springConfig)
 
   useEffect(() => {
-    // Solo activar si el dispositivo tiene puntero fino (mouse) y soporte de hover real
-    const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
-    setEnabled(mediaQuery.matches)
-
+    const mediaQuery = window.matchMedia(FINE_POINTER)
     const handleMediaChange = (e: MediaQueryListEvent) => {
       setEnabled(e.matches)
     }

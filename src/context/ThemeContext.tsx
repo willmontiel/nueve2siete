@@ -10,37 +10,54 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
+// Same key and order as the inline script in index.html, which applies the theme before the first paint
+const STORAGE_KEY = 'n2s_theme'
+const DARK_QUERY = '(prefers-color-scheme: dark)'
+
+// Storage can be blocked (private windows, strict settings); the site then just follows the system
+function savedTheme(): Theme | null {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    return saved === 'light' || saved === 'dark' ? saved : null
+  } catch {
+    return null
+  }
+}
+
+function saveTheme(theme: Theme) {
+  try {
+    localStorage.setItem(STORAGE_KEY, theme)
+  } catch {
+    // Not saved: the choice lasts until the visitor leaves
+  }
+}
+
+const systemTheme = (): Theme => (window.matchMedia(DARK_QUERY).matches ? 'dark' : 'light')
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    // 1. Revisar localStorage
-    const saved = localStorage.getItem('n2s_theme') as Theme | null
-    if (saved === 'light' || saved === 'dark') return saved
-
-    // 2. Revisar preferencia de sistema
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark'
-    }
-
-    return 'light'
-  })
+  const [theme, setThemeState] = useState<Theme>(() => savedTheme() ?? systemTheme())
 
   useEffect(() => {
-    const root = document.documentElement
-    if (theme === 'dark') {
-      root.classList.add('dark')
-    } else {
-      root.classList.remove('dark')
-    }
-    localStorage.setItem('n2s_theme', theme)
+    document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
 
-  const toggleTheme = () => {
-    setThemeState(prev => (prev === 'light' ? 'dark' : 'light'))
-  }
+  // Until the visitor picks a theme, the site keeps following the system, even when it changes
+  useEffect(() => {
+    const media = window.matchMedia(DARK_QUERY)
+    const follow = (e: MediaQueryListEvent) => {
+      if (!savedTheme()) setThemeState(e.matches ? 'dark' : 'light')
+    }
+    media.addEventListener('change', follow)
+    return () => media.removeEventListener('change', follow)
+  }, [])
 
+  // Only an explicit choice is remembered
   const setTheme = (t: Theme) => {
+    saveTheme(t)
     setThemeState(t)
   }
+
+  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light')
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>

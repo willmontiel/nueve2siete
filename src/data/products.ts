@@ -131,3 +131,14 @@ export const PRODUCTS: Product[] = [
     ]
   }
 ]
+
+// Links shared before a slug changed keep landing on the right product
+const SLUG_ALIASES: Record<string, string> = {
+  'portarretratos-minimal': 'portafotos-margarita',
+}
+
+export function findProduct(slug: string | undefined): Product | undefined {
+  if (!slug) return undefined
+  const target = SLUG_ALIASES[slug] ?? slug
+  return PRODUCTS.find(p => p.slug === target)
+}

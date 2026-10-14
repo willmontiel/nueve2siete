@@ -25,3 +25,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Design and browser tooling output
+.taste-skill
+.playwright-mcp

@@ -1,70 +1,140 @@
 @import "tailwindcss";
 @import "@fontsource/cal-sans";
+@import "@fontsource-variable/figtree";
+@import "lenis/dist/lenis.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Brand palette from the logo guide ("logo nueve2siete (1).pdf", pages 3 and 5) */
 @theme {
-  --color-brand-orange: #DE5B2B;
-  --color-brand-lavender: #9FAEE9;
-  --color-brand-yellow: #EEBA29;
-  --color-brand-cream: #F6F3EF;
-  --color-brand-cream-card: #EFEDE8;
-  --color-brand-purple: #8576EA;
-  --color-brand-dark: #1F1E24;
-  --color-brand-muted: #64606E;
-  
-  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-display: 'Outfit', sans-serif;
-  --font-cal: 'Outfit', sans-serif;
+  --color-orange: #DE5B2B;
+  --color-orange-deep: #C44E23;
+  --color-coral: #E87440;
+  --color-lavender: #9FAFE9;
+  --color-violet: #8676EA;
+  --color-mustard: #EFBB29;
+  --color-pine: #336F52;
+  --color-pink: #E890B3;
+  --color-lime: #CCD65F;
+
+  /* Light theme neutrals: the cream ground of the logo, one step lighter and one step darker */
+  --color-cream: #F0EEE8;
+  --color-paper: #F8F6F2;
+  --color-sand: #E6E3DB;
+  --color-ink: #1F1E24;
+  --color-muted: #605C6A;
+
+  /* Dark theme: a true black ground so OLED pixels switch off, with surfaces lifted in small steps */
+  --color-night: #000000;
+  --color-night-1: #121015;
+  --color-night-2: #1D1B22;
+  --color-night-3: #28252E;
+  --color-muted-night: #ABA7B3;
+
+  --font-sans: 'Figtree Variable', 'Figtree', system-ui, -apple-system, sans-serif;
+  --font-display: 'Cal Sans', 'Figtree Variable', system-ui, sans-serif;
+
+  --radius-card: 2rem;
+  --radius-panel: 2.5rem;
+
+  /* Motion: enters and reveals, things that travel while visible, long quiet reveals */
+  --ease-brand-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-brand-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-brand-soft: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
+/* Theme-aware roles: new sections use these and follow the visitor's theme without dark: variants */
 :root {
   color-scheme: light;
-  --bg-app: #F6F3EF;
-  --text-main: #1F1E24;
-  --text-muted: #64606E;
+  --ground: var(--color-cream);
+  --surface: var(--color-paper);
+  --fg: var(--color-ink);
+  --fg-muted: var(--color-muted);
+  --accent: var(--color-orange);
+  /* The faint ribbon behind the logo: one shade off the ground, as on page 3 of the brand guide */
+  --ribbon: color-mix(in srgb, var(--color-ink) 6%, var(--color-cream));
 }
 
 .dark {
   color-scheme: dark;
-  --bg-app: #121117;
-  --text-main: #F6F3EF;
-  --text-muted: #A3A2AE;
+  --ground: var(--color-night);
+  --surface: var(--color-night-1);
+  --fg: var(--color-cream);
+  --fg-muted: var(--color-muted-night);
+  --accent: var(--color-coral);
+  --ribbon: color-mix(in srgb, var(--color-cream) 9%, var(--color-night));
+}
+
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-ribbon: var(--ribbon);
+}
+
+/* Cal Sans ships one weight; bold utilities must not fake a heavier one */
+html {
+  font-synthesis-weight: none;
 }
 
 body {
   margin: 0;
   padding: 0;
-  min-height: 100vh;
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: var(--bg-app);
-  color: var(--text-main);
+  min-height: 100svh;
+  font-family: var(--font-sans);
+  background-color: var(--ground);
+  color: var(--fg);
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Glassmorphism responsive to theme */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+::selection {
+  background-color: var(--color-orange);
+  color: var(--color-ink);
 }
 
-.dark .glass-panel {
-  background: rgba(26, 25, 34, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
 }
 
+/*
+  Masked line reveal: each headline line rises from behind its own edge.
+  The padding/negative-margin pairs keep accents (ú) and descenders (q) from being clipped by the mask.
+*/
+.reveal-line {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.14em 0.1em;
+  margin-block: -0.14em -0.1em;
+}
+
+.reveal-line > span {
+  display: block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-line > span {
+    animation: line-up 900ms var(--ease-brand-out) both;
+    animation-delay: calc(var(--i, 0) * 110ms + 150ms);
+  }
+
+  .rise {
+    animation: rise 800ms var(--ease-brand-out) both;
+    animation-delay: calc(var(--i, 0) * 90ms + 120ms);
+  }
+}
+
+@keyframes line-up {
+  from { transform: translateY(110%); }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+}
+
+/* Catalog cards until the catalog is redesigned (roadmap, phase 5): a flat surface one step off the ground */
 .glass-card {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(222, 91, 43, 0.1);
-  box-shadow: 0 10px 30px -10px rgba(31, 30, 36, 0.05);
-}
-
-.dark .glass-card {
-  background: rgba(26, 25, 34, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+  background: var(--surface);
 }

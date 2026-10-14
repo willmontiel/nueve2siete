@@ -4,6 +4,7 @@ import { ThemeProvider } from './context/ThemeContext'
 import { Navbar } from './components/Navbar'
 import { Footer } from './components/Footer'
 import { ScrollToTop } from './components/ScrollToTop'
+import { SmoothScroll } from './components/SmoothScroll'
 import { CustomCursor } from './components/CustomCursor'
 import { Home } from './pages/Home'
 
@@ -18,8 +19,8 @@ const ProductDetailPage = lazy(() =>
 function PageLoader() {
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center gap-3">
-      <div className="w-8 h-8 rounded-full border-2 border-[#DE5B2B] border-t-transparent animate-spin" />
-      <span className="text-xs font-semibold text-[#64606E] dark:text-[#9FA0AB]">Cargando experiencia...</span>
+      <div className="w-8 h-8 rounded-full border-2 border-orange border-t-transparent animate-spin" />
+      <span className="text-xs font-semibold text-muted dark:text-muted-night">Cargando experiencia...</span>
     </div>
   )
 }
@@ -28,9 +29,10 @@ export default function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
+        <SmoothScroll />
         <ScrollToTop />
         <CustomCursor />
-        <div className="min-h-screen flex flex-col bg-[#F6F3EF] dark:bg-[#121117] text-[#1F1E24] dark:text-[#F6F3EF] transition-colors duration-300">
+        <div className="min-h-screen flex flex-col bg-cream dark:bg-night text-ink dark:text-cream transition-colors duration-300">
           <Navbar />
 
         <main className="flex-1">

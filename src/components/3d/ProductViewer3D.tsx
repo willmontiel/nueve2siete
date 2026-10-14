@@ -4,6 +4,7 @@ import { OrbitControls, Float, ContactShadows, RoundedBox, Text, useGLTF } from 
 import * as THREE from 'three'
 import type { Product } from '../../data/products'
 import { playMechanicalClick } from '../../utils/sound'
+import { pressHandlers } from '../../lib/press'
 
 interface ViewerProps {
   product: Product
@@ -199,32 +200,14 @@ function ClickerModel({ colors }: { colors: Record<string, string> }) {
     }
   }, [clonedScene, isPressed])
 
-  const handleClick = (e: any) => {
-    e.stopPropagation()
-    setIsPressed(true)
-    playMechanicalClick()
-    setTimeout(() => setIsPressed(false), 140)
-  }
-
-  const handlePointerDown = (e: any) => {
-    e.stopPropagation()
-    setIsPressed(true)
-    playMechanicalClick()
-  }
-
-  const handlePointerUp = (e: any) => {
-    e.stopPropagation()
-    setIsPressed(false)
-  }
+  const press = useMemo(() => pressHandlers({ onPress: playMechanicalClick, onPressedChange: setIsPressed }), [])
 
   return (
-    <group 
-      position={[0, 0.45, 0]} 
-      scale={0.46} 
+    <group
+      position={[0, 0.45, 0]}
+      scale={0.46}
       rotation={[0.75, 0, 0]}
-      onClick={handleClick}
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerUp}
+      {...press}
     >
       <primitive object={clonedScene} />
     </group>
@@ -360,7 +343,8 @@ function FloatingModel({
 
 export function ProductViewer3D({ product, partColors, customText, autoRotate = true }: ViewerProps) {
   return (
-    <div className="w-full h-full relative select-none">
+    // data-lenis-prevent hands the wheel to the camera zoom instead of the smooth page scroll
+    <div className="w-full h-full relative select-none" data-lenis-prevent>
       <Canvas
         shadows
         camera={{ position: [0, 0.82, 4.3], fov: 42 }}
@@ -404,7 +388,7 @@ export function ProductViewer3D({ product, partColors, customText, autoRotate = 
 
       {/* Indicador sutil de interacción */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 px-2.5 py-0.5 bg-black/40 backdrop-blur-md rounded-full text-[10px] text-white/90 font-medium pointer-events-none flex items-center gap-1.5 shadow-sm">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#DE5B2B] animate-pulse"></span>
+        <span className="w-1.5 h-1.5 rounded-full bg-orange animate-pulse"></span>
         Arrastra para rotar 360°
       </div>
     </div>
