@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 60" width="260" height="60" fill="none">
+  <!-- Minimalist Black & White Alternative Badge Logo -->
+  <rect x="2" y="2" width="56" height="56" rx="14" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-opacity="0.2" stroke-width="2"/>
+  <text x="30" y="38" font-family="'Cal Sans', 'Outfit', sans-serif" font-size="22" font-weight="800" text-anchor="middle" fill="currentColor" letter-spacing="-1">927</text>
+  
+  <!-- Wordmark -->
+  <text x="74" y="39" font-family="'Cal Sans', 'Outfit', sans-serif" font-size="28" font-weight="700" fill="currentColor" letter-spacing="-1">nueve2siete</text>
+  <circle cx="246" cy="35" r="4" fill="#DE5B2B"/>
+</svg>

@@ -1,32 +1,31 @@
-node_modules/
-.turbo/
-.next/
-out/
-coverage/
-*.tsbuildinfo
-next-env.d.ts
-.DS_Store
-*.pem
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Local environment
+node_modules
+dist
+dist-ssr
+*.local
 .env
-.env*.local
+.env.*
+!.env.example
 
-# Local database (dev/db) and files uploaded in the admin (.data/media)
-.data/
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# Playwright
-test-results/
-playwright-report/
-blob-report/
-playwright/.cache/
-
-# Sample logos for calibrating the engine: third-party brands and, later on, real customer logos
-logos-example/
-
-# Logo engine (Python)
-apps/engine/.venv/
-apps/engine/report/
-__pycache__/
-.pytest_cache/
-.ruff_cache/
+# Design and browser tooling output
+.taste-skill
+.playwright-mcp

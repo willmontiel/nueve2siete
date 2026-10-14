@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nueve2siete | Recordatorios, merch y piezas a medida</title>
+    <!-- The home's values; each page sets its own title, description and canonical (src/lib/usePageMeta.ts) -->
+    <meta name="description" content="Recordatorios para fiestas, merch para empresas y piezas a medida, en los colores que elijas. Cuéntanos tu idea por WhatsApp. Hecho en Colombia." />
+    <link rel="canonical" href="https://nueve2siete.com/" />
+    <meta name="theme-color" content="#F0EEE8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <!-- The share preview on WhatsApp and social networks: their crawlers read only this file, so it is one for
+         the whole site -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="nueve2siete" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:url" content="https://nueve2siete.com/" />
+    <meta property="og:title" content="nueve2siete | Recordatorios, merch y piezas a medida" />
+    <meta property="og:description" content="Piezas únicas en los colores que elijas: recordatorios para fiestas, merch para empresas y lo que imagines. Hecho en Colombia." />
+    <meta property="og:image" content="https://nueve2siete.com/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="El logo de nueve2siete con su cinta, sobre fondo crema" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // Apply the saved or system theme before the first paint so dark-mode visitors never see a cream flash.
+      // Mirrors the initial choice in src/context/ThemeContext.tsx.
+      try {
+        var saved = localStorage.getItem('n2s_theme')
+        if (saved === 'dark' || (saved !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark')
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body class="antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
