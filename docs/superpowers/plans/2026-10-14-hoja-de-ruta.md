@@ -1,7 +1,7 @@
 # Hoja de ruta: rediseño de nueve2siete
 
 **Objetivo:** convertir el sitio que dejó Gemini en un sitio con identidad propia: colorido, de letras grandes y
-formas redondas, construido alrededor de la cinta del logo, con una revista interactiva de proyectos y el
+formas redondas, construido alrededor de la cinta del logo, con una guirnalda interactiva de proyectos y el
 configurador de productos que ya existe.
 
 **Cómo se usa este documento:** el trabajo va por fases. Cada fase tiene su propio plan detallado de tareas,
@@ -31,14 +31,14 @@ tu visto bueno.
 - **Movimiento:** todo lo que se anima tiene una versión quieta para quien activó "reducir movimiento" en su
   sistema, y el contenido se ve aunque falle el JavaScript de las animaciones.
 - **Celular:** cada pantalla tiene una composición propia para el teléfono, no solo una versión encogida.
-- **Fotos:** las 4 fotos actuales son de IA y sirven como relleno temporal de la revista. No se presentan como
+- **Fotos:** las 4 fotos actuales son de IA y sirven como relleno temporal de la guirnalda. No se presentan como
   fotos del producto en el catálogo.
 - **Git:** no hago commit ni push salvo que me lo pidas.
 
 ## Orden y dependencias
 
 ```
-Fase 0 Cimientos ──► Fase 1 Hero ──► Fase 2 Revista ──► Fase 3 Coreografía ──► Fase 4 Resto del Home
+Fase 0 Cimientos ──► Fase 1 Hero ──► Fases 2-3 Guirnalda ──► Fase 4 Resto del Home
        │                                    │
        ├──────────► Fase 5 Catálogo y producto (puede ir en paralelo después de la 0)
        │                                    └──────────► Fase 6 Supabase
@@ -132,108 +132,45 @@ mensaje correcto; el clicker suena una sola vez.
 
 ---
 
-## Fase 2: Revista interactiva
-
-**Estado: aprobada el 2026-10-14.**
-- **Cómo es:**
-  - La revista está siempre abierta al centro, como en pictoric.
-  - La portada es una doble página naranja: el título "Lo que ya cobró vida" a la izquierda, el logo en crema a
-    la derecha y una cinta tono sobre tono que cruza el lomo. Al pasar la hoja, la mitad de la cinta se va con
-    ella.
-  - A cada lado hay un abanico de hojas de colores de la paleta, que se abre al llegar a la sección.
-- **Se pasa de cinco maneras:**
-  - El marcapáginas lavanda "Abrir".
-  - Clic en la página derecha (avanza) o en la izquierda (regresa).
-  - Arrastrando la hoja: el punto agarrado sigue al mouse o al dedo, y al soltarla termina el giro si pasó la
-    mitad o si fue un gesto rápido.
-  - Las flechas del teclado.
-  - Los botones bajo la revista, que además dicen dónde vas ("Proyecto 2 de 4").
-- **Cada proyecto:**
-  - Foto a la izquierda; a la derecha, un bloque de color con:
-    - El título.
-    - Qué se hizo.
-    - La ocasión.
-    - Los colores usados, como muestras.
-    - "Quiero algo así", que abre WhatsApp con el nombre del proyecto.
-    - "Diseña el tuyo", que lleva al configurador cuando el proyecto es un producto del catálogo.
-  - Cada página tiene su cinta, que se dibuja al llegar a ella.
-- **El cierre** es una doble página mostaza, "La próxima página es tuya", con el botón de WhatsApp y el enlace al
-  catálogo.
-- **En el celular** va una página por proyecto, con la foto arriba y el texto abajo, sobre un montoncito de hojas
-  de colores. Se pasa deslizando el dedo o tocando la página; deslizar hacia arriba o hacia abajo sigue haciendo
-  scroll.
-- **Cambios frente al plan:**
-  - El número de página ("02 — 06") pasó a los botones de abajo.
-  - El abanico es de hojas de color en vez de fotos: solo hay 4 fotos y se habrían repetido.
-- **Verificado:**
-  - Clic, arrastre, teclado, toques y deslizamientos simulados en un celular de 390 px.
-  - Modo oscuro y "reducir movimiento".
-  - El inspector del skill no marca nada en la revista a 1440, 768 y 390 px.
-  - 42 pruebas.
-- **Falta probar en un iPhone real y en Safari:** el giro 3D depende de detalles de cada navegador.
-
-**Objetivo:** la revista de proyectos, construida y probada por separado antes de conectarla con el scroll.
-
-**Incluye:**
-- **Portada** con el logo sobre un color de la paleta, y un marcapáginas con la forma de la cinta que dice
-  "Abrir".
-- **Hojas rígidas que giran sobre el lomo**, con frente y reverso, igual que en pictoric. Se pasan de cuatro
-  maneras:
-  - Clic en la página.
-  - Flechas en pantalla.
-  - Arrastrando con el mouse o el dedo; la hoja sigue el movimiento y termina el giro sola al soltar.
-  - Flechas del teclado.
-- **Las demás páginas en abanico** a los lados.
-- **Cada doble página es un proyecto:**
-  - A la izquierda, la foto.
-  - A la derecha, el nombre, la ocasión (fiesta, empresa o evento), qué se hizo y en qué página va
-    ("02 — 06").
-  - Un botón "Quiero algo así" que abre WhatsApp con el nombre del proyecto en el mensaje. Si el proyecto es un
-    producto del catálogo, también enlaza a su configurador.
-- **Datos en un archivo** (`src/data/projects.ts`). En la Fase 6 pasan a Supabase.
-- **En celular** va una página a la vez y se pasa deslizando el dedo.
-
-**Decisiones:**
-1. **Resuelto:** por ahora, proyectos ficticios con las fotos actuales. Los reales quedan en la deuda.
-2. **Resuelto:** como en pictoric, la revista ocupa todo el ancho con el abanico a los lados. En pantallas
-   angostas el abanico se reduce, y en el celular desaparece para dejar una página a la vez.
-
-**Lista cuando:** se puede abrir y hojear con clic, con arrastre, con el teclado y en un celular real, y tú
-apruebas la animación.
-
----
-
-## Fase 3: Coreografía del scroll
+## Fases 2 y 3: Guirnalda de proyectos (reemplaza la revista y su coreografía)
 
 **Estado: implementada el 2026-10-14, pendiente de tu aprobación.**
-- **La secuencia:**
-  1. **Pausa:** el hero se queda fijo durante 70 % de una pantalla de scroll (50 % en el celular). Mientras
-     tanto, el 9 y el 2 se enrollan de vuelta hacia sus esquinas, la frase de apoyo y el botón suben y se
-     desvanecen, y el lema baja al centro.
-  2. **La revista sube** como una hoja de papel con el borde de arriba redondo, un tono más clara que el
-     fondo, por delante del hero.
-  3. **El lema sale letra por letra,** cayendo dentro de su línea, primero la línea de abajo. Termina antes de
-     que llegue el borde de la hoja, así ningún texto queda tapado.
-- **Con "reducir movimiento"** el hero no se queda fijo y la revista viene justo después.
-- **Diferencia con pictoric:** allá la frase termina impresa en la primera doble página del libro. Aquí la
-  portada de la revista ya tiene su propio título, así que el lema sale, como decía el plan.
-- **Verificado en Chrome:**
-  - Escritorio 1440 px y celular 390 px, en los dos temas.
-  - El enlace "Proyectos" de la barra lleva a la revista con el hero ya tapado.
-  - El h1 se anuncia una sola vez a los lectores de pantalla.
-  - El inspector del skill no marca nada nuevo: ni texto tapado ni secciones fijas demasiado largas.
-- **Falta:** probar en Safari y en un iPhone real.
 
-**Objetivo:** unir el hero y la revista como en pictoric.
+**Por qué cambió:** la revista y la transición del hero copiaban la puesta en escena de pictoric:
+- el libro abierto al centro;
+- el abanico de páginas a los lados;
+- el marcapáginas "Abrir";
+- el hero fijo con el libro subiendo a taparlo;
+- el lema saliendo letra por letra.
 
-**Incluye:**
-- **El hero se queda fijo** durante una pantalla de scroll mientras las cintas se mueven.
-- **El hero se suelta:** el lema sube y la revista sube desde abajo, por delante de él, hasta taparlo.
-- **El lema sale letra por letra** debajo de la revista, cada letra recortada dentro de su línea y con un pequeño
-  retraso entre ellas.
-- **Ajuste fino** para celular y para "reducir movimiento".
+Elegiste la opción B: algo que sale del negocio mismo (los recordatorios son regalos de fiesta, y la cinta del logo
+es también la cinta de un regalo). La revista quedó en el commit `aca7009` y su coreografía en `6617b77`, por si
+algún día se quiere recuperar.
 
-**Lista cuando:** la secuencia se ve fluida en Chrome y Safari, en escritorio y en un iPhone real.
+**Cómo es:**
+- **La transición:** el hero ya no se queda fijo. Al bajar, una cinta naranja desciende desde el hero, se estira
+  en ondas suaves de lado a lado y las etiquetas caen una por una y quedan colgando.
+- **La guirnalda:** mientras la sección está en pantalla, el scroll la lleva de lado.
+  - Las etiquetas se mecen con el movimiento y vuelven solas a quedar rectas.
+  - Se pueden mecer con el mouse o el dedo.
+- **Las etiquetas:** cada una tiene su ojal de verdad (un agujero por donde se ve el fondo) y un lazo de cinta
+  que la amarra.
+  - **La primera** dice "Lo que ya cobró vida".
+  - **Cada proyecto** muestra la foto y el título. Al tocarlo se voltea y por detrás aparecen la ocasión, los
+    colores, la historia, "Quiero algo así" y "Diseña el tuyo"; su cinta se dibuja cada vez que se voltea.
+  - **La última** dice "El próximo es el tuyo", con WhatsApp y el catálogo.
+- **Teclado:** al recorrer las etiquetas con Tab, cada una se centra en pantalla. Al voltearla, el foco pasa al
+  botón de la otra cara.
+- **"Reducir movimiento":** la guirnalda es una fila que se recorre de lado, sin balanceo ni caída.
+
+**Verificado en Chrome:**
+- Escritorio y celular, en los dos temas.
+- Clic, arrastre, toques y deslizamientos simulados, teclado, y "reducir movimiento".
+- El inspector del skill no marca fallas en la guirnalda. Deja dos avisos que son efecto del movimiento
+  horizontal: cuenta como visibles las etiquetas que ya salieron por los lados, y mide las cajas de las etiquetas
+  mientras se mecen.
+
+**Falta:** probar en Safari y en un iPhone real.
 
 ---
 
@@ -241,7 +178,7 @@ apruebas la animación.
 
 **Objetivo:** completar la página para que responda lo que un cliente necesita saber antes de escribir.
 
-**Propuesta de secciones.** Después del hero y la revista, cada sección responde una pregunta del visitante y va
+**Propuesta de secciones.** Después del hero y la guirnalda, cada sección responde una pregunta del visitante y va
 sobre su propio bloque de color, no como cuadrícula de tarjetas:
 
 1. **Ocasiones** ("¿esto es para mí?"). Cuatro palabras gigantes, una debajo de otra: Fiestas, Empresas,
@@ -272,7 +209,7 @@ sobre su propio bloque de color, no como cuadrícula de tarjetas:
    - Instagram @nueve2siete.
    - "Hecho en Colombia".
 
-El orden sigue el razonamiento del visitante: qué hacen (hero), pruebas de su trabajo (revista), si sirve para su
+El orden sigue el razonamiento del visitante: qué hacen (hero), pruebas de su trabajo (guirnalda), si sirve para su
 ocasión (ocasiones), cómo quedaría lo suyo (configurador), cómo se pide, las dudas y por último el contacto.
 
 **Decisiones:**
@@ -302,11 +239,11 @@ tienen? Esos nombres son los que le llegan al cliente en el mensaje de WhatsApp.
 **Objetivo:** que puedas agregar proyectos y recibir pedidos sin tocar el código, con el plan gratuito.
 
 **Propuesta mínima:**
-- **Proyectos de la revista** en una tabla, con las fotos en Supabase Storage. Se cargan desde el panel de
+- **Proyectos de la guirnalda** en una tabla, con las fotos en Supabase Storage. Se cargan desde el panel de
   Supabase; no hace falta un panel de administración propio todavía.
 - **Registro de pedidos:** antes de abrir WhatsApp se guarda la configuración pedida, así queda un historial
   aunque se pierda el chat. Los visitantes solo pueden insertar, nunca leer.
-- **Plan B:** si Supabase no responde, la revista usa los datos locales y el pedido igual abre WhatsApp.
+- **Plan B:** si Supabase no responde, la guirnalda usa los datos locales y el pedido igual abre WhatsApp.
 
 **Decisión que necesito de ti:** cuáles de estas dos funciones quieres, o si hay otra que te importe más.
 

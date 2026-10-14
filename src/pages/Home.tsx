@@ -10,7 +10,8 @@ import {
   CheckCircle2
 } from 'lucide-react'
 import { whatsappUrl } from '../lib/contact'
-import { Opening } from '../components/home/Opening'
+import { Hero } from '../components/home/Hero'
+import { Garland } from '../components/garland/Garland'
 
 // Especialidades editoriales inspiradas en la imagen de referencia (01, 02, 03, 04)
 const SPECIALTIES = [
@@ -52,9 +53,11 @@ export function Home() {
   const [activeSpecialty, setActiveSpecialty] = useState<number | null>(null)
 
   return (
-    // overflow-x-clip, not overflow-hidden: a scroll container here would stop the hero from sticking
+    // overflow-x-clip, not overflow-hidden: a scroll container here would stop the garland from pinning
     <div className="relative overflow-x-clip bg-cream dark:bg-night transition-colors duration-300">
-      <Opening />
+      <Hero />
+
+      <Garland />
 
       {/* ============================================================== */}
       {/* 3. MENÚ INTERACTIVO DE ESPECIALIDADES (Basado en Imagen 2)     */}

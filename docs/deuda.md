@@ -22,7 +22,7 @@ lo publica como un hecho: usa un texto neutro o lo omite. Cuando se valide, se m
 ## Contenido
 
 - [ ] **Lema definitivo.** Por ahora se usa "Piezas únicas que cobran vida".
-- [ ] **Proyectos reales y sus fotos** para la revista. Por ahora hay cuatro proyectos ficticios con fotos de
+- [ ] **Proyectos reales y sus fotos** para la guirnalda. Por ahora hay cuatro proyectos ficticios con fotos de
       IA en `src/data/projects.ts`: portamicrófonos para un podcast, clickers para un cumpleaños, portafotos
       para una boda y un kit de bienvenida para una empresa. Por cada proyecto real hace falta:
       - Un título corto (máximo 28 caracteres).

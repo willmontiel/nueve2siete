@@ -51,33 +51,28 @@ framer-motion, Lenis. Deployed on Vercel (`vercel.json` rewrites every path to `
 - **Theme:** `ThemeContext` toggles a `dark` class on `<html>`. Only an explicit choice from the toggle is
   saved (`localStorage` key `n2s_theme`); until then the site follows the system theme, live. An inline
   script in `index.html` applies the same choice before the first paint; keep the two in sync.
-- **Home** (`src/pages/Home.tsx`) is being rebuilt section by section (see the roadmap). It opens with
-  `src/components/home/Opening.tsx` (hero, then magazine); the sections below are still Gemini's until phase 4.
-- **Opening choreography** (`Opening.tsx`): the hero is `sticky` inside a box that also holds a spacer and the
-  magazine. It plays in two steps, each tracked with `useScroll`:
-  - `hold`: the hero stays still for the spacer's height. The corner ribbons wind back into their corners,
-    the sentence and the action step aside, and the motto slides to the middle.
-  - `cover`: the magazine rises over the hero on a `bg-surface` sheet with a rounded top. The motto leaves
-    letter by letter (`letterWindow` in `src/lib/stagger.ts`), lower line first, before the sheet reaches it.
-  - Under reduced motion the hero is not sticky and the spacer collapses.
-  - Keep `overflow-x-clip` (not `overflow-hidden`) on the Home wrapper; a scroll container there breaks the
-    sticky hero.
-  - The motto is split into letter spans, so the `h1` carries the whole motto as its `aria-label`.
-- **Magazine** (`src/components/magazine/`, section `#proyectos`): the project portfolio as a book whose
-  rigid leaves turn on the spine.
+- **Home** (`src/pages/Home.tsx`) is being rebuilt section by section (see the roadmap): the hero
+  (`src/components/home/Hero.tsx`), then the project garland. The sections below are still Gemini's until
+  phase 4. Keep `overflow-x-clip` (not `overflow-hidden`) on the Home wrapper: a scroll container there stops
+  the garland from pinning.
+- **Garland** (`src/components/garland/`, section `#proyectos`): the projects as gift tags hanging from one
+  long ribbon, like a party garland. It replaced a pictoric-style magazine (commits `aca7009` and `6617b77`),
+  on purpose: the brand should not copy its references.
   - Data: `src/data/projects.ts`, made-up placeholders for now (`docs/deuda.md`).
-  - `FlipBook` is generic. It takes `pages` in reading order and has two layouts:
-    - Spread (from 768px): the first page is the left page of the first spread.
-    - Single (phones): one page per leaf, with the last page lying under them all.
-  - Each leaf's angle is a framer-motion value: 0 lies on the right, -180 on the left.
-  - The geometry is pure and tested in `src/lib/book.ts`:
-    - `dragAngle`: the grabbed point follows the pointer.
-    - `settleAngle`: past halfway or a flick completes the turn.
-    - `leafLayer`: z-order.
-    - `visibleFaces`: covered pages are not painted.
-  - Faces that are not on the open spread are `inert`.
-  - Page content (`pages.tsx`) is sized in `cqi` units, so a page scales like print.
-  - Ribbons that cross the spine are drawn once at spread size; each page shows its half.
+  - Layout: the section is pinned (`sticky` stage) for as long as the strip is wider than the screen, and
+    scrolling down carries the strip sideways.
+  - The string is one SVG path (`garlandPath`). It comes down from over the hero and draws itself as the
+    section arrives, and the tags drop onto it one by one (`droppedCount`).
+  - Each tag (`Hanger`) moves in three ways:
+    - It swings behind the strip's speed (`swingFor`, on an underdamped spring).
+    - It rocks when dragged sideways (`rockAngle`).
+    - It turns over when tapped. A project tag's back redraws its ribbon on every turn.
+  - Taps on links and buttons never rock or turn a tag. A mostly vertical drag is left to page scroll.
+  - Keyboard focus inside a tag scrolls it to the middle (`scrollToCenter`). Turning a tag from its button
+    moves focus to the button on the other face.
+  - Faces are sized in `cqi`. Their eyelet is a hole cut with a CSS mask.
+  - Under reduced motion it is a plain horizontal scroller and nothing swings or drops.
+  - The math lives in `src/lib/garland.ts` and is tested.
 - **Ribbon** (`src/components/Ribbon.tsx`) is the brand motif: one thick round-capped line that draws
   itself on load and can wind back and turn with a scroll-progress `MotionValue`. Write each path starting
   at the screen edge it comes from, so winding back retracts it into that edge. In the hero, a faint

@@ -23,3 +23,8 @@ export function scrollToElement(element: HTMLElement) {
   if (lenis) lenis.scrollTo(element)
   else element.scrollIntoView()
 }
+
+export function scrollToY(y: number) {
+  if (lenis) lenis.scrollTo(y)
+  else window.scrollTo({ top: y })
+}
