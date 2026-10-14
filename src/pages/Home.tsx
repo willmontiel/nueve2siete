@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import { whatsappUrl } from '../lib/contact'
 import { Hero } from '../components/home/Hero'
+import { Magazine } from '../components/magazine/Magazine'
 
 // Especialidades editoriales inspiradas en la imagen de referencia (01, 02, 03, 04)
 const SPECIALTIES = [
@@ -48,38 +49,6 @@ const SPECIALTIES = [
   }
 ]
 
-// Fotos de trabajo real para el carrusel continuo (Marquee)
-const REAL_WORK_CAROUSEL = [
-  {
-    title: 'Portamicrófono Podcast',
-    subtitle: 'Relieve de marca personalizado',
-    category: 'AUDIO & BROADCAST',
-    image: '/photos/mic_studio.jpg',
-    accent: '#DE5B2B'
-  },
-  {
-    title: 'Clicker Táctil Bicolor',
-    subtitle: 'Ensamble de precisión mecánica',
-    category: 'FIDGETS',
-    image: '/photos/clicker_hand.jpg',
-    accent: '#8576EA'
-  },
-  {
-    title: 'Portafoto Contemporáneo',
-    subtitle: 'Acabado satinado mate de mesa',
-    category: 'DECORACIÓN',
-    image: '/photos/portafoto_desk.jpg',
-    accent: '#EEBA29'
-  },
-  {
-    title: 'Empaque de Regalo con Cinta',
-    subtitle: 'Listo para sorprender y celebrar',
-    category: 'REGALOS',
-    image: '/photos/regalo_empaque.jpg',
-    accent: '#DE5B2B'
-  }
-]
-
 export function Home() {
   const [activeSpecialty, setActiveSpecialty] = useState<number | null>(null)
 
@@ -87,71 +56,7 @@ export function Home() {
     <div className="relative overflow-hidden bg-cream dark:bg-night transition-colors duration-300">
       <Hero />
 
-      {/* ============================================================== */}
-      {/* 2. CINTA CONTINUA (MARQUEE) DE TRABAJO REAL                    */}
-      {/* ============================================================== */}
-      <section id="proyectos" className="py-12 sm:py-16 overflow-hidden border-y border-black/5 dark:border-white/5 bg-white/40 dark:bg-white/[0.02]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange/10 text-xs font-bold text-orange uppercase tracking-wider mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Trabajo Real de Estudio</span>
-            </div>
-            <h2 className="font-display text-2xl sm:text-4xl font-black text-ink dark:text-cream">
-              Piezas tangibles, hechas con calma
-            </h2>
-          </div>
-          <Link 
-            to="/catalogo"
-            className="text-xs sm:text-sm font-bold text-orange hover:text-orange-deep inline-flex items-center gap-1.5 transition-colors"
-          >
-            <span>Ver todos los modelos</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        {/* Riel infinito con tarjetas 100% redondeadas */}
-        <div className="relative w-full flex overflow-x-auto no-scrollbar py-4 px-4 sm:px-6 gap-6">
-          {REAL_WORK_CAROUSEL.map((item, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ y: -6, scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="shrink-0 w-[280px] sm:w-[340px] rounded-[36px] bg-paper dark:bg-night-1 p-4 border border-black/5 dark:border-white/8 shadow-sm flex flex-col justify-between overflow-hidden group cursor-pointer"
-            >
-              {/* Imagen con bordes ultra redondeados */}
-              <div className="w-full h-56 sm:h-64 rounded-[28px] overflow-hidden relative bg-black/5">
-                <img 
-                  src={item.image} 
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                />
-                <span 
-                  style={{ backgroundColor: item.accent }}
-                  className="absolute top-3 left-3 px-3 py-1 rounded-full text-white text-[10px] font-bold tracking-wider shadow-sm"
-                >
-                  {item.category}
-                </span>
-              </div>
-
-              {/* Información de la tarjeta */}
-              <div className="pt-4 pb-2 px-1 flex items-center justify-between">
-                <div>
-                  <h3 className="font-display text-base sm:text-lg font-bold text-ink dark:text-cream">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-muted dark:text-muted-night mt-0.5">
-                    {item.subtitle}
-                  </p>
-                </div>
-                <div className="w-9 h-9 rounded-full bg-white dark:bg-night-2 border border-black/5 flex items-center justify-center text-ink dark:text-white group-hover:bg-orange group-hover:text-white transition-colors shrink-0 shadow-2xs">
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+      <Magazine />
 
       {/* ============================================================== */}
       {/* 3. MENÚ INTERACTIVO DE ESPECIALIDADES (Basado en Imagen 2)     */}

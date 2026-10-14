@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildOrderMessage } from './order'
+import { buildOrderMessage, projectMessage } from './order'
 import { PRODUCTS } from '../data/products'
 
 const mic = PRODUCTS.find(p => p.slug === 'portamicrofono')!
@@ -30,5 +30,13 @@ describe('buildOrderMessage', () => {
 
   it('states the price in pesos', () => {
     expect(buildOrderMessage(mic, colors, '')).toContain('55.000')
+  })
+})
+
+describe('projectMessage', () => {
+  it('names the project the visitor saw in the magazine', () => {
+    expect(projectMessage('Un clic para cada invitado')).toBe(
+      '¡Hola nueve2siete! Vi el proyecto "Un clic para cada invitado" en la revista y quiero algo así.',
+    )
   })
 })

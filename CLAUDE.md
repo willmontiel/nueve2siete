@@ -52,12 +52,27 @@ framer-motion, Lenis. Deployed on Vercel (`vercel.json` rewrites every path to `
   saved (`localStorage` key `n2s_theme`); until then the site follows the system theme, live. An inline
   script in `index.html` applies the same choice before the first paint; keep the two in sync.
 - **Home** (`src/pages/Home.tsx`) is being rebuilt section by section (see the roadmap). The first screen
-  is `src/components/home/Hero.tsx`; the sections below it are still Gemini's until phases 2 and 4.
+  is `src/components/home/Hero.tsx`, then the magazine; the sections below it are still Gemini's until phase 4.
+- **Magazine** (`src/components/magazine/`, section `#proyectos`): the project portfolio as a book whose
+  rigid leaves turn on the spine.
+  - Data: `src/data/projects.ts`, made-up placeholders for now (`docs/deuda.md`).
+  - `FlipBook` is generic. It takes `pages` in reading order and has two layouts:
+    - Spread (from 768px): the first page is the left page of the first spread.
+    - Single (phones): one page per leaf, with the last page lying under them all.
+  - Each leaf's angle is a framer-motion value: 0 lies on the right, -180 on the left.
+  - The geometry is pure and tested in `src/lib/book.ts`:
+    - `dragAngle`: the grabbed point follows the pointer.
+    - `settleAngle`: past halfway or a flick completes the turn.
+    - `leafLayer`: z-order.
+    - `visibleFaces`: covered pages are not painted.
+  - Faces that are not on the open spread are `inert`.
+  - Page content (`pages.tsx`) is sized in `cqi` units, so a page scales like print.
+  - Ribbons that cross the spine are drawn once at spread size; each page shows its half.
 - **Ribbon** (`src/components/Ribbon.tsx`) is the brand motif: one thick round-capped line that draws
   itself on load and can wind back and turn with a scroll-progress `MotionValue`. Write each path starting
   at the screen edge it comes from, so winding back retracts it into that edge. In the hero, a faint
   ribbon (`text-ribbon`) loops behind the motto, and the corner ribbons write the 9 (orange) and the 2
-  (lavender) of the name.
+  (lavender) of the name. Below the first screen, pass `play` so a ribbon draws itself when it is seen.
 - **Navigation** (`Navbar.tsx`) is a plain bar in the page flow, not fixed, so pages need no top padding
   for it. `/#proyectos` links are scrolled to by `ScrollToTop` once the section renders.
 - **Motion helpers** in `src/index.css`: `.reveal-line` (masked headline lines) and `.rise`, staggered with

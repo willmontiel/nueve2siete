@@ -98,7 +98,7 @@ mensaje correcto; el clicker suena una sola vez.
 
 ## Fase 1: Hero (primera pantalla)
 
-**Estado: implementada el 2026-10-14, pendiente de tu aprobación.**
+**Estado: aprobada el 2026-10-14.** También se quitó el cursor personalizado que había dejado Gemini.
 - **La idea:** las cintas de las esquinas escriben los números del nombre, cada uno en su color del logo: el 9
   de "nueve" en naranja y el 2 en lavanda. Salen de su esquina al cargar y se enrollan de vuelta hacia ella
   con el scroll.
@@ -133,6 +133,44 @@ mensaje correcto; el clicker suena una sola vez.
 ---
 
 ## Fase 2: Revista interactiva
+
+**Estado: implementada el 2026-10-14, pendiente de tu aprobación.**
+- **Cómo es:**
+  - La revista está siempre abierta al centro, como en pictoric.
+  - La portada es una doble página naranja: el título "Lo que ya cobró vida" a la izquierda, el logo en crema a
+    la derecha y una cinta tono sobre tono que cruza el lomo. Al pasar la hoja, la mitad de la cinta se va con
+    ella.
+  - A cada lado hay un abanico de hojas de colores de la paleta, que se abre al llegar a la sección.
+- **Se pasa de cinco maneras:**
+  - El marcapáginas lavanda "Abrir".
+  - Clic en la página derecha (avanza) o en la izquierda (regresa).
+  - Arrastrando la hoja: el punto agarrado sigue al mouse o al dedo, y al soltarla termina el giro si pasó la
+    mitad o si fue un gesto rápido.
+  - Las flechas del teclado.
+  - Los botones bajo la revista, que además dicen dónde vas ("Proyecto 2 de 4").
+- **Cada proyecto:**
+  - Foto a la izquierda; a la derecha, un bloque de color con:
+    - El título.
+    - Qué se hizo.
+    - La ocasión.
+    - Los colores usados, como muestras.
+    - "Quiero algo así", que abre WhatsApp con el nombre del proyecto.
+    - "Diseña el tuyo", que lleva al configurador cuando el proyecto es un producto del catálogo.
+  - Cada página tiene su cinta, que se dibuja al llegar a ella.
+- **El cierre** es una doble página mostaza, "La próxima página es tuya", con el botón de WhatsApp y el enlace al
+  catálogo.
+- **En el celular** va una página por proyecto, con la foto arriba y el texto abajo, sobre un montoncito de hojas
+  de colores. Se pasa deslizando el dedo o tocando la página; deslizar hacia arriba o hacia abajo sigue haciendo
+  scroll.
+- **Cambios frente al plan:**
+  - El número de página ("02 — 06") pasó a los botones de abajo.
+  - El abanico es de hojas de color en vez de fotos: solo hay 4 fotos y se habrían repetido.
+- **Verificado:**
+  - Clic, arrastre, teclado, toques y deslizamientos simulados en un celular de 390 px.
+  - Modo oscuro y "reducir movimiento".
+  - El inspector del skill no marca nada en la revista a 1440, 768 y 390 px.
+  - 42 pruebas.
+- **Falta probar en un iPhone real y en Safari:** el giro 3D depende de detalles de cada navegador.
 
 **Objetivo:** la revista de proyectos, construida y probada por separado antes de conectarla con el scroll.
 

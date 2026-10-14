@@ -36,3 +36,8 @@ ${colorBreakdown}
 
 ¿Podrían confirmarme disponibilidad y coordinar el envío? ¡Gracias!`
 }
+
+// "Quiero algo así" on a magazine page: the team knows at once which project the visitor means
+export function projectMessage(title: string): string {
+  return `¡Hola nueve2siete! Vi el proyecto "${title}" en la revista y quiero algo así.`
+}

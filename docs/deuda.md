@@ -22,7 +22,17 @@ lo publica como un hecho: usa un texto neutro o lo omite. Cuando se valide, se m
 ## Contenido
 
 - [ ] **Lema definitivo.** Por ahora se usa "Piezas únicas que cobran vida".
-- [ ] **Proyectos reales y sus fotos** para la revista. Por ahora son proyectos ficticios con fotos de IA.
+- [ ] **Proyectos reales y sus fotos** para la revista. Por ahora hay cuatro proyectos ficticios con fotos de
+      IA en `src/data/projects.ts`: portamicrófonos para un podcast, clickers para un cumpleaños, portafotos
+      para una boda y un kit de bienvenida para una empresa. Por cada proyecto real hace falta:
+      - Un título corto (máximo 28 caracteres).
+      - La ocasión: fiesta, empresa o evento.
+      - Una o dos frases sobre lo que se hizo.
+      - Los colores usados.
+      - Una foto vertical u horizontal.
+      - Si corresponde a un producto del catálogo, cuál.
+
+      El de los animales para la fiesta de la jungla es buen candidato.
 - [ ] **Colores del configurador:** confirmar que cada uno corresponde a un filamento que de verdad tienen. Esos
       nombres le llegan al cliente en el mensaje de pedido.
 

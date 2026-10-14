@@ -5,7 +5,6 @@ import { Navbar } from './components/Navbar'
 import { Footer } from './components/Footer'
 import { ScrollToTop } from './components/ScrollToTop'
 import { SmoothScroll } from './components/SmoothScroll'
-import { CustomCursor } from './components/CustomCursor'
 import { Home } from './pages/Home'
 
 // Lazy loading del Catálogo y del Customizer 3D (Three.js) para que el Home cargue al instante
@@ -31,7 +30,6 @@ export default function App() {
       <BrowserRouter>
         <SmoothScroll />
         <ScrollToTop />
-        <CustomCursor />
         <div className="min-h-screen flex flex-col bg-cream dark:bg-night text-ink dark:text-cream transition-colors duration-300">
           <Navbar />
 

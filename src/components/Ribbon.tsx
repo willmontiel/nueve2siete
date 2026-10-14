@@ -18,6 +18,8 @@ interface RibbonProps {
   rewind?: number
   /** Degrees it turns as progress reaches 1 */
   turn?: number
+  /** It waits, hidden, until this turns true (for ribbons below the first screen) */
+  play?: boolean
 }
 
 // The brand's ribbon: one thick round-capped line, like the one that loops behind the logo
@@ -32,6 +34,7 @@ export function Ribbon({
   progress,
   rewind = 0,
   turn = 0,
+  play = true,
 }: RibbonProps) {
   const reduceMotion = useReducedMotion()
   const still = useMotionValue(0)
@@ -43,9 +46,10 @@ export function Ribbon({
       drawn.set(1)
       return
     }
+    if (!play) return
     const controls = animate(drawn, 1, { duration, delay, ease: [0.33, 1, 0.68, 1] })
     return () => controls.stop()
-  }, [drawn, delay, duration, reduceMotion])
+  }, [drawn, delay, duration, reduceMotion, play])
 
   const pathLength = useTransform([drawn, scroll], ([drawnShare, scrolled]: number[]) =>
     drawnShare * (1 - (reduceMotion ? 0 : rewind) * scrolled),
