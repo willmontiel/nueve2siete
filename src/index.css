@@ -133,8 +133,3 @@ body {
 @keyframes rise {
   from { opacity: 0; transform: translateY(18px); }
 }
-
-/* Catalog cards until the catalog is redesigned (roadmap, phase 5): a flat surface one step off the ground */
-.glass-card {
-  background: var(--surface);
-}

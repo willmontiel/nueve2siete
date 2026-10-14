@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Every page a search engine should know. Add a line for each new catalog piece (src/lib/meta.test.ts checks it). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://nueve2siete.com/</loc></url>
+  <url><loc>https://nueve2siete.com/catalogo</loc></url>
+  <url><loc>https://nueve2siete.com/catalogo/portamicrofono</loc></url>
+  <url><loc>https://nueve2siete.com/catalogo/clicker-fidget</loc></url>
+  <url><loc>https://nueve2siete.com/catalogo/portafotos-margarita</loc></url>
+</urlset>

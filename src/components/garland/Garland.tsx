@@ -11,12 +11,10 @@ import {
 } from 'framer-motion'
 import { Hanger } from './Hanger'
 import { ClosingFace, ProjectBack, ProjectFront, TitleFace } from './faces'
-import { PROJECTS, type Project } from '../../data/projects'
+import type { Project } from '../../data/projects'
 import { droppedCount, garlandPath, scrollToCenter, type Point } from '../../lib/garland'
 import { scrollToY } from '../../lib/smoothScroll'
 
-// The title tag, one tag per project and the closing tag
-const TAG_COUNT = PROJECTS.length + 2
 // Shares of the section's entrance (its top travelling from the bottom of the screen to the top) at which the
 // string starts drawing and the tags start dropping onto it, one every step
 const DRAW_FROM = 0.05
@@ -33,7 +31,9 @@ interface Layout {
 // The projects as gift tags hanging from one long ribbon, strung across the page like a party garland. While
 // the section is pinned, scrolling down carries the garland sideways and the tags swing behind the motion.
 // Under reduced motion it is a plain sideways scroller and nothing swings.
-export function Garland() {
+export function Garland({ projects }: { projects: Project[] }) {
+  // The title tag, one tag per project and the closing tag
+  const tagCount = projects.length + 2
   const reduceMotion = useReducedMotion()
   const sectionRef = useRef<HTMLElement>(null)
   const stripRef = useRef<HTMLUListElement>(null)
@@ -73,8 +73,15 @@ export function Garland() {
   // useScroll reports the first measured position as a change too, so a visit that lands below the section
   // (a link to #proyectos, a reload) finds the tags already hanging
   useMotionValueEvent(entry, 'change', progress =>
-    setDropped(count => Math.max(count, droppedCount(progress, TAG_COUNT, DROP_FROM, DROP_STEP))),
+    setDropped(count => Math.max(count, droppedCount(progress, tagCount, DROP_FROM, DROP_STEP))),
   )
+  // The projects from Supabase can arrive after the section is already in view: count again at once, so the new
+  // tags drop without waiting for the next scroll
+  const [countedTags, setCountedTags] = useState(tagCount)
+  if (countedTags !== tagCount) {
+    setCountedTags(tagCount)
+    setDropped(count => Math.max(count, droppedCount(entry.get(), tagCount, DROP_FROM, DROP_STEP)))
+  }
 
   function centerOn(slot: HTMLElement) {
     if (reduceMotion) return
@@ -100,14 +107,14 @@ export function Garland() {
         >
           {layout && <GarlandString layout={layout} entry={entry} still={!!reduceMotion} />}
           <Hanger {...shared} index={0} dropped={dropped > 0} wide front={<TitleFace play={dropped > 0} />} />
-          {PROJECTS.map((project, i) => (
+          {projects.map((project, i) => (
             <ProjectTag key={project.id} {...shared} project={project} index={i + 1} dropped={dropped > i + 1} />
           ))}
           <Hanger
             {...shared}
-            index={TAG_COUNT - 1}
-            dropped={dropped >= TAG_COUNT}
-            front={<ClosingFace play={dropped >= TAG_COUNT} />}
+            index={tagCount - 1}
+            dropped={dropped >= tagCount}
+            front={<ClosingFace play={dropped >= tagCount} />}
           />
         </motion.ul>
       </div>

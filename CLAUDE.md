@@ -15,7 +15,9 @@ customer-facing copy must not say "3D" or "impresión 3D": that market is satura
 design, color and the occasion. Don't present it as a "studio" either.
 
 Single-page app: Vite 8, React 19, TypeScript 6, Tailwind CSS v4, React Router 7, React Three Fiber 9 + drei,
-framer-motion, Lenis. Deployed on Vercel (`vercel.json` rewrites every path to `index.html`).
+framer-motion, Lenis. Deployed on Cloudflare Pages at nueve2siete.com (free plan; Vercel Hobby forbids commercial use). Pages serves
+`index.html` for every path that is not a file, as long as there is no top-level `404.html`; Node 22 comes from
+`.nvmrc`. The step-by-step deploy and GoDaddy guide is `docs/despliegue.md`.
 
 ## Commands
 
@@ -24,6 +26,7 @@ framer-motion, Lenis. Deployed on Vercel (`vercel.json` rewrites every path to `
 - `npm run lint`: oxlint (config in `.oxlintrc.json`).
 - `npm test`: Vitest, for pure logic only (`src/**/*.test.ts`, node environment). One file:
   `npx vitest run src/lib/order.test.ts`.
+- `npm run models`: compresses every GLB in `models/` into `public/models/` (see the 3D models below).
 
 ## Architecture
 
@@ -31,23 +34,47 @@ framer-motion, Lenis. Deployed on Vercel (`vercel.json` rewrites every path to `
   configurator). `/personalizar*` and unknown paths redirect. The catalog and product pages are lazy-loaded
   so three.js stays out of the Home bundle; keep it that way (don't import `ProductViewer3D` or `three`
   from Home or shared components).
-- **Products are data.** `src/data/products.ts` holds `PRODUCTS` and `FILAMENT_COLORS`. Each product has
-  `parts` (each with a default color id), an optional `customTextConfig`, a `hidden` flag (excluded from
-  the catalog and the "other models" bar, still reachable by URL), and a `modelType`.
-- **`modelType` picks a component** in `src/components/3d/ProductViewer3D.tsx`:
+- **Products are data.** `src/data/products.ts` holds `PRODUCTS` and `COLORS`.
+  - `COLORS` are common colour names (Rojo, Vinotinto, Azul cielo…), not an inventory: the team has many
+    filaments and buys any colour it lacks. Name and hex travel in the WhatsApp order.
+  - Each product has `parts`, `colorways` (a colour id for every part; the first is where the configurator
+    starts), the `field` colour of its poster and stage, an `occasion` line, an optional `customTextConfig`,
+    a `hidden` flag (left out of the catalog, still reachable by URL) and a `modelType`.
+  - Names are set huge on the posters, so they stay at 20 characters or fewer (tested).
+- **The 3D viewer** (`src/components/3d/ProductViewer3D.tsx`) is how the site shows the pieces, and the owners
+  value it; keep it. `modelType` picks the model:
   - `mic-cube` and `keychain` are built from primitives in code (the mic box renders `customText` on its
     four sides).
-  - `clicker` and `frame` load GLB files from `public/models/`. Their meshes must be named after the part
-    ids (`base`, `center`); the component replaces those meshes' materials with the selected colors.
-    Pressing the clicker plays a synthesized switch sound (`src/utils/sound.ts`) once per press; the
-    press logic is `src/lib/press.ts` (a browser fires click after pointerup, so click must not play again).
-  - Adding a product means: an entry in `PRODUCTS`, a `modelType` value, and its model component.
+  - `clicker` and `frame` load GLBs converted from the Bambu Lab `.3mf` files. The converted originals live in
+    `models/`; `npm run models` compresses them with meshopt (decoder bundled, no outside server) into
+    `public/models/`, the files the site loads. Their meshes must be named after the part ids (`base`,
+    `center`); the viewer gives each its own material and sets the chosen colours.
+  - Compression moves each part's rest position into its node, so the clicker's press sinks the centre from
+    the height the file brings (kept in `userData.restY`), never from 0. Pressing it plays a synthesized
+    switch sound once per press (`src/lib/press.ts`: a browser fires click after pointerup).
+  - `interactive={false}` (the catalog posters) drops the camera controls and lets touches through, so a
+    finger on the piece still scrolls the page; the piece sways instead of turning, so a flat flower never
+    shows its edge. `Framing` pulls the camera back on narrow stages.
+  - Adding a product means: an entry in `PRODUCTS`, a `modelType` value, and its model component (plus its
+    GLB in `models/` and `npm run models`).
+- **Catalog** (`src/pages/CatalogPage.tsx`, `src/components/catalog/`): one loud poster per piece on its
+  colour field (`fields.ts`), with the name huge, the 3D piece and a row of colour combinations that repaint
+  it. A poster's canvas exists only while the poster is near the screen. "Personalízala" carries the chosen
+  combination as `?colores=negro,lavanda,negro` (one colour id per part, `src/lib/colorway.ts`). The last
+  poster is for anything not in the catalog. Search and filters were removed with three pieces; bring them
+  back when the catalog grows.
 - **Product page** (`src/pages/ProductDetailPage.tsx`): `findProduct(slug)` (with old-slug aliases) or a
-  redirect to `/catalogo`. The configurator below it is keyed by product id, so switching models resets its
-  state (part id → hex color, custom text) without effects.
-- **Orders and contact:** `src/lib/order.ts` builds the WhatsApp order message (`buildOrderMessage`) and
-  formats COP; `src/lib/contact.ts` reads the phone, email and Instagram from `.env` and builds every wa.me
-  link (`whatsappUrl`). Never hardcode them elsewhere.
+  redirect to `/catalogo`. The configurator is keyed by product id, so switching models resets its state
+  (part id → colour id, custom text) without effects; it starts from the `?colores` link.
+  - The stage is sticky, so the piece stays in sight while colours are chosen (above them on a phone). Keep
+    its sizes in whole pixels (`round()`): at a fractional size Chrome draws a hairline of the field along the
+    edge of the sticky layer.
+  - Three questions in large type (`src/components/product/Pickers.tsx`): "¿Qué parte?", "¿De qué color?"
+    (a ribbon loop draws itself round each colour picked) and, for the mic, "¿Qué dice?". The price and
+    "Pedir por WhatsApp" ride the bottom of the screen.
+- **Orders and contact:** `src/lib/order.ts` builds the WhatsApp order message (`buildOrderMessage`, from
+  colour ids; it promises no lead time) and formats COP; `src/lib/contact.ts` reads the phone, email and
+  Instagram from `.env` and builds every wa.me link (`whatsappUrl`). Never hardcode them elsewhere.
 - **Theme:** `ThemeContext` toggles a `dark` class on `<html>`. Only an explicit choice from the toggle is
   saved (`localStorage` key `n2s_theme`); until then the site follows the system theme, live. An inline
   script in `index.html` applies the same choice before the first paint; keep the two in sync.
@@ -68,7 +95,10 @@ framer-motion, Lenis. Deployed on Vercel (`vercel.json` rewrites every path to `
 - **Garland** (`src/components/garland/`, section `#proyectos`): the projects as gift tags hanging from one
   long ribbon, like a party garland. It replaced a pictoric-style magazine (commits `aca7009` and `6617b77`),
   on purpose: the brand should not copy its references.
-  - Data: `src/data/projects.ts`, made-up placeholders for now (`docs/deuda.md`).
+  - Data: the Supabase `projects` table, read by `useProjects` (`src/lib/useProjects.ts`, rows mapped and
+    checked in `projectRows.ts`). Until Supabase answers, and whenever it cannot, the garland shows the local
+    list in `src/data/projects.ts` (made-up placeholders for now, `docs/deuda.md`). The tag count can change
+    when the real list arrives; `droppedCount` speeds up so every tag hangs by the time the section pins.
   - Layout: the section is pinned (`sticky` stage) for as long as the strip is wider than the screen, and
     scrolling down carries the strip sideways.
   - The string is one SVG path (`garlandPath`). It comes down from over the hero and draws itself as the
@@ -91,7 +121,12 @@ framer-motion, Lenis. Deployed on Vercel (`vercel.json` rewrites every path to `
 - **Navigation** (`Navbar.tsx`) is a plain bar in the page flow, not fixed, so pages need no top padding
   for it. Links to `/#proyectos` and `/#como-pedir` are scrolled to by `ScrollToTop` one frame after the page
   renders: the garland sets its height in its first frame, and Lenis must re-measure a page that grew
-  (`lenis.resize()` in `scrollToElement`).
+  (`lenis.resize()` in `scrollToElement`). The garland's projects can arrive later from Supabase and change its
+  length, so `ScrollToTop` follows the section for 3 seconds, until the visitor scrolls.
+- **Search and sharing:** each page sets its title, description and canonical address with `usePageMeta`
+  (`src/lib/meta.ts` holds the provisional copy; hidden pieces get `noindex`). The share preview (WhatsApp,
+  social) comes from the static Open Graph tags and `public/og.jpg` in `index.html`, since those crawlers do
+  not run the script. `public/sitemap.xml` lists every page; a test fails if a visible piece is missing.
 - **Motion helpers** in `src/index.css`: `.reveal-line` (masked headline lines) and `.rise`, staggered with
   a `--i` custom property; both are off under reduced motion, as is every Ribbon animation.
 - **Tokens** live in `src/index.css` (Tailwind v4 `@theme`; there is no `tailwind.config`):
@@ -105,16 +140,24 @@ framer-motion, Lenis. Deployed on Vercel (`vercel.json` rewrites every path to `
 - **Smooth scroll:** Lenis (`src/lib/smoothScroll.ts`, started by `SmoothScroll` in `App.tsx`), off when the
   visitor prefers reduced motion. Elements that need the wheel themselves (the 3D viewer) carry
   `data-lenis-prevent`.
-- **Supabase** (`src/lib/supabase.ts`) is the planned backend (Vercel + Supabase free tiers while the
-  business starts). Nothing uses it yet.
+- **Supabase** (free plan) holds the garland's `projects`, a public `projects` storage bucket for their photos,
+  and the `orders` log. The schema is `supabase/migrations/*.sql`, run by hand in the SQL Editor; the owner's
+  how-to is `docs/supabase.md` (Spanish).
+  - `getSupabase()` (`src/lib/supabase.ts`) loads supabase-js lazily, so it stays out of the first paint; it
+    resolves to null when the env vars are missing, and every caller then falls back.
+  - The site holds only the publishable key, so row level security is the whole permission model: anyone may
+    read published projects and insert orders (only the listed columns), nobody may read orders.
+  - Each "Pedir por WhatsApp" logs a row (`src/lib/orderLog.ts`) after WhatsApp opens; its code
+    (`N2S-XXXX`) is also in the message. A failed log never blocks the order.
 
 ## Environment
 
 `.env` (gitignored; template in `.env.example`):
 - Required: `VITE_WHATSAPP_PHONE` (digits; spaces and `+` are stripped), `VITE_CONTACT_EMAIL`,
   `VITE_INSTAGRAM_URL`. `vite.config.ts` fails the build (and dev server and tests) when one is missing, and
-  Vercel needs the same three in its project settings.
-- Optional: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
+  Cloudflare Pages needs the same variables in its project settings, for Production and Preview.
+- Optional: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (the publishable or anon key, never the secret one).
+  Without them the garland shows the local projects and orders are not logged.
 - Code reads the contact only through `src/lib/contact.ts`. Its tests stub the env with `vi.stubEnv`, so
   they never depend on the real values.
 
@@ -127,8 +170,6 @@ framer-motion, Lenis. Deployed on Vercel (`vercel.json` rewrites every path to `
   runs a faint ribbon: one thick round-capped stroke, a shade darker than the ground, that enters left,
   loops once above the letters and curls out right. Page 5 extends the palette with green `#336F52`, pink
   `#E890B3`, light orange `#E87440` and lime `#CCD65F`. These are the token values in `src/index.css`.
-- Color names in `FILAMENT_COLORS` are what the customer sees and what gets sent on WhatsApp, so they double
-  as real filament names.
 - `public/photos/*.jpg` are AI-generated mood images. They do **not** show the real products (wrong shapes,
   other brands' text on them). Never present them as product photos; the 3D models are the only faithful
   depiction of the products.
@@ -158,7 +199,8 @@ framer-motion, Lenis. Deployed on Vercel (`vercel.json` rewrites every path to `
 ## Conventions
 
 - Dark mode is required: every section is designed in both themes, and the visitor toggles it.
-- Customer-facing text is Spanish (Colombia), and so are the public URLs.
+- Code, database tables, columns and the enum values stored in them are in English (map stored values to
+  Spanish labels in code). Customer-facing text is Spanish (Colombia), and so are the public URLs.
 - No semicolons, single quotes, 2-space indent.
 - Commit or push only when asked. The main branch is `master`.
 

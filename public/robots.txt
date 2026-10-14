@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nueve2siete.com/sitemap.xml

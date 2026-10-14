@@ -2,8 +2,8 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { MessageCircle, RotateCw } from 'lucide-react'
 import { Ribbon } from '../Ribbon'
-import { FILAMENT_COLORS } from '../../data/products'
-import type { PageColor, Project } from '../../data/projects'
+import { COLORS } from '../../data/products'
+import { OCCASION_LABELS, type PageColor, type Project } from '../../data/projects'
 import { whatsappUrl } from '../../lib/contact'
 import { projectMessage } from '../../lib/order'
 
@@ -125,7 +125,7 @@ export function ProjectFront({ project, onFlip }: { project: Project; onFlip: ()
 }
 
 function Swatches({ project }: { project: Project }) {
-  const colors = project.colorIds.map(id => FILAMENT_COLORS.find(c => c.id === id)!)
+  const colors = project.colorIds.map(id => COLORS.find(c => c.id === id)!)
   return (
     <p className="flex items-center gap-[1.8cqi]">
       <span className="sr-only">Colores: {colors.map(c => c.name).join(', ')}</span>
@@ -166,7 +166,7 @@ export function ProjectBack({ project, index, flipped, turns, onFlip }: ProjectB
       <p className={`${display} text-[9cqi] text-balance`}>{project.title}</p>
       <div className="mt-[5cqi] flex flex-wrap items-center gap-[3cqi]">
         <span className="inline-flex items-center min-h-[max(2rem,8cqi)] px-[4cqi] rounded-full border-2 border-current font-semibold text-[max(1rem,4cqi)]">
-          {project.occasion}
+          {OCCASION_LABELS[project.occasion]}
         </span>
         <Swatches project={project} />
       </div>

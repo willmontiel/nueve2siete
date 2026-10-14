@@ -38,9 +38,13 @@ export function swingFor(velocity: number, perPxPerSecond = 0.012, max = 14): nu
   return clamp(velocity * perPxPerSecond, -max, max)
 }
 
-/** How many tags hang already, when the string has drawn `progress` of its entrance: one more every `step` */
+/**
+ * How many tags hang already, when the string has drawn `progress` of its entrance: one more every `step`, or
+ * faster when there are too many tags for that pace, so all of them hang by the end of the entrance
+ */
 export function droppedCount(progress: number, count: number, start: number, step: number): number {
-  return clamp(Math.floor((progress - start) / step) + 1, 0, count)
+  const pace = Math.min(step, (1 - start) / count)
+  return clamp(Math.floor((progress - start) / pace) + 1, 0, count)
 }
 
 /** Angle of a tag rocked by the pointer: it turns about its hang point to follow where it was grabbed */

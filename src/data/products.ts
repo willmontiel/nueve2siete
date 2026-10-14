@@ -1,50 +1,69 @@
-export interface FilamentColor {
+export interface Color {
   id: string
   name: string
   hex: string
-  isBrandColor?: boolean
 }
 
-// Paleta oficial de colores disponibles
-export const FILAMENT_COLORS: FilamentColor[] = [
-  // Colores Oficiales de la marca (Página 3)
-  { id: 'brand-orange', name: 'Naranja Nueve2Siete', hex: '#DE5B2B', isBrandColor: true },
-  { id: 'brand-lavender', name: 'Lavanda Nueve2Siete', hex: '#9FAEE9', isBrandColor: true },
-  { id: 'brand-yellow', name: 'Mostaza Nueve2Siete', hex: '#EEBA29', isBrandColor: true },
-  { id: 'brand-cream', name: 'Crema Nueve2Siete', hex: '#F6F3EF', isBrandColor: true },
-  { id: 'brand-purple', name: 'Violeta Suave', hex: '#8576EA', isBrandColor: true },
-
-  // Básicos y complementarios de alta demanda
-  { id: 'matte-black', name: 'Negro Mate', hex: '#1C1C1E' },
-  { id: 'pure-white', name: 'Blanco Puro', hex: '#FFFFFF' },
-  { id: 'silver-gray', name: 'Gris Titanio', hex: '#8E8E93' },
-  { id: 'forest-green', name: 'Verde Pino', hex: '#2D5A27' },
-  { id: 'ruby-red', name: 'Rojo Carmesí', hex: '#C0292B' },
-  { id: 'electric-blue', name: 'Azul Eléctrico', hex: '#0062FF' },
-  { id: 'pastel-pink', name: 'Rosa Pastel', hex: '#F8BBD0' },
+// Common colour names the customer picks from. The team has many filaments and buys any colour it lacks, so the
+// list is what customers ask for, not an inventory. Names and hexes travel in the WhatsApp order.
+// Ordered round the colour wheel, with the neutrals at the end.
+export const COLORS: Color[] = [
+  { id: 'rojo', name: 'Rojo', hex: '#C8102E' },
+  { id: 'vinotinto', name: 'Vinotinto', hex: '#7A1F2E' },
+  { id: 'naranja', name: 'Naranja', hex: '#DE5B2B' },
+  { id: 'durazno', name: 'Durazno', hex: '#F4A27C' },
+  { id: 'mostaza', name: 'Mostaza', hex: '#EFBB29' },
+  { id: 'amarillo', name: 'Amarillo', hex: '#F7D73B' },
+  { id: 'verde-limon', name: 'Verde limón', hex: '#CCD65F' },
+  { id: 'verde', name: 'Verde', hex: '#2BA84A' },
+  { id: 'verde-oscuro', name: 'Verde oscuro', hex: '#336F52' },
+  { id: 'turquesa', name: 'Turquesa', hex: '#13A8A8' },
+  { id: 'azul-cielo', name: 'Azul cielo', hex: '#8CC7EA' },
+  { id: 'azul', name: 'Azul', hex: '#1F5FBF' },
+  { id: 'azul-oscuro', name: 'Azul oscuro', hex: '#1F2A5C' },
+  { id: 'lavanda', name: 'Lavanda', hex: '#9FAFE9' },
+  { id: 'morado', name: 'Morado', hex: '#6A44B8' },
+  { id: 'fucsia', name: 'Fucsia', hex: '#E0218A' },
+  { id: 'rosado', name: 'Rosado', hex: '#E890B3' },
+  { id: 'cafe', name: 'Café', hex: '#7B5236' },
+  { id: 'beige', name: 'Beige', hex: '#E6D7B3' },
+  { id: 'blanco', name: 'Blanco', hex: '#FFFFFF' },
+  { id: 'gris', name: 'Gris', hex: '#8E9089' },
+  { id: 'negro', name: 'Negro', hex: '#1C1C1E' },
 ]
+
+export function findColor(id: string): Color | undefined {
+  return COLORS.find(c => c.id === id)
+}
+
+/** Brand colours a poster and a product stage can be printed on; all take dark text */
+export type Field = 'lavender' | 'mustard' | 'pink' | 'lime'
 
 export interface ProductPart {
   id: string
   name: string
-  defaultColorId: string
-  description?: string
 }
+
+/** A colour id for every part, keyed by part id */
+export type PartColors = Record<string, string>
 
 export interface Product {
   id: string
   slug: string
+  /** Set huge on its poster: 20 characters at most, so it never takes a third line */
   name: string
-  tagline: string
-  category: 'audio' | 'gadgets' | 'decor' | 'accessories'
-  basePrice: number // en COP (pesos colombianos)
+  /** Who it is for, in one line under the name */
+  occasion: string
   description: string
   dimensions: string
-  leadTimeDays: number
-  modelType: 'mic-cube' | 'clicker' | 'clicker-sakura' | 'frame' | 'keychain'
-  badge?: string
+  /** In COP. Provisional prices, kept for now (docs/deuda.md) */
+  basePrice: number
+  modelType: 'mic-cube' | 'clicker' | 'frame' | 'keychain'
+  field: Field
   hidden?: boolean
   parts: ProductPart[]
+  /** Combinations offered on the poster; the first one is where the configurator starts */
+  colorways: PartColors[]
   customTextConfig?: {
     label: string
     placeholder: string
@@ -57,79 +76,97 @@ export const PRODUCTS: Product[] = [
   {
     id: 'prod-mic',
     slug: 'portamicrofono',
-    name: 'Adaptador Portamicrófono Inalámbrico',
-    tagline: 'Convierte tu micrófono inalámbrico en un micrófono de mano para entrevistas',
-    category: 'audio',
+    name: 'Portamicrófono',
+    occasion: 'Para tu podcast, tu canal o tu empresa',
+    description:
+      'Convierte tu micrófono inalámbrico (DJI Mic, Rode Wireless y similares) en uno de mano para entrevistas. La caja lleva el nombre de tu marca en sus cuatro caras.',
+    dimensions: 'Caja de 4 × 3 × 4 cm, mango de 5.6 cm y cabeza de 2.7 × 2.5 cm',
     basePrice: 55000,
-    description: 'Adaptador ergonómico de mano para micrófonos inalámbricos (DJI Mic, Rode Wireless y similares). Diseñado con caja central de 4 × 3 × 4 cm para el nombre de tu marca, mango estilizado y cabeza vocal.',
-    leadTimeDays: 2,
-    dimensions: 'Caja: 4 × 3 × 4 cm | Mango: 5.6 cm (Ø 1.4 cm) | Cabeza: 2.7 × 2.5 cm',
     modelType: 'mic-cube',
-    badge: 'Top Creadores',
+    field: 'mustard',
     customTextConfig: {
-      label: 'Nombre de tu Marca o Canal',
-      placeholder: 'Ej. Mucchi, Sierra, Mi Podcast',
+      label: 'Tu marca o tu canal',
+      placeholder: 'Ej. Mi Podcast',
       defaultText: 'Tu Marca',
       maxLength: 18,
     },
     parts: [
-      { id: 'handle', name: 'Mango', defaultColorId: 'brand-cream', description: 'Mango cilíndrico de 5.6 cm (Ø 1.4 cm)' },
-      { id: 'box', name: 'Caja de Marca', defaultColorId: 'brand-purple', description: 'Caja central de 4 × 3 × 4 cm personalizada' },
-      { id: 'head', name: 'Cabeza', defaultColorId: 'brand-cream', description: 'Cápsula de 2.7 × 2.5 cm' },
-    ]
+      { id: 'handle', name: 'Mango' },
+      { id: 'box', name: 'Caja' },
+      { id: 'head', name: 'Cabeza' },
+    ],
+    colorways: [
+      { handle: 'negro', box: 'lavanda', head: 'negro' },
+      { handle: 'blanco', box: 'naranja', head: 'blanco' },
+      { handle: 'azul-oscuro', box: 'rosado', head: 'azul-oscuro' },
+      { handle: 'blanco', box: 'verde-oscuro', head: 'blanco' },
+    ],
   },
   {
     id: 'prod-clicker',
     slug: 'clicker-fidget',
-    name: 'Clicker Flor',
-    tagline: 'Fidget sensorial con switch mecánico y diseño de flor',
-    category: 'gadgets',
+    name: 'Clicker flor',
+    occasion: 'Un recordatorio para cumpleaños y fiestas',
+    description:
+      'Una flor con un botón en el centro que hace clic cada vez que lo presionas. Tiene un ojal para llevarla como llavero.',
+    dimensions: 'Flor de 5.8 × 6 cm y 1.8 cm de grosor',
     basePrice: 22000,
-    description: 'Clicker sensorial con switch mecánico de alta durabilidad. Diseño de flor con centro táctil y ojal integrado para llavero.',
-    leadTimeDays: 1,
-    dimensions: 'Flor: 5.8 × 6.0 cm | Grosor: 1.8 cm | Botón: Ø 2.4 cm',
     modelType: 'clicker',
-    badge: 'Sensorial',
+    field: 'lavender',
     parts: [
-      { id: 'base', name: 'Base', defaultColorId: 'pastel-pink', description: 'Cuerpo de la flor con ojal' },
-      { id: 'center', name: 'Centro', defaultColorId: 'brand-yellow', description: 'Botón pulsador central' },
-    ]
+      { id: 'base', name: 'Flor' },
+      { id: 'center', name: 'Centro' },
+    ],
+    colorways: [
+      { base: 'rosado', center: 'amarillo' },
+      { base: 'naranja', center: 'blanco' },
+      { base: 'azul-cielo', center: 'mostaza' },
+      { base: 'morado', center: 'verde-limon' },
+    ],
   },
   {
     id: 'prod-frame',
     slug: 'portafotos-margarita',
-    name: 'Portafotos Margarita',
-    tagline: 'Soporte floral para fotos Polaroid o recordatorios',
-    category: 'decor',
+    name: 'Portafotos margarita',
+    occasion: 'Para bodas, bautizos y primeras comuniones',
+    description:
+      'Una margarita de mesa con una ranura para sostener una foto tipo Polaroid, una tarjeta o el recuerdo de tu evento.',
+    dimensions: 'Margarita de 4.9 × 2.5 cm y 1.3 cm de grosor, con una ranura de 2 mm',
     basePrice: 28000,
-    description: 'Soporte de mesa con diseño floral de margarita. Cuenta con una ranura central integrada de 2 mm para sostener fotos estilo Polaroid, tarjetas especiales o recordatorios con centro táctil en ambas caras.',
-    leadTimeDays: 2,
-    dimensions: 'Margarita: 4.9 × 2.5 cm | Grosor: 1.3 cm | Ranura: 2 mm',
     modelType: 'frame',
-    badge: 'Decorativo',
+    field: 'pink',
     parts: [
-      { id: 'base', name: 'Base', defaultColorId: 'pure-white', description: 'Cuerpo floral de pétalos con ranura para foto' },
-      { id: 'center', name: 'Centro', defaultColorId: 'brand-yellow', description: 'Centro semi-circular en ambas caras' },
-    ]
+      { id: 'base', name: 'Pétalos' },
+      { id: 'center', name: 'Centro' },
+    ],
+    colorways: [
+      { base: 'blanco', center: 'amarillo' },
+      { base: 'lavanda', center: 'mostaza' },
+      { base: 'naranja', center: 'blanco' },
+      { base: 'verde-limon', center: 'naranja' },
+    ],
   },
   {
     id: 'prod-keychain',
     slug: 'llavero-personalizado',
-    name: 'Llavero Tipográfico',
-    tagline: 'Relieve de doble capa con tus colores favoritos',
-    category: 'accessories',
+    name: 'Llavero con nombre',
+    occasion: 'Con tu nombre o el de tu marca',
+    description: 'Un llavero con letras en relieve en dos colores y su argolla.',
+    dimensions: '7.5 × 2.5 cm y 6 mm de grosor',
     basePrice: 15000,
-    description: 'Llavero resistente con argolla reforzada. Base sólida con letras y elementos destacados en relieve.',
-    leadTimeDays: 1,
-    dimensions: '75 x 25 x 6 mm',
     modelType: 'keychain',
+    field: 'lime',
     hidden: true,
     parts: [
-      { id: 'basePlate', name: 'Base Sólida', defaultColorId: 'matte-black', description: 'Placa base de fondo' },
-      { id: 'raisedLetters', name: 'Letras en Relieve', defaultColorId: 'brand-yellow', description: 'Relieve tipográfico superior' },
-      { id: 'ringLoop', name: 'Ojal de Sujeción', defaultColorId: 'brand-orange', description: 'Enganche para argolla metálica' },
-    ]
-  }
+      { id: 'basePlate', name: 'Base' },
+      { id: 'raisedLetters', name: 'Letras' },
+      { id: 'ringLoop', name: 'Argolla' },
+    ],
+    colorways: [
+      { basePlate: 'negro', raisedLetters: 'amarillo', ringLoop: 'naranja' },
+      { basePlate: 'blanco', raisedLetters: 'azul', ringLoop: 'rojo' },
+    ],
+  },
 ]
 
 // Links shared before a slug changed keep landing on the right product

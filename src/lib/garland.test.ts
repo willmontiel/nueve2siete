@@ -63,6 +63,12 @@ describe('droppedCount', () => {
   it('never drops more tags than there are', () => {
     expect(droppedCount(5, 6, 0.4, 0.1)).toBe(6)
   })
+
+  // The entrance ends (progress 1) when the section pins; the closing tag must already hang by then
+  it('drops every tag by the end of the entrance, however many there are', () => {
+    expect(droppedCount(1, 12, 0.4, 0.09)).toBe(12)
+    expect(droppedCount(0.99, 30, 0.4, 0.09)).toBe(30)
+  })
 })
 
 describe('rockAngle', () => {

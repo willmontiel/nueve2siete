@@ -1,4 +1,4 @@
-import { FILAMENT_COLORS, type Product } from '../data/products'
+import { findColor, type PartColors, type Product } from '../data/products'
 
 export function formatCOP(value: number): string {
   return new Intl.NumberFormat('es-CO', {
@@ -8,36 +8,35 @@ export function formatCOP(value: number): string {
   }).format(value)
 }
 
-export function colorName(hex: string | undefined): string | undefined {
-  return FILAMENT_COLORS.find(c => c.hex.toLowerCase() === hex?.toLowerCase())?.name
-}
-
-// The WhatsApp message is the whole order: the team reads parts, colors and text from it
-export function buildOrderMessage(product: Product, partColors: Record<string, string>, customText: string): string {
-  const colorBreakdown = product.parts
+// The WhatsApp message is the whole order: the team reads parts, colours and text from it. The hex goes along
+// with each name so a colour the team has to buy can be matched. Lead times and shipping are not confirmed yet
+// (docs/deuda.md), so the message promises neither.
+// The code (orderCode in orderLog.ts) matches the chat with the order log in Supabase.
+export function buildOrderMessage(product: Product, colors: PartColors, customText: string, code: string): string {
+  const colorLines = product.parts
     .map(part => {
-      const hex = partColors[part.id]
-      return `• ${part.name}: ${colorName(hex) ?? 'Personalizado'} (${hex})`
+      const color = findColor(colors[part.id])
+      return `• ${part.name}: ${color?.name} (${color?.hex})`
     })
     .join('\n')
 
   const text = customText.trim()
-  const customTextLine = text ? `\n✍️ *Texto / Marca en caja:* "${text}"` : ''
+  const textLine = text ? `\n*Texto en la caja:* "${text}"` : ''
 
-  return `👋 ¡Hola nueve2siete! Quiero realizar un pedido personalizado:
+  return `¡Hola nueve2siete! Quiero pedir esta pieza:
 
-📦 *Producto:* ${product.name}
-📐 *Dimensiones:* ${product.dimensions}${customTextLine}
-🎨 *Colores Seleccionados:*
-${colorBreakdown}
+*Pedido:* ${code}
+*Producto:* ${product.name}
+*Medidas:* ${product.dimensions}${textLine}
+*Colores:*
+${colorLines}
 
-💰 *Valor estimado:* ${formatCOP(product.basePrice)}
-⏱️ *Tiempo estimado:* ${product.leadTimeDays} día(s) hábil(es)
+*Valor de referencia:* ${formatCOP(product.basePrice)}
 
-¿Podrían confirmarme disponibilidad y coordinar el envío? ¡Gracias!`
+¿Me confirman si la pueden hacer? ¡Gracias!`
 }
 
-// "Quiero algo así" on a magazine page: the team knows at once which project the visitor means
+// "Quiero algo así" on a garland tag: the team knows at once which project the visitor means
 export function projectMessage(title: string): string {
-  return `¡Hola nueve2siete! Vi el proyecto "${title}" en la revista y quiero algo así.`
+  return `¡Hola nueve2siete! Vi el proyecto "${title}" en su página y quiero algo así.`
 }

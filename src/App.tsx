@@ -30,7 +30,7 @@ export default function App() {
       <BrowserRouter>
         <SmoothScroll />
         <ScrollToTop />
-        <div className="min-h-screen flex flex-col bg-cream dark:bg-night text-ink dark:text-cream transition-colors duration-300">
+        <div className="min-h-svh flex flex-col bg-cream dark:bg-night text-ink dark:text-cream transition-colors duration-300">
           <Navbar />
 
         <main className="flex-1">

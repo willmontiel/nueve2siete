@@ -176,7 +176,7 @@ algún día se quiere recuperar.
 
 ## Fase 4: Resto del Home
 
-**Estado: implementada el 2026-10-14, pendiente de tu aprobación.**
+**Estado: aprobada el 2026-10-14.**
 - **Elegiste:** "Cómo se pide" y el cierre con el nombre gigante, como footer de todo el sitio. Ocasiones y
   Pruébalo tú quedan fuera. Las preguntas frecuentes esperan a la deuda.
 - **Se fueron del Home** las tres secciones que quedaban de Gemini, con sus promesas sin confirmar:
@@ -246,6 +246,30 @@ ocasión (ocasiones), cómo quedaría lo suyo (configurador), cómo se pide, las
 
 ## Fase 5: Catálogo y página de producto
 
+**Estado: aprobada el 2026-10-14.**
+- **La idea:** cada pieza es un cartel de un solo color, con el nombre enorme y la pieza en 3D meciéndose al
+  lado. Una fila de combinaciones de colores la pinta ahí mismo, y "Personalízala" lleva esa combinación a la
+  página de la pieza.
+- **El último cartel,** "¿No está aquí? La hacemos", es para todo lo que no está en el catálogo.
+- **Se fueron** el buscador y los filtros: con tres piezas no ayudaban.
+- **Página de producto:**
+  - La pieza en 3D sobre un bloque de color, fija mientras se eligen los colores (en el celular, arriba).
+  - Tres preguntas en letra grande: "¿Qué parte?", "¿De qué color?" y "¿Qué dice?" (esta solo en el
+    portamicrófono). Una cinta en bucle rodea cada color elegido.
+  - El precio y "Pedir por WhatsApp" siempre a mano, y al final "Otras piezas".
+- **Colores:** una lista de 22 colores comunes (rojo, vinotinto, durazno, azul cielo…). Si el cliente pide uno
+  que no tienen, lo compran.
+- **Se quitaron** las promesas sin confirmar: "Acabados de precisión", "Te responderemos de inmediato…
+  despacho en Colombia", los días de fabricación (también del mensaje de WhatsApp) y "switch de alta
+  durabilidad".
+- **Modelos 3D comprimidos:** el clicker pasó de 3.8 MB a 504 KB y el portafotos de 522 KB a 91 KB, sin
+  diferencia visible. `npm run models` comprime los que se agreguen.
+- **El inspector del skill:** el catálogo y la página de producto bajaron de 18 fallas a 1 y 2. Las que quedan
+  son decisiones:
+  - No hay fotos de las piezas: las de IA no muestran los productos reales, y el 3D no cuenta como foto.
+  - En el celular, los títulos pasan por debajo de la pieza fija al hacer scroll. Es a propósito, para ver
+    cada cambio de color.
+
 **Objetivo:** llevar la marca al catálogo y al configurador sin romper lo que ya funciona: el visor de las piezas,
 los colores por zona, el texto de marca y el pedido por WhatsApp.
 
@@ -254,12 +278,31 @@ los colores por zona, el texto de marca y el pedido por WhatsApp.
 - **Página de producto** rediseñada con la misma lógica de hoy, y textos sin "3D".
 - **El modelo del clicker** pesa 3.9 MB; lo comprimo para que cargue rápido en el celular.
 
-**Decisión que necesito de ti:** ¿la lista de colores del configurador corresponde a los filamentos que de verdad
-tienen? Esos nombres son los que le llegan al cliente en el mensaje de WhatsApp.
+**Decisiones:**
+1. **Resuelto:** los precios de Gemini se quedan por ahora.
+2. **Resuelto:** colores comunes en vez de nombres de filamentos; si falta alguno, se compra.
 
 ---
 
 ## Fase 6: Supabase
+
+**Estado: aprobada el 2026-10-14.**
+- **Verificado:**
+  - Los proyectos se leen.
+  - Un pedido real se guardó (código N2S-BZNB).
+  - Un visitante no puede leer los pedidos ni cambiar su fecha, y los límites de tamaño se cumplen.
+  - El bucket de fotos existe.
+- **Elegiste las dos funciones.** Tablas, columnas y código en inglés.
+- **`projects`:** las etiquetas de la guirnalda, con las fotos en el bucket `projects`. Se agregan desde el panel
+  (guía en [docs/supabase.md](../../supabase.md)).
+- **`orders`:** una fila por cada "Pedir por WhatsApp", con un código `N2S-XXXX` que también va en el mensaje.
+  Los visitantes pueden agregar filas pero nunca leerlas.
+- **Plan B:** sin Supabase, la guirnalda muestra la lista local y el pedido igual abre WhatsApp. Verificado con
+  las tablas todavía sin crear.
+- **De paso:**
+  - Con más de 5 proyectos, las últimas etiquetas nunca caían. Ahora el ritmo de caída se ajusta al número.
+  - Si los proyectos llegan tarde y alargan la guirnalda, los enlaces como "Cómo pedir" igual llegan exactos a
+    su sección.
 
 **Objetivo:** que puedas agregar proyectos y recibir pedidos sin tocar el código, con el plan gratuito.
 
@@ -270,22 +313,40 @@ tienen? Esos nombres son los que le llegan al cliente en el mensaje de WhatsApp.
   aunque se pierda el chat. Los visitantes solo pueden insertar, nunca leer.
 - **Plan B:** si Supabase no responde, la guirnalda usa los datos locales y el pedido igual abre WhatsApp.
 
-**Decisión que necesito de ti:** cuáles de estas dos funciones quieres, o si hay otra que te importe más.
+**Decisión:** **resuelto:** las dos funciones.
 
 ---
 
 ## Fase 7: Lanzamiento
 
+**Estado: en curso (2026-10-14).**
+- **Hecho:**
+  - **Títulos y descripciones de cada página,** provisionales mientras los revisas con tu esposa
+    (`src/lib/meta.ts`).
+  - **La imagen para compartir el enlace:** el logo con su cinta sobre crema, en `public/og.jpg`.
+  - **`robots.txt` y `sitemap.xml`.**
+  - **Fotos de la guirnalda:** pasaron de ~3 MB a ~930 KB sin diferencia visible.
+  - **Node 22** fijado para el build (`.nvmrc`).
+- **Despliegue en Cloudflare Pages:** la guía paso a paso, con GoDaddy, está en
+  [docs/despliegue.md](../../despliegue.md).
+- **Falta:**
+  - Desplegar y apuntar el dominio.
+  - La revisión final con el inspector y en celulares reales.
+  - Las fotos reales.
+
 **Incluye:**
 - **SEO:** título y descripción por página, y una imagen para cuando se comparte el enlace en WhatsApp o redes.
 - **Imágenes optimizadas** en formatos modernos y con tamaños según la pantalla.
-- **Despliegue en Vercel:** dominio, versiones de prueba por cada cambio y variables de entorno. Las tres de
+- **Despliegue (Cloudflare Pages):** dominio, versiones de prueba por cada cambio y variables de entorno. Las tres de
   contacto (`VITE_WHATSAPP_PHONE`, `VITE_CONTACT_EMAIL`, `VITE_INSTAGRAM_URL`) son obligatorias: sin ellas el
   build falla a propósito.
 - **Revisión final** con el inspector del skill y pruebas en celulares reales.
 - **Fotos reales** en lugar de las de IA, a medida que las tengas.
 
-**Decisión que necesito de ti:** el dominio. El footer actual dice nueve2siete.com; ¿ya lo tienen?
+**Resuelto:** Cloudflare Pages. Es gratis y permite uso comercial, que el plan gratuito de Vercel prohíbe.
+
+**Resuelto:** el dominio es nueve2siete.com, comprado en GoDaddy. Las cuentas de Vercel y Supabase ya existen
+(2026-10-14).
 
 ---
 
