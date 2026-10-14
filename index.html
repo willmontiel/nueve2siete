@@ -2,7 +2,11 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <!-- The compact logo (the "2" on orange). The .ico is for browsers without SVG icons; sizes keeps the others
+         on the SVG. The iPhone home screen takes the PNG and rounds its corners itself. -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>nueve2siete | Recordatorios, merch y piezas a medida</title>
     <!-- The home's values; each page sets its own title, description and canonical (src/lib/usePageMeta.ts) -->

@@ -5,6 +5,7 @@ import { Navbar } from './components/Navbar'
 import { Footer } from './components/Footer'
 import { ScrollToTop } from './components/ScrollToTop'
 import { SmoothScroll } from './components/SmoothScroll'
+import { ThemeSwitch } from './components/ThemeSwitch'
 import { Home } from './pages/Home'
 
 // Lazy loading del Catálogo y del Customizer 3D (Three.js) para que el Home cargue al instante
@@ -49,6 +50,7 @@ export default function App() {
         </main>
 
         <Footer />
+        <ThemeSwitch />
       </div>
     </BrowserRouter>
   </ThemeProvider>

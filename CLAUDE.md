@@ -76,9 +76,16 @@ deploy and GoDaddy guide is `docs/despliegue.md`.
 - **Orders and contact:** `src/lib/order.ts` builds the WhatsApp order message (`buildOrderMessage`, from
   colour ids; it promises no lead time) and formats COP; `src/lib/contact.ts` reads the phone, email and
   Instagram from `.env` and builds every wa.me link (`whatsappUrl`). Never hardcode them elsewhere.
-- **Theme:** `ThemeContext` toggles a `dark` class on `<html>`. Only an explicit choice from the toggle is
+- **Theme:** `ThemeContext` toggles a `dark` class on `<html>`. Only an explicit choice from the switch is
   saved (`localStorage` key `n2s_theme`); until then the site follows the system theme, live. An inline
   script in `index.html` applies the same choice before the first paint; keep the two in sync.
+  - The switch (`ThemeSwitch.tsx`) is the clicker flower, pinned to the bottom right of every page (on a
+    product page it rides above the order bar on a phone and moves to the bottom left on a wide screen). It
+    clicks like the clicker, its petals turn a step, and its face sleeps in the dark theme.
+  - The new theme blooms out of it: a View Transition whose new view shows through a flower-shaped mask that
+    grows until it covers the screen (`.blooming` rules in `src/index.css`, sizes in `src/lib/bloom.ts`).
+    `setTheme` sets the class at once so the transition catches it, and colour transitions are off meanwhile.
+    Without View Transitions, or under reduced motion, the theme just changes.
 - **Home** (`src/pages/Home.tsx`) has three parts, then the site footer:
   - The hero (`src/components/home/Hero.tsx`).
   - The project garland.
@@ -120,7 +127,13 @@ deploy and GoDaddy guide is `docs/despliegue.md`.
   ribbon (`text-ribbon`) loops behind the motto, and the corner ribbons write the 9 (orange) and the 2
   (lavender) of the name. Below the first screen, pass `play` so a ribbon draws itself when it is seen.
 - **Navigation** (`Navbar.tsx`) is a plain bar in the page flow, not fixed, so pages need no top padding
-  for it. Links to `/#proyectos` and `/#como-pedir` are scrolled to by `ScrollToTop` one frame after the page
+  for it (the hero subtracts its height). The links sit on the left (a "Menú" button below 1024px), the
+  wordmark large in the middle (`public/wordmark.svg`, cropped to its letters) and the bow and WhatsApp on the
+  right; the two sides share the leftover width, so the wordmark stays centred.
+  - The bow (`RibbonBurst.tsx`) lets loose six ribbons in the brand colours: each comes in from past a screen
+    edge, ties one loop and winds back out (`src/lib/ribbonBurst.ts`, tested). It is left out under reduced
+    motion.
+  - Links to `/#proyectos` and `/#como-pedir` are scrolled to by `ScrollToTop` one frame after the page
   renders: the garland sets its height in its first frame, and Lenis must re-measure a page that grew
   (`lenis.resize()` in `scrollToElement`). The garland's projects can arrive later from Supabase and change its
   length, so `ScrollToTop` follows the section for 3 seconds, until the visitor scrolls.
@@ -164,7 +177,10 @@ deploy and GoDaddy guide is `docs/despliegue.md`.
 
 ## Brand
 
-- Logo: `public/logo.svg`. Hand-drawn letters with loops (the "n", "v" and "t"); the brand reads as art,
+- Logo: `public/logo.svg` (with the margin of the brand guide; the footer uses it), `public/wordmark.svg` (the
+  same letters cropped tight, for the top bar) and the compact logo for the browser tab, the "2" in cream on
+  an orange tile with the mustard dot of the "i" (`favicon.svg`, `favicon.ico`, `apple-touch-icon.png`).
+  Hand-drawn letters with loops (the "n", "v" and "t"); the brand reads as art,
   maximalism and color. **Rounded everything, no straight edges or sharp corners.**
 - Brand guide: `logo nueve2siete (1).pdf` (repo root). Page 3 is the main version: cream ground `#F0EEE8`,
   orange `#DE5B2B` ("nueve"), lavender `#9FAFE9` ("2"), mustard `#EFBB29` ("siete"). Behind the wordmark

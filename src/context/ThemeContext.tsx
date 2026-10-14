@@ -34,11 +34,13 @@ function saveTheme(theme: Theme) {
 
 const systemTheme = (): Theme => (window.matchMedia(DARK_QUERY).matches ? 'dark' : 'light')
 
+const applyTheme = (theme: Theme) => document.documentElement.classList.toggle('dark', theme === 'dark')
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => savedTheme() ?? systemTheme())
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark')
+    applyTheme(theme)
   }, [theme])
 
   // Until the visitor picks a theme, the site keeps following the system, even when it changes
@@ -51,9 +53,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return () => media.removeEventListener('change', follow)
   }, [])
 
-  // Only an explicit choice is remembered
+  // Only an explicit choice is remembered. The class changes at once, not after the render, so the theme switch
+  // can catch the new look in the same frame for its bloom.
   const setTheme = (t: Theme) => {
     saveTheme(t)
+    applyTheme(t)
     setThemeState(t)
   }
 

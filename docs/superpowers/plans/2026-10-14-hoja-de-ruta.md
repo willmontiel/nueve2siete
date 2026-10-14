@@ -329,9 +329,24 @@ los colores por zona, el texto de marca y el pedido por WhatsApp.
   - **Node 22** fijado para el build (`.nvmrc`).
 - **Despliegue en Cloudflare:** la guía paso a paso, con GoDaddy, está en
   [docs/despliegue.md](../../despliegue.md).
+- **Publicado el 2026-10-14 en https://nueve2siete.willmontielg.workers.dev**, desde `master`. Verificado:
+  - Las rutas internas abren al recargar.
+  - Las variables de build llegaron.
+  - Supabase responde desde el sitio publicado y la consola no muestra errores.
+  - El inspector da lo mismo que en local: inicio sin fallas; en catálogo y producto solo las dos excepciones
+    decididas en la Fase 5.
+- **Dominio activo el 2026-10-14: https://nueve2siete.com**, con el DNS en Cloudflare. Verificado:
+  - `http://` lleva a `https://`, y `www` lleva al dominio sin `www`.
+  - Las dos redirecciones conservan la ruta y los parámetros.
+- **Retoques pedidos tras el lanzamiento (2026-10-14):**
+  - **Icono de la pestaña:** el "2" del logo en crema sobre naranja, con el punto mostaza (`favicon.svg`, más
+    `.ico` y el icono del iPhone).
+  - **Barra superior:** el logo grande al centro, con los enlaces a la izquierda y WhatsApp a la derecha.
+  - **El moño:** al tocarlo suelta cintas de colores que entran por los bordes, hacen un lazo y se recogen.
+  - **El interruptor de tema es el clicker flor,** abajo a la derecha. Hace clic, se duerme en el modo oscuro y
+    el tema nuevo florece desde él.
 - **Falta:**
-  - Desplegar y apuntar el dominio.
-  - La revisión final con el inspector y en celulares reales.
+  - La revisión en celulares reales (iPhone con Safari y Android).
   - Las fotos reales.
 
 **Incluye:**

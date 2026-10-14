@@ -133,3 +133,38 @@ body {
 @keyframes rise {
   from { opacity: 0; transform: translateY(18px); }
 }
+
+/*
+  The theme switch (ThemeSwitch.tsx): the new theme blooms out of its flower. The old page holds still while the
+  new one shows through a flower-shaped mask that grows from the switch until it covers the screen (the switch
+  sets --bloom-*; src/lib/bloom.ts sizes the flower). Colour transitions would start the new page from the old
+  colours, so they are off while it blooms.
+*/
+:root.blooming *,
+:root.blooming *::before,
+:root.blooming *::after {
+  transition: none !important;
+}
+
+:root.blooming::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+:root.blooming::view-transition-new(root) {
+  mix-blend-mode: normal;
+  mask-image: var(--bloom-mask);
+  mask-repeat: no-repeat;
+  animation: bloom 800ms cubic-bezier(0.55, 0, 0.3, 1) both;
+}
+
+@keyframes bloom {
+  from {
+    mask-size: 0 0;
+    mask-position: var(--bloom-x) var(--bloom-y);
+  }
+  to {
+    mask-size: var(--bloom-size) var(--bloom-size);
+    mask-position: calc(var(--bloom-x) - var(--bloom-size) / 2) calc(var(--bloom-y) - var(--bloom-size) / 2);
+  }
+}

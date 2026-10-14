@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <!-- The compact logo: the "2" of the wordmark in cream on an orange tile, with the mustard dot of the "i" of siete -->
+  <rect width="160" height="160" rx="44" fill="#DE5B2B"/>
+  <path transform="matrix(1,0,0,-1,33.2,139.5)" d="M0 0V17.679L25.905 38.859C47.609 56.713 60.563 65.814 61.088 77.017 61.788 88.745 54.261 96.096 40.608 96.096 29.931 95.921 21.354 88.745 20.304 76.142H-3.152C-3.677 102.398 14.702 116.051 39.033 117.276 65.814 118.501 85.068 102.573 84.543 81.043 84.193 61.089 71.766 51.812 48.134 31.682L36.407 21.355H83.142V0Z" fill="#F0EEE8"/>
+  <circle cx="128" cy="38" r="12.6" fill="#EEBA29"/>
+</svg>

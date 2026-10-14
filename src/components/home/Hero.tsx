@@ -33,7 +33,7 @@ export function Hero() {
     <section
       ref={ref}
       aria-labelledby="hero-title"
-      className="relative isolate overflow-hidden min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex items-center justify-center px-4 sm:px-8 py-24"
+      className="relative isolate overflow-hidden min-h-[calc(100svh-5rem)] sm:min-h-[calc(100svh-6rem)] flex items-center justify-center px-4 sm:px-8 py-24"
     >
       <motion.div className="absolute inset-0 -z-10 text-ribbon" style={{ y: faintY, scale: faintScale }}>
         <Ribbon
